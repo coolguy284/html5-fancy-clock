@@ -37,8 +37,11 @@
     <canvas id = 'canvas'></canvas>
     
     <script>
+      // constants to change program operation
       let LOG_DEBUG = false;
+      let CLOCK_DRAW_MODE = '24hr';
       
+      // sets canvas pixel width and height to its css width and height
       function resetCanvasSize() {
         let canvasStyle = getComputedStyle(canvas);
         
@@ -49,22 +52,104 @@
         canvas.height = canvasHeight;
       }
       
-      function renderFrame() {
-        let ctx = canvas.getContext('2d');
+      // draws text to screen per letter, spaced using the letterSpacings array
+      function drawTextWithPerLetterSpacing(ctx, text, centerX, centerY, letterSpacings) {
+        // calculate cumulative version of letterSpacings array
+        let letterSpacingsCumulative = letterSpacings.reduce((a, c) => {
+          a.push(a.length == 0 ? c : a[a.length - 1] + c);
+          return a;
+        }, []);
         
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // calculate offset from centerX all letters will be drawn from
+        let centerXOffset = (letterSpacingsCumulative[0] + letterSpacingsCumulative[letterSpacingsCumulative.length - 1]) / 2 * -1;
+        
+        // draw spaced letters
+        for (let i = 0; i < text.length; i++) {
+          ctx.fillText(text[i], centerX + centerXOffset + letterSpacingsCumulative[i], centerY);
+        }
       }
       
+      // draws clock onto canvas
+      function renderFrame(forceRerender) {
+        // get current date
+        let now = new Date();
+        
+        // only rerender if seconds changed or force rerender
+        if ((now.getSeconds() != oldSecondsValue) || forceRerender) {
+          // get context
+          let ctx = canvas.getContext('2d');
+          
+          // clear canvas
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+          
+          switch (CLOCK_DRAW_MODE) {
+            case 'normal':
+              {
+                // TODO
+              }
+              break;
+            
+            case '24hr':
+              {
+                // draw clock
+                
+                
+                // calculate string for time
+                let timeString =
+                  (now.getHours() + '').padStart(2, '0') + ':' +
+                  (now.getMinutes() + '').padStart(2, '0') + ':' +
+                  (now.getSeconds() + '').padStart(2, '0');
+                
+                // print time below clock
+                let timeTextHeight = 10; // units of vh
+                ctx.fillStyle = 'white';
+                ctx.font = `${timeTextHeight}vh sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                drawTextWithPerLetterSpacing(
+                  ctx, timeString, canvas.width / 2, canvas.height * 0.9,
+                  [
+                    0,
+                    canvas.height * timeTextHeight / 100 * 0.55,
+                    canvas.height * timeTextHeight / 100 * 0.4,
+                    canvas.height * timeTextHeight / 100 * 0.4,
+                    canvas.height * timeTextHeight / 100 * 0.55,
+                    canvas.height * timeTextHeight / 100 * 0.4,
+                    canvas.height * timeTextHeight / 100 * 0.4,
+                    canvas.height * timeTextHeight / 100 * 0.55,
+                  ]
+                );
+              }
+              break;
+          }
+          
+          oldSecondsValue = now.getSeconds();
+        }
+        
+        // queue next frame render
+        requestAnimationFrame(renderFrameCallback);
+      }
+      
+      // render frame callback used by requestAnimationFrame, this is done to ignore args passed in by requestAnimationFrame
+      function renderFrameCallback() {
+        renderFrame();
+      }
+      
+      // global variables
+      let oldSecondsValue = null;
+      
+      // register event listeners
       addEventListener('load', () => {
         if (LOG_DEBUG) console.debug('load');
         resetCanvasSize();
-        renderFrame();
+        renderFrame(true);
       });
       
       addEventListener('resize', () => {
         if (LOG_DEBUG) console.debug('resize');
         resetCanvasSize();
-        renderFrame();
+        renderFrame(true);
       });
     </script>
   </body>
