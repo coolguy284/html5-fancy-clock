@@ -30,6 +30,19 @@
         font-family: Arial;
       }
       
+      /* tag declarations */
+      
+      label:not(a) {
+        flex-direction: row;
+      }
+      
+      input[type=radio], input[type=checkbox] {
+        width: 2.3vh;
+        height: 2.3vh;
+      }
+      
+      /* item specific declarations */
+      
       #canvas {
         background-color: black;
       }
@@ -72,15 +85,6 @@
       
       #settings_div label {
         gap: 0.5vh;
-      }
-      
-      label:not(a) {
-        flex-direction: row;
-      }
-      
-      input[type=radio], input[type=checkbox] {
-        width: 2.3vh;
-        height: 2.3vh;
       }
     </style>
   </head>
