@@ -111,7 +111,7 @@ function renderFrame_Draw12HourClock(ctx, now) {
   }
   
   // > second hand
-  {
+  if (CLOCK_SECONDS_VISIBLE) {
     let seconds = now.getSeconds();
     
     let angle = Math.PI * 2 / 60 * seconds - Math.PI / 2;
@@ -135,32 +135,61 @@ function renderFrame_Draw12HourClock(ctx, now) {
   }
   
   // calculate string for time
-  let timeString =
-    ((now.getHours() + 11) % 12 + 1 + '').padStart(2, '0') + ':' +
-    (now.getMinutes() + '').padStart(2, '0') + ':' +
-    (now.getSeconds() + '').padStart(2, '0') + ' ' +
-    (now.getHours() >= 12 ? 'PM' : 'AM');
+  let timeString;
+  if (CLOCK_SECONDS_VISIBLE) {
+    timeString =
+      ((now.getHours() + 11) % 12 + 1 + '').padStart(2, '0') + ':' +
+      (now.getMinutes() + '').padStart(2, '0') + ':' +
+      (now.getSeconds() + '').padStart(2, '0') + ' ' +
+      (now.getHours() >= 12 ? 'PM' : 'AM');
+  } else {
+    timeString =
+      ((now.getHours() + 11) % 12 + 1 + '').padStart(2, '0') + ':' +
+      (now.getMinutes() + '').padStart(2, '0') + ' ' +
+      (now.getHours() >= 12 ? 'PM' : 'AM');
+  }
   
   // print time below clock
-  let timeTextHeight = canvas.height * 0.1;
-  ctx.fillStyle = 'white';
-  ctx.font = `${timeTextHeight}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  drawTextWithPerLetterSpacing(
-    ctx, timeString, canvas.width / 2, canvas.height * 0.92,
-    [
-      0,
-      timeTextHeight * 0.55,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.55,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.55,
-      timeTextHeight * 0.55,
-      timeTextHeight * 0.55,
-      timeTextHeight * 0.75,
-    ]
-  );
+  if (CLOCK_SECONDS_VISIBLE) {
+    let timeTextHeight = canvas.height * 0.1;
+    ctx.fillStyle = 'white';
+    ctx.font = `${timeTextHeight}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    drawTextWithPerLetterSpacing(
+      ctx, timeString, canvas.width / 2, canvas.height * 0.92,
+      [
+        0,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.75,
+      ]
+    );
+  } else {
+    let timeTextHeight = canvas.height * 0.12;
+    ctx.fillStyle = 'white';
+    ctx.font = `${timeTextHeight}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    drawTextWithPerLetterSpacing(
+      ctx, timeString, canvas.width / 2, canvas.height * 0.92,
+      [
+        0,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.75,
+      ]
+    );
+  }
 }

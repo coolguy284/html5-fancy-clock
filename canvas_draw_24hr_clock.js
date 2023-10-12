@@ -95,28 +95,53 @@ function renderFrame_Draw24HourClock(ctx, now) {
   }
   
   // > calculate string for time
-  let timeString =
-    (now.getHours() + '').padStart(2, '0') + ':' +
-    (now.getMinutes() + '').padStart(2, '0') + ':' +
-    (now.getSeconds() + '').padStart(2, '0');
+  let timeString;
+  if (CLOCK_SECONDS_VISIBLE) {
+    timeString =
+      (now.getHours() + '').padStart(2, '0') + ':' +
+      (now.getMinutes() + '').padStart(2, '0') + ':' +
+      (now.getSeconds() + '').padStart(2, '0');
+  } else {
+    timeString =
+      (now.getHours() + '').padStart(2, '0') + ':' +
+      (now.getMinutes() + '').padStart(2, '0');
+  }
   
   // > print time inside clock
-  let timeTextHeight = clockRadius * 0.29;
-  ctx.fillStyle = 'white';
-  ctx.font = `${timeTextHeight}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  drawTextWithPerLetterSpacing(
-    ctx, timeString, clockCenterX, clockCenterY,
-    [
-      0,
-      timeTextHeight * 0.55,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.55,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.55,
-    ]
-  );
+  if (CLOCK_SECONDS_VISIBLE) {
+    let timeTextHeight = clockRadius * 0.29;
+    ctx.fillStyle = 'white';
+    ctx.font = `${timeTextHeight}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    drawTextWithPerLetterSpacing(
+      ctx, timeString, clockCenterX, clockCenterY,
+      [
+        0,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.55,
+      ]
+    );
+  } else {
+    let timeTextHeight = clockRadius * 0.34;
+    ctx.fillStyle = 'white';
+    ctx.font = `${timeTextHeight}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    drawTextWithPerLetterSpacing(
+      ctx, timeString, clockCenterX, clockCenterY,
+      [
+        0,
+        timeTextHeight * 0.55,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.4,
+        timeTextHeight * 0.55,
+      ]
+    );
+  }
 }
