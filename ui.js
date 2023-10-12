@@ -10,7 +10,7 @@ function toggleSettingsVisibility() {
 // updates clock constant vars based on settings elements, then forces a refresh of the view
 function updateClockConstants() {
   CLOCK_DRAW_MODE = document.querySelector('input[name=clock_draw_mode]:checked').parentElement.textContent.trim();
-  CLOCK_12HR_MOTIF = m12hr_motif_visible.checked;
+  CLOCK_DRAW_MOTIF = m12hr_motif_visible.checked;
   renderFrame(true);
 }
 

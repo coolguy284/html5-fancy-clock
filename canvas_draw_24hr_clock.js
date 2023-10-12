@@ -72,7 +72,7 @@ function renderFrame_Draw24HourClock(ctx, now) {
     let wedgeRadiusInner = 1.01;
     let wedgeRadiusOuter = 1.13;
     
-    ctx.fillStyle = 'green';
+    ctx.fillStyle = 'lime';
     ctx.beginPath();
     ctx.moveTo(
       clockCenterX + Math.cos(angleLeft) * clockRadius * wedgeRadiusOuter,
@@ -87,6 +87,11 @@ function renderFrame_Draw24HourClock(ctx, now) {
       clockCenterY + Math.sin(angleCenter) * clockRadius * wedgeRadiusInner,
     );
     ctx.fill();
+  }
+  
+  // > subtle motif for time of day (6AM-6PM is sun, else is crescent moon)
+  if (CLOCK_DRAW_MOTIF) {
+    renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius);
   }
   
   // > calculate string for time
