@@ -138,8 +138,8 @@ function renderFrame_Draw12HourClock(ctx, now) {
     
     let angle = Math.PI * 2 / 12 * smoothedHours - Math.PI / 2;
     
-    let handRadiusStart = -0.01;
-    let handRadiusEnd = 0.55;
+    let handRadiusStart = -0.02;
+    let handRadiusEnd = 0.45;
     
     ctx.strokeStyle = 'white';
     ctx.lineWidth = canvas.height * 0.01;
@@ -163,8 +163,8 @@ function renderFrame_Draw12HourClock(ctx, now) {
     
     let angle = Math.PI * 2 / 60 * smoothedMinutes - Math.PI / 2;
     
-    let handRadiusStart = -0.05;
-    let handRadiusEnd = 0.55;
+    let handRadiusStart = -0.03;
+    let handRadiusEnd = 0.65;
     
     ctx.strokeStyle = 'white';
     ctx.lineWidth = canvas.height * 0.005;
