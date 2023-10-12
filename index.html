@@ -26,20 +26,91 @@
       
       body {
         margin: 0;
+        color: white;
+        font-family: Arial;
       }
       
       #canvas {
         background-color: black;
+      }
+      
+      #settings_button {
+        position: absolute;
+        right: 1vh;
+        bottom: 1vh;
+        background-color: black;
+        color: white;
+        border: 0.3vh solid white;
+        border-radius: 1vh;
+        font-size: 2.5vh;
+        padding: 0.4vh 0.8vh 0.4vh;
+      }
+      
+      #settings_div {
+        position: absolute;
+        bottom: 1vh;
+        left: 0;
+        width: calc(100% - 15vh);
+        flex-direction: row;
+        background-color: rgba(0, 0, 0, 0.6);
+        border: 0.3vh solid white;
+        border-radius: 1vh;
+        padding: 0.8vh;
+        font-size: 2.5vh;
+        gap: 3vh;
+        user-select: none;
+      }
+      
+      #settings_div > div {
+        flex-direction: row;
+        gap: 0.5vh;
+      }
+      
+      #settings_div div, #settings_div label {
+        flex-grow: 0;
+      }
+      
+      #settings_div label {
+        gap: 0.5vh;
+      }
+      
+      label:not(a) {
+        flex-direction: row;
+      }
+      
+      input[type=radio], input[type=checkbox] {
+        width: 2.3vh;
+        height: 2.3vh;
       }
     </style>
   </head>
   <body>
     <canvas id = 'canvas'></canvas>
     
+    <div id = 'settings_div' style = 'display: flex;'>
+      <div>
+        Mode:
+        <label>
+          <input type = 'radio' name = 'clock_draw_mode' onchange = 'updateClockConstants();' checked = 'checked'>
+          12 Hour
+        </label>
+        <label>
+          <input type = 'radio' name = 'clock_draw_mode' onchange = 'updateClockConstants();'>
+          24 Hour
+        </label>
+      </div>
+      <label>
+        <input type = 'checkbox' id = 'm12hr_motif_visible' onchange = 'updateClockConstants();' checked = 'checked'>
+        Motif Visible
+      </label>
+    </div>
+    
+    <button id = 'settings_button' onclick = 'toggleSettingsVisibility();'>Settings</button>
+    
     <script>
       // constants to change program operation
       let LOG_DEBUG = false;
-      let CLOCK_DRAW_MODE = 'normal'; // either "normal" (12hr) or "24hr" (fancy looking 24hr clock)
+      let CLOCK_DRAW_MODE = '12 Hour'; // either "12 Hour" or "24 Hour" (fancy looking 24hr clock)
       let CLOCK_12HR_MOTIF = true; // whether sun / moon motif will show in center of clock
       
       // sets canvas pixel width and height to its css width and height
@@ -84,7 +155,7 @@
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           
           switch (CLOCK_DRAW_MODE) {
-            case 'normal':
+            case '12 Hour':
               {
                 // print title at top of screen
                 ctx.fillStyle = 'white';
@@ -323,7 +394,7 @@
               }
               break;
             
-            case '24hr':
+            case '24 Hour':
               {
                 // print title at top of screen
                 ctx.fillStyle = 'white';
@@ -460,6 +531,22 @@
       // render frame callback used by requestAnimationFrame, this is done to ignore args passed in by requestAnimationFrame
       function renderFrameCallback() {
         renderFrame();
+      }
+      
+      // function to show and hide settings menu
+      function toggleSettingsVisibility() {
+        if (settings_div.style.display == 'none') {
+          settings_div.style.display = '';
+        } else {
+          settings_div.style.display = 'none';
+        }
+      }
+      
+      // updates clock constant vars based on settings elements, then forces a refresh of the view
+      function updateClockConstants() {
+        CLOCK_DRAW_MODE = document.querySelector('input[name=clock_draw_mode]:checked').parentElement.textContent.trim();
+        CLOCK_12HR_MOTIF = m12hr_motif_visible.checked;
+        renderFrame(true);
       }
       
       // global variables
