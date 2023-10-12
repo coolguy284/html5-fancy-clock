@@ -57,7 +57,7 @@ function renderFrame_Draw12HourClock(ctx, now) {
   
   // > subtle motif for time of day (6AM-6PM is sun, else is crescent moon)
   if (CLOCK_12HR_MOTIF) {
-    let motif = now.getHours() >= 6 && now.getHours() <= 17 && 0 ? 'sun' : 'moon';
+    let motif = now.getHours() >= 6 && now.getHours() <= 17 ? 'sun' : 'moon';
     switch (motif) {
       case 'sun':
         // >> sun motif
