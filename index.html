@@ -102,8 +102,8 @@
                 // draw clock
                 // > define variables
                 let clockCenterX = canvas.width / 2;
-                let clockCenterY = canvas.height * 0.5;
-                let clockRadius = canvas.height * 0.32;
+                let clockCenterY = canvas.height * 0.55;
+                let clockRadius = canvas.height * 0.35;
                 
                 // > outer circle
                 ctx.strokeStyle = 'white';
@@ -138,73 +138,76 @@
                   let normalizedX = Math.cos(angle);
                   let normalizedY = Math.sin(angle);
                   
-                  let hourTextHeight = 2; // units of vh
+                  let hourTextHeight = clockRadius * 0.065;
                   ctx.fillStyle = 'white';
-                  ctx.font = `${hourTextHeight}vh sans-serif`;
+                  ctx.font = `${hourTextHeight}px sans-serif`;
                   ctx.textAlign = 'center';
                   ctx.textBaseline = 'middle';
                   drawTextWithPerLetterSpacing(
                     ctx, (i + '').padStart(2, '0') + '00',
                     clockCenterX + normalizedX * clockRadius * 0.75,
-                    clockCenterY + normalizedY * clockRadius * 0.75,
+                    clockCenterY + normalizedY * clockRadius * 0.77,
                     [
                       0,
-                      canvas.height * hourTextHeight / 100 * 0.55,
-                      canvas.height * hourTextHeight / 100 * 0.55,
-                      canvas.height * hourTextHeight / 100 * 0.55,
+                      hourTextHeight * 0.55,
+                      hourTextHeight * 0.55,
+                      hourTextHeight * 0.55,
                     ]
                   );
                 }
                 
-                // > green external triangle on the current time
+                // > green external wedge on the current time
                 {
                   // a continuous version of hours that smoothly increases over time
                   let smoothedHours = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
                   
                   let angleCenter = Math.PI * 2 / 24 * smoothedHours - Math.PI / 2;
-                  let angleLeft = angleCenter - Math.PI * 2 / 24 * 0.3;
-                  let angleRight = angleCenter + Math.PI * 2 / 24 * 0.3;
+                  let angleLeft = angleCenter - Math.PI * 2 / 24 * 0.29;
+                  let angleRight = angleCenter + Math.PI * 2 / 24 * 0.29;
+                  
+                  let wedgeRadiusInner = 1.01;
+                  let wedgeRadiusOuter = 1.13;
                   
                   ctx.fillStyle = 'green';
                   ctx.beginPath();
                   ctx.moveTo(
-                    clockCenterX + Math.cos(angleLeft) * clockRadius * 1.13,
-                    clockCenterY + Math.sin(angleLeft) * clockRadius * 1.13,
+                    clockCenterX + Math.cos(angleLeft) * clockRadius * wedgeRadiusOuter,
+                    clockCenterY + Math.sin(angleLeft) * clockRadius * wedgeRadiusOuter,
                   );
                   ctx.lineTo(
-                    clockCenterX + Math.cos(angleRight) * clockRadius * 1.13,
-                    clockCenterY + Math.sin(angleRight) * clockRadius * 1.13,
+                    clockCenterX + Math.cos(angleRight) * clockRadius * wedgeRadiusOuter,
+                    clockCenterY + Math.sin(angleRight) * clockRadius * wedgeRadiusOuter,
                   );
                   ctx.lineTo(
-                    clockCenterX + Math.cos(angleCenter) * clockRadius * 1.01,
-                    clockCenterY + Math.sin(angleCenter) * clockRadius * 1.01,
+                    clockCenterX + Math.cos(angleCenter) * clockRadius * wedgeRadiusInner,
+                    clockCenterY + Math.sin(angleCenter) * clockRadius * wedgeRadiusInner,
                   );
                   ctx.fill();
                 }
                 
-                // calculate string for time
+                // > calculate string for time
                 let timeString =
                   (now.getHours() + '').padStart(2, '0') + ':' +
                   (now.getMinutes() + '').padStart(2, '0') + ':' +
                   (now.getSeconds() + '').padStart(2, '0');
                 
-                // print time below clock
-                let timeTextHeight = 10; // units of vh
+                // > print time inside clock
+                let timeTextHeight = clockRadius * 0.29;
                 ctx.fillStyle = 'white';
-                ctx.font = `${timeTextHeight}vh sans-serif`;
+                ctx.font = `${timeTextHeight}px sans-serif`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 drawTextWithPerLetterSpacing(
-                  ctx, timeString, canvas.width / 2, canvas.height * 0.92,
+                  ctx, timeString, clockCenterX, clockCenterY,
                   [
                     0,
-                    canvas.height * timeTextHeight / 100 * 0.55,
-                    canvas.height * timeTextHeight / 100 * 0.4,
-                    canvas.height * timeTextHeight / 100 * 0.4,
-                    canvas.height * timeTextHeight / 100 * 0.55,
-                    canvas.height * timeTextHeight / 100 * 0.4,
-                    canvas.height * timeTextHeight / 100 * 0.4,
-                    canvas.height * timeTextHeight / 100 * 0.55,
+                    timeTextHeight * 0.55,
+                    timeTextHeight * 0.4,
+                    timeTextHeight * 0.4,
+                    timeTextHeight * 0.55,
+                    timeTextHeight * 0.4,
+                    timeTextHeight * 0.4,
+                    timeTextHeight * 0.55,
                   ]
                 );
               }
