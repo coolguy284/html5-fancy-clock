@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset = 'utf-8'>
+    
+    <title>HTML5 Fancy Clock</title>
+    
+    <meta name = 'viewport' content = 'width=device-width, initial-scale=1.0'>
+    
+    <style>
+      /* general declarations */
+      
+      html, body, body *:not(script, table, thead, tbody, tr, th, td) {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: stretch;
+        flex-grow: 1;
+        flex-shrink: 1;
+        min-height: 0;
+      }
+      
+      html {
+        height: 100%;
+      }
+      
+      body {
+        margin: 0;
+      }
+      
+      #canvas {
+        background-color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id = 'canvas'></canvas>
+    
+    <script>
+      let LOG_DEBUG = false;
+      
+      function resetCanvasSize() {
+        let canvasStyle = getComputedStyle(canvas);
+        
+        let canvasWidth = parseInt(canvasStyle.width);
+        let canvasHeight = parseInt(canvasStyle.height);
+        
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+      }
+      
+      function renderFrame() {
+        let ctx = canvas.getContext('2d');
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      
+      addEventListener('load', () => {
+        if (LOG_DEBUG) console.debug('load');
+        resetCanvasSize();
+        renderFrame();
+      });
+      
+      addEventListener('resize', () => {
+        if (LOG_DEBUG) console.debug('resize');
+        resetCanvasSize();
+        renderFrame();
+      });
+    </script>
+  </body>
+</html>
