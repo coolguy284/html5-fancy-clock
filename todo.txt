@@ -1,0 +1,1 @@
+save settings to localstorage and restore on load

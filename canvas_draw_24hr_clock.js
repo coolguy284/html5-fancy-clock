@@ -1,17 +1,10 @@
 // 24 hour clock section of the renderFrame function
 function renderFrame_Draw24HourClock(ctx, now) {
-  // print title at top of screen
-  ctx.fillStyle = 'white';
-  ctx.font = `10vh sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('24-Hour Time', canvas.width / 2, canvas.height * 0.08);
-  
   // draw clock
   // > define variables
   let clockCenterX = canvas.width / 2;
-  let clockCenterY = canvas.height * 0.55;
-  let clockRadius = canvas.height * 0.35;
+  let clockCenterY = canvas.height / 2;
+  let clockRadius = canvas.height * 0.43;
   
   // > outer circle
   ctx.strokeStyle = 'white';
