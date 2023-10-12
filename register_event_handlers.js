@@ -10,3 +10,8 @@ addEventListener('resize', () => {
   resetCanvasSize();
   renderFrame(true);
 });
+
+addEventListener('dblclick', async () => {
+  if (LOG_DEBUG) console.debug('dblclick');
+  await toggleFullscreen();
+});

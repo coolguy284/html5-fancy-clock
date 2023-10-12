@@ -13,3 +13,13 @@ function updateClockConstants() {
   CLOCK_12HR_MOTIF = m12hr_motif_visible.checked;
   renderFrame(true);
 }
+
+async function toggleFullscreen() {
+  if (document.fullscreenEnabled) {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+    } else {
+      await canvas.requestFullscreen();
+    }
+  }
+}
