@@ -1,0 +1,78 @@
+/* general declarations */
+
+html, body, body *:not(script, table, thead, tbody, tr, th, td) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: white;
+  font-family: Arial;
+}
+
+/* tag declarations */
+
+label:not(a) {
+  flex-direction: row;
+}
+
+input[type=radio], input[type=checkbox] {
+  width: 2.3vh;
+  height: 2.3vh;
+}
+
+/* element specific declarations */
+
+#canvas {
+  background-color: black;
+}
+
+#settings_button {
+  position: absolute;
+  right: 1vh;
+  bottom: 1vh;
+  background-color: black;
+  color: white;
+  border: 0.3vh solid white;
+  border-radius: 1vh;
+  font-size: 2.5vh;
+  padding: 0.4vh 0.8vh 0.4vh;
+}
+
+#settings_div {
+  position: absolute;
+  bottom: 1vh;
+  left: 0;
+  width: calc(100% - 15vh);
+  flex-direction: row;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 0.3vh solid white;
+  border-radius: 1vh;
+  padding: 0.8vh;
+  font-size: 2.5vh;
+  gap: 3vh;
+  user-select: none;
+}
+
+#settings_div > div {
+  flex-direction: row;
+  gap: 0.5vh;
+}
+
+#settings_div div, #settings_div label {
+  flex-grow: 0;
+}
+
+#settings_div label {
+  gap: 0.5vh;
+}
