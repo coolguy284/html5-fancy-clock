@@ -51,6 +51,7 @@ function renderFrame_Draw24HourClock(ctx, now) {
       ctx, (i + '').padStart(2, '0') + '00',
       clockCenterX + normalizedX * clockRadius * 0.75,
       clockCenterY + normalizedY * clockRadius * 0.77,
+      hourTextHeight,
       [
         0,
         hourTextHeight * 0.55,
@@ -135,7 +136,7 @@ function renderFrame_Draw24HourClock(ctx, now) {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       drawTextWithPerLetterSpacing(
-        ctx, timeString, clockCenterX, timeTextPosY,
+        ctx, timeString, clockCenterX, timeTextPosY, timeTextHeight,
         [
           0,
           timeTextHeight * 0.55,
@@ -153,7 +154,7 @@ function renderFrame_Draw24HourClock(ctx, now) {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       drawTextWithPerLetterSpacing(
-        ctx, timeString, clockCenterX, timeTextPosY,
+        ctx, timeString, clockCenterX, timeTextPosY, timeTextHeight,
         [
           0,
           timeTextHeight * 0.55,

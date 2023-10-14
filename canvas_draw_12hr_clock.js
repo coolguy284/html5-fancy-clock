@@ -177,7 +177,7 @@ function renderFrame_Draw12HourClock(ctx, now) {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       drawTextWithPerLetterSpacing(
-        ctx, timeString, canvas.width / 2, timeTextPosY,
+        ctx, timeString, canvas.width / 2, timeTextPosY, timeTextHeight,
         [
           0,
           timeTextHeight * 0.55,
@@ -198,7 +198,7 @@ function renderFrame_Draw12HourClock(ctx, now) {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       drawTextWithPerLetterSpacing(
-        ctx, timeString, canvas.width / 2, timeTextPosY,
+        ctx, timeString, canvas.width / 2, timeTextPosY, timeTextHeight,
         [
           0,
           timeTextHeight * 0.55,

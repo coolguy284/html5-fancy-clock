@@ -14,6 +14,7 @@ function updateClockConstants() {
   CLOCK_SECONDS_VISIBLE = seconds_visible.checked;
   CLOCK_TIME_VISIBLE = time_visible.checked;
   CLOCK_DATE_VISIBLE = date_visible.checked;
+  CLOCK_NUDGE_ONES = nudge_ones.checked;
   renderFrame(true);
 }
 
