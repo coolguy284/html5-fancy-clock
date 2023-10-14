@@ -12,6 +12,8 @@ function updateClockConstants() {
   CLOCK_DRAW_MODE = document.querySelector('input[name=clock_draw_mode]:checked').parentElement.textContent.trim();
   CLOCK_DRAW_MOTIF = motif_visible.checked;
   CLOCK_SECONDS_VISIBLE = seconds_visible.checked;
+  CLOCK_TIME_VISIBLE = time_visible.checked;
+  CLOCK_DATE_VISIBLE = date_visible.checked;
   renderFrame(true);
 }
 

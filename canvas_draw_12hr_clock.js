@@ -1,10 +1,29 @@
 // 12 hour clock section of the renderFrame function
 function renderFrame_Draw12HourClock(ctx, now) {
+  // calculate clock, date, and time positioning variables
+  let [
+    clockCenterY,
+    clockRadius,
+    timeTextPosY,
+    timeTextHeight,
+    timeTextColor,
+    dateTextPosY,
+    dateTextHeight,
+    dateTextColor,
+  ] = [
+    [canvas.height * 0.5,  canvas.height * 0.44, null,                 null,                 null,    null,                 null,                 null                ], /* DATE:  NO, TIME:  NO, SECONDS:  NO */
+    [canvas.height * 0.5,  canvas.height * 0.44, null,                 null,                 null,    null,                 null,                 null                ], /* DATE:  NO, TIME:  NO, SECONDS: YES */
+    [canvas.height * 0.44, canvas.height * 0.38, canvas.height * 0.92, canvas.height * 0.12, 'white', null,                 null,                 null                ], /* DATE:  NO, TIME: YES, SECONDS:  NO */
+    [canvas.height * 0.44, canvas.height * 0.38, canvas.height * 0.92, canvas.height * 0.1,  'white', null,                 null,                 null                ], /* DATE:  NO, TIME: YES, SECONDS: YES */
+    [canvas.height * 0.44, canvas.height * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ], /* DATE: YES, TIME:  NO, SECONDS:  NO */
+    [canvas.height * 0.44, canvas.height * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ], /* DATE: YES, TIME:  NO, SECONDS: YES */
+    [canvas.height * 0.43, canvas.height * 0.38, canvas.height * 0.89, canvas.height * 0.1,  'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)'], /* DATE: YES, TIME: YES, SECONDS:  NO */
+    [canvas.height * 0.43, canvas.height * 0.38, canvas.height * 0.89, canvas.height * 0.09, 'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)'], /* DATE: YES, TIME: YES, SECONDS: YES */
+  ][CLOCK_DATE_VISIBLE * 4 + CLOCK_TIME_VISIBLE * 2 + CLOCK_SECONDS_VISIBLE];
+  
   // draw clock
   // > define variables
   let clockCenterX = canvas.width / 2;
-  let clockCenterY = canvas.height * 0.44;
-  let clockRadius = canvas.height * 0.38;
   
   // > outer circle
   ctx.strokeStyle = 'white';
@@ -150,46 +169,65 @@ function renderFrame_Draw12HourClock(ctx, now) {
   }
   
   // print time below clock
-  if (CLOCK_SECONDS_VISIBLE) {
-    let timeTextHeight = canvas.height * 0.1;
-    ctx.fillStyle = 'white';
-    ctx.font = `${timeTextHeight}px sans-serif`;
+  if (CLOCK_TIME_VISIBLE) {
+    if (CLOCK_SECONDS_VISIBLE) {
+      ctx.fillStyle = timeTextColor;
+      ctx.font = `${timeTextHeight}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      drawTextWithPerLetterSpacing(
+        ctx, timeString, canvas.width / 2, timeTextPosY,
+        [
+          0,
+          timeTextHeight * 0.55,
+          timeTextHeight * 0.4,
+          timeTextHeight * 0.4,
+          timeTextHeight * 0.55,
+          timeTextHeight * 0.4,
+          timeTextHeight * 0.4,
+          timeTextHeight * 0.55,
+          timeTextHeight * 0.55,
+          timeTextHeight * 0.55,
+          timeTextHeight * 0.75,
+        ]
+      );
+    } else {
+      ctx.fillStyle = timeTextColor;
+      ctx.font = `${timeTextHeight}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      drawTextWithPerLetterSpacing(
+        ctx, timeString, canvas.width / 2, timeTextPosY,
+        [
+          0,
+          timeTextHeight * 0.55,
+          timeTextHeight * 0.4,
+          timeTextHeight * 0.4,
+          timeTextHeight * 0.55,
+          timeTextHeight * 0.55,
+          timeTextHeight * 0.55,
+          timeTextHeight * 0.75,
+        ]
+      );
+    }
+  }
+  
+  // print date below clock
+  if (CLOCK_DATE_VISIBLE) {
+    // > calculate date string
+    let weekDayString = DAY_OF_WEEK_STRINGS[now.getDay()];
+    let monthString = MONTH_OF_YEAR_STRINGS[now.getMonth()];
+    let dateString =
+      weekDayString + ', ' +
+      monthString + ' ' +
+      (now.getDate() + '').padStart(2, '0') + ' ' +
+      now.getFullYear();
+    
+    // > print date
+    ctx.fillStyle = dateTextColor;
+    ctx.font = `${dateTextHeight}px sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    drawTextWithPerLetterSpacing(
-      ctx, timeString, canvas.width / 2, canvas.height * 0.92,
-      [
-        0,
-        timeTextHeight * 0.55,
-        timeTextHeight * 0.4,
-        timeTextHeight * 0.4,
-        timeTextHeight * 0.55,
-        timeTextHeight * 0.4,
-        timeTextHeight * 0.4,
-        timeTextHeight * 0.55,
-        timeTextHeight * 0.55,
-        timeTextHeight * 0.55,
-        timeTextHeight * 0.75,
-      ]
-    );
-  } else {
-    let timeTextHeight = canvas.height * 0.12;
-    ctx.fillStyle = 'white';
-    ctx.font = `${timeTextHeight}px sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    drawTextWithPerLetterSpacing(
-      ctx, timeString, canvas.width / 2, canvas.height * 0.92,
-      [
-        0,
-        timeTextHeight * 0.55,
-        timeTextHeight * 0.4,
-        timeTextHeight * 0.4,
-        timeTextHeight * 0.55,
-        timeTextHeight * 0.55,
-        timeTextHeight * 0.55,
-        timeTextHeight * 0.75,
-      ]
-    );
+    ctx.fillText(dateString, canvas.width / 2, dateTextPosY);
   }
 }

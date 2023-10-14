@@ -1,2 +1,7 @@
-save settings to localstorage and restore on load
+wraparound when settings div too long
+make fixed-width-number text print function
 fix rendering on portrait mode phone
+  website should scale based on min of wid and hei not just hei
+
+low priority:
+save settings to localstorage and restore on load
