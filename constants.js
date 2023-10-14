@@ -8,3 +8,4 @@ let CLOCK_DATE_VISIBLE = true; // whether to show "Tue, Oct 12 2023" on 12 hr cl
 
 let DAY_OF_WEEK_STRINGS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
 let MONTH_OF_YEAR_STRINGS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+let DAY_OF_WEEK_STRINGS_CAPS = DAY_OF_WEEK_STRINGS.map(x => x.toUpperCase());

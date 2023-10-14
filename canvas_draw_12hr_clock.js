@@ -153,23 +153,24 @@ function renderFrame_Draw12HourClock(ctx, now) {
     ctx.stroke();
   }
   
-  // calculate string for time
-  let timeString;
-  if (CLOCK_SECONDS_VISIBLE) {
-    timeString =
-      ((now.getHours() + 11) % 12 + 1 + '').padStart(2, '0') + ':' +
-      (now.getMinutes() + '').padStart(2, '0') + ':' +
-      (now.getSeconds() + '').padStart(2, '0') + ' ' +
-      (now.getHours() >= 12 ? 'PM' : 'AM');
-  } else {
-    timeString =
-      ((now.getHours() + 11) % 12 + 1 + '').padStart(2, '0') + ':' +
-      (now.getMinutes() + '').padStart(2, '0') + ' ' +
-      (now.getHours() >= 12 ? 'PM' : 'AM');
-  }
-  
   // print time below clock
   if (CLOCK_TIME_VISIBLE) {
+    // > calculate time string
+    let timeString;
+    if (CLOCK_SECONDS_VISIBLE) {
+      timeString =
+        ((now.getHours() + 11) % 12 + 1 + '').padStart(2, '0') + ':' +
+        (now.getMinutes() + '').padStart(2, '0') + ':' +
+        (now.getSeconds() + '').padStart(2, '0') + ' ' +
+        (now.getHours() >= 12 ? 'PM' : 'AM');
+    } else {
+      timeString =
+        ((now.getHours() + 11) % 12 + 1 + '').padStart(2, '0') + ':' +
+        (now.getMinutes() + '').padStart(2, '0') + ' ' +
+        (now.getHours() >= 12 ? 'PM' : 'AM');
+    }
+    
+    // > print time
     if (CLOCK_SECONDS_VISIBLE) {
       ctx.fillStyle = timeTextColor;
       ctx.font = `${timeTextHeight}px sans-serif`;

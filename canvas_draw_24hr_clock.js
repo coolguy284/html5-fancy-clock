@@ -94,29 +94,48 @@ function renderFrame_Draw24HourClock(ctx, now) {
     renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius);
   }
   
-  // > calculate string for time
-  let timeString;
-  if (CLOCK_SECONDS_VISIBLE) {
-    timeString =
-      (now.getHours() + '').padStart(2, '0') + ':' +
-      (now.getMinutes() + '').padStart(2, '0') + ':' +
-      (now.getSeconds() + '').padStart(2, '0');
-  } else {
-    timeString =
-      (now.getHours() + '').padStart(2, '0') + ':' +
-      (now.getMinutes() + '').padStart(2, '0');
-  }
+  // > calculate date and time positioning variables
+  let [
+    timeTextPosY,
+    timeTextHeight,
+    timeTextColor,
+    dateTextPosY,
+    dateTextHeight,
+    dateTextColor,
+  ] = [
+    [null,                              null,               null,    null,                              null,                null                ], /* DATE:  NO, TIME:  NO, SECONDS:  NO */
+    [null,                              null,               null,    null,                              null,                null                ], /* DATE:  NO, TIME:  NO, SECONDS: YES */
+    [clockCenterY,                      clockRadius * 0.34, 'white', null,                              null,                null                ], /* DATE:  NO, TIME: YES, SECONDS:  NO */
+    [clockCenterY,                      clockRadius * 0.29, 'white', null,                              null,                null                ], /* DATE:  NO, TIME: YES, SECONDS: YES */
+    [null,                              null,               null,    clockCenterY,                      clockCenterY * 0.11, 'white'             ], /* DATE: YES, TIME:  NO, SECONDS:  NO */
+    [null,                              null,               null,    clockCenterY,                      clockCenterY * 0.11, 'white'             ], /* DATE: YES, TIME:  NO, SECONDS: YES */
+    [clockCenterY - clockRadius * 0.08, clockRadius * 0.34, 'white', clockCenterY + clockRadius * 0.14, clockCenterY * 0.08, 'rgb(192, 192, 192)'], /* DATE: YES, TIME: YES, SECONDS:  NO */
+    [clockCenterY - clockRadius * 0.06, clockRadius * 0.29, 'white', clockCenterY + clockRadius * 0.12, clockCenterY * 0.08, 'rgb(192, 192, 192)'], /* DATE: YES, TIME: YES, SECONDS: YES */
+  ][CLOCK_DATE_VISIBLE * 4 + CLOCK_TIME_VISIBLE * 2 + CLOCK_SECONDS_VISIBLE];
   
   // > print time inside clock
   if (CLOCK_TIME_VISIBLE) {
+    // >> calculate time string
+    let timeString;
     if (CLOCK_SECONDS_VISIBLE) {
-      let timeTextHeight = clockRadius * 0.29;
-      ctx.fillStyle = 'white';
+      timeString =
+        (now.getHours() + '').padStart(2, '0') + ':' +
+        (now.getMinutes() + '').padStart(2, '0') + ':' +
+        (now.getSeconds() + '').padStart(2, '0');
+    } else {
+      timeString =
+        (now.getHours() + '').padStart(2, '0') + ':' +
+        (now.getMinutes() + '').padStart(2, '0');
+    }
+    
+    // >> print time
+    if (CLOCK_SECONDS_VISIBLE) {
+      ctx.fillStyle = timeTextColor;
       ctx.font = `${timeTextHeight}px sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       drawTextWithPerLetterSpacing(
-        ctx, timeString, clockCenterX, clockCenterY,
+        ctx, timeString, clockCenterX, timeTextPosY,
         [
           0,
           timeTextHeight * 0.55,
@@ -129,13 +148,12 @@ function renderFrame_Draw24HourClock(ctx, now) {
         ]
       );
     } else {
-      let timeTextHeight = clockRadius * 0.34;
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = timeTextColor;
       ctx.font = `${timeTextHeight}px sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       drawTextWithPerLetterSpacing(
-        ctx, timeString, clockCenterX, clockCenterY,
+        ctx, timeString, clockCenterX, timeTextPosY,
         [
           0,
           timeTextHeight * 0.55,
@@ -147,5 +165,21 @@ function renderFrame_Draw24HourClock(ctx, now) {
     }
   }
   
-  
+  // > print date inside clock
+  if (CLOCK_DATE_VISIBLE) {
+    // >> calculate date string
+    let weekDayString = DAY_OF_WEEK_STRINGS_CAPS[now.getDay()];
+    let dateString =
+      (now.getFullYear() + '') + '-' +
+      (now.getMonth() + 1 + '').padStart(2, '0') + '-' +
+      (now.getDate() + '').padStart(2, '0') + ' ' +
+      weekDayString;
+    
+    // >> print date
+    ctx.fillStyle = dateTextColor;
+    ctx.font = `${dateTextHeight}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(dateString, canvas.width / 2, dateTextPosY);
+  }
 }
