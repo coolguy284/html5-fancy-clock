@@ -1,5 +1,7 @@
 // draws clock onto canvas
 function renderFrame(forceRerender) {
+  if (LOG_DEBUG) console.debug('rendering frame');
+  
   // get current date
   let now = new Date();
   
@@ -23,12 +25,17 @@ function renderFrame(forceRerender) {
     
     oldSecondsValue = now.getSeconds();
   }
-  
-  // queue next frame render
-  requestAnimationFrame(renderFrameCallback);
 }
 
-// render frame callback used by requestAnimationFrame, this is done to ignore args passed in by requestAnimationFrame
-function renderFrameCallback() {
-  renderFrame();
+// render frame loop, intended to only be run once (at page load)
+async function renderFrameLoop() {
+  if (renderFrameLoopStarted) return;
+  
+  renderFrameLoopStarted = true;
+  
+  while (true) {
+    renderFrame();
+    
+    await new Promise(r => requestAnimationFrame(r));
+  }
 }

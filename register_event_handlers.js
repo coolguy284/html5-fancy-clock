@@ -2,7 +2,9 @@
 addEventListener('load', () => {
   if (LOG_DEBUG) console.debug('load');
   resetCanvasSize();
-  renderFrame(true);
+  
+  // start the rendering frame loop
+  renderFrameLoop();
 });
 
 addEventListener('resize', () => {
