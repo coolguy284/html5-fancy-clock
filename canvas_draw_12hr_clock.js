@@ -1,3 +1,17 @@
+// helper function to calculate ui element positioning
+function renderFrame_Draw12HourClock_UIPosition(uiConfiguration) {
+  switch (uiConfiguration) {
+    case 0: return [canvas.height * 0.5,  canvas.height * 0.44, null,                 null,                 null,    null,                 null,                 null                ]; /* DATE:  NO, TIME:  NO, SECONDS:  NO */
+    case 1: return [canvas.height * 0.5,  canvas.height * 0.44, null,                 null,                 null,    null,                 null,                 null                ]; /* DATE:  NO, TIME:  NO, SECONDS: YES */
+    case 2: return [canvas.height * 0.44, canvas.height * 0.38, canvas.height * 0.92, canvas.height * 0.12, 'white', null,                 null,                 null                ]; /* DATE:  NO, TIME: YES, SECONDS:  NO */
+    case 3: return [canvas.height * 0.44, canvas.height * 0.38, canvas.height * 0.92, canvas.height * 0.1,  'white', null,                 null,                 null                ]; /* DATE:  NO, TIME: YES, SECONDS: YES */
+    case 4: return [canvas.height * 0.44, canvas.height * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS:  NO */
+    case 5: return [canvas.height * 0.44, canvas.height * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS: YES */
+    case 6: return [canvas.height * 0.43, canvas.height * 0.38, canvas.height * 0.89, canvas.height * 0.1,  'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS:  NO */
+    case 7: return [canvas.height * 0.43, canvas.height * 0.38, canvas.height * 0.89, canvas.height * 0.09, 'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS: YES */
+  }
+}
+
 // 12 hour clock section of the renderFrame function
 function renderFrame_Draw12HourClock(ctx, now) {
   // calculate clock, date, and time positioning variables
@@ -10,16 +24,7 @@ function renderFrame_Draw12HourClock(ctx, now) {
     dateTextPosY,
     dateTextHeight,
     dateTextColor,
-  ] = [
-    [canvas.height * 0.5,  canvas.height * 0.44, null,                 null,                 null,    null,                 null,                 null                ], /* DATE:  NO, TIME:  NO, SECONDS:  NO */
-    [canvas.height * 0.5,  canvas.height * 0.44, null,                 null,                 null,    null,                 null,                 null                ], /* DATE:  NO, TIME:  NO, SECONDS: YES */
-    [canvas.height * 0.44, canvas.height * 0.38, canvas.height * 0.92, canvas.height * 0.12, 'white', null,                 null,                 null                ], /* DATE:  NO, TIME: YES, SECONDS:  NO */
-    [canvas.height * 0.44, canvas.height * 0.38, canvas.height * 0.92, canvas.height * 0.1,  'white', null,                 null,                 null                ], /* DATE:  NO, TIME: YES, SECONDS: YES */
-    [canvas.height * 0.44, canvas.height * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ], /* DATE: YES, TIME:  NO, SECONDS:  NO */
-    [canvas.height * 0.44, canvas.height * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ], /* DATE: YES, TIME:  NO, SECONDS: YES */
-    [canvas.height * 0.43, canvas.height * 0.38, canvas.height * 0.89, canvas.height * 0.1,  'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)'], /* DATE: YES, TIME: YES, SECONDS:  NO */
-    [canvas.height * 0.43, canvas.height * 0.38, canvas.height * 0.89, canvas.height * 0.09, 'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)'], /* DATE: YES, TIME: YES, SECONDS: YES */
-  ][CLOCK_DATE_VISIBLE * 4 + CLOCK_TIME_VISIBLE * 2 + CLOCK_SECONDS_VISIBLE];
+  ] = renderFrame_Draw12HourClock_UIPosition(CLOCK_DATE_VISIBLE * 4 + CLOCK_TIME_VISIBLE * 2 + CLOCK_SECONDS_VISIBLE);
   
   // draw clock
   // > define variables

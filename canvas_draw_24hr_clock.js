@@ -1,3 +1,17 @@
+// helper function to calculate ui element positioning
+function renderFrame_Draw24HourClock_UIPosition(uiConfiguration, clockCenterY, clockRadius) {
+  switch (uiConfiguration) {
+    case 0: return [null,                              null,               null,    null,                              null,                null                ]; /* DATE:  NO, TIME:  NO, SECONDS:  NO */
+    case 1: return [null,                              null,               null,    null,                              null,                null                ]; /* DATE:  NO, TIME:  NO, SECONDS: YES */
+    case 2: return [clockCenterY,                      clockRadius * 0.34, 'white', null,                              null,                null                ]; /* DATE:  NO, TIME: YES, SECONDS:  NO */
+    case 3: return [clockCenterY,                      clockRadius * 0.29, 'white', null,                              null,                null                ]; /* DATE:  NO, TIME: YES, SECONDS: YES */
+    case 4: return [null,                              null,               null,    clockCenterY,                      clockCenterY * 0.11, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS:  NO */
+    case 5: return [null,                              null,               null,    clockCenterY,                      clockCenterY * 0.11, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS: YES */
+    case 6: return [clockCenterY - clockRadius * 0.08, clockRadius * 0.34, 'white', clockCenterY + clockRadius * 0.14, clockCenterY * 0.08, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS:  NO */
+    case 7: return [clockCenterY - clockRadius * 0.06, clockRadius * 0.29, 'white', clockCenterY + clockRadius * 0.12, clockCenterY * 0.08, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS: YES */
+  }
+}
+
 // 24 hour clock section of the renderFrame function
 function renderFrame_Draw24HourClock(ctx, now) {
   // draw clock
@@ -103,16 +117,10 @@ function renderFrame_Draw24HourClock(ctx, now) {
     dateTextPosY,
     dateTextHeight,
     dateTextColor,
-  ] = [
-    [null,                              null,               null,    null,                              null,                null                ], /* DATE:  NO, TIME:  NO, SECONDS:  NO */
-    [null,                              null,               null,    null,                              null,                null                ], /* DATE:  NO, TIME:  NO, SECONDS: YES */
-    [clockCenterY,                      clockRadius * 0.34, 'white', null,                              null,                null                ], /* DATE:  NO, TIME: YES, SECONDS:  NO */
-    [clockCenterY,                      clockRadius * 0.29, 'white', null,                              null,                null                ], /* DATE:  NO, TIME: YES, SECONDS: YES */
-    [null,                              null,               null,    clockCenterY,                      clockCenterY * 0.11, 'white'             ], /* DATE: YES, TIME:  NO, SECONDS:  NO */
-    [null,                              null,               null,    clockCenterY,                      clockCenterY * 0.11, 'white'             ], /* DATE: YES, TIME:  NO, SECONDS: YES */
-    [clockCenterY - clockRadius * 0.08, clockRadius * 0.34, 'white', clockCenterY + clockRadius * 0.14, clockCenterY * 0.08, 'rgb(192, 192, 192)'], /* DATE: YES, TIME: YES, SECONDS:  NO */
-    [clockCenterY - clockRadius * 0.06, clockRadius * 0.29, 'white', clockCenterY + clockRadius * 0.12, clockCenterY * 0.08, 'rgb(192, 192, 192)'], /* DATE: YES, TIME: YES, SECONDS: YES */
-  ][CLOCK_DATE_VISIBLE * 4 + CLOCK_TIME_VISIBLE * 2 + CLOCK_SECONDS_VISIBLE];
+  ] = renderFrame_Draw24HourClock_UIPosition(
+    CLOCK_DATE_VISIBLE * 4 + CLOCK_TIME_VISIBLE * 2 + CLOCK_SECONDS_VISIBLE,
+    clockCenterY, clockRadius
+  );
   
   // > print time inside clock
   if (CLOCK_TIME_VISIBLE) {
