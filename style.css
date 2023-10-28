@@ -32,8 +32,17 @@ input[type=radio], input[type=checkbox] {
 }
 
 input[type=text] {
-  width: 15vh;
+  width: 20vh;
   height: 2.3vh;
+}
+
+button {
+  background-color: black;
+  color: white;
+  border: 0.3vh solid white;
+  border-radius: 1vh;
+  font-size: 2.5vh;
+  padding: 0.4vh 0.8vh 0.4vh;
 }
 
 /* element specific declarations */
@@ -46,12 +55,6 @@ input[type=text] {
   position: absolute;
   right: 1vh;
   bottom: 1vh;
-  background-color: black;
-  color: white;
-  border: 0.3vh solid white;
-  border-radius: 1vh;
-  font-size: 2.5vh;
-  padding: 0.4vh 0.8vh 0.4vh;
 }
 
 #settings_div {
@@ -61,6 +64,7 @@ input[type=text] {
   width: calc(100% - 15vh);
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: start;
   background-color: rgba(0, 0, 0, 0.6);
   border: 0.3vh solid white;
   border-radius: 1vh;
@@ -77,8 +81,21 @@ input[type=text] {
 
 #settings_div div, #settings_div label {
   flex-grow: 0;
+  align-items: center;
 }
 
 #settings_div label {
   gap: 0.5vh;
+}
+
+#reveal_location_settings_button {
+  flex-grow: 0;
+}
+
+#location_settings_div:not(a) {
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 0.3vh solid white;
+  border-radius: 1vh;
+  padding: 0.8vh;
+  gap: 3vh;
 }

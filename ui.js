@@ -4,6 +4,15 @@ function toggleSettingsVisibility() {
     settings_div.style.display = '';
   } else {
     settings_div.style.display = 'none';
+    location_settings_div.style.display = 'none';
+  }
+}
+
+function toggleLocationSettings() {
+  if (location_settings_div.style.display == 'none') {
+    location_settings_div.style.display = '';
+  } else {
+    location_settings_div.style.display = 'none';
   }
 }
 

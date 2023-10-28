@@ -44,14 +44,17 @@
         <input type = 'checkbox' id = 'nudge_ones' onchange = 'updateClockConstants();' checked = 'checked'>
         Nudge Ones
       </label>
-      <label>
-        Latitude (Degrees):
-        <input type = 'text' id = 'latitude' onchange = 'updateClockConstants();' value = '0'>
-      </label>
-      <label>
-        Longitude (Degrees):
-        <input type = 'text' id = 'longitude' onchange = 'updateClockConstants();' value = '0'>
-      </label>
+      <button id = 'reveal_location_settings_button' onclick = 'toggleLocationSettings();'>Reveal Location Settings</button>
+      <div id = 'location_settings_div' style = 'display: none;'>
+        <label>
+          Latitude (Degrees):
+          <input type = 'text' id = 'latitude' onchange = 'updateClockConstants();' value = '0'>
+        </label>
+        <label>
+          Longitude (Degrees):
+          <input type = 'text' id = 'longitude' onchange = 'updateClockConstants();' value = '0'>
+        </label>
+      </div>
     </div>
     
     <button id = 'settings_button' onclick = 'toggleSettingsVisibility();'>Settings</button>
