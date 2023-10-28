@@ -15,6 +15,10 @@ function updateClockConstants() {
   CLOCK_TIME_VISIBLE = time_visible.checked;
   CLOCK_DATE_VISIBLE = date_visible.checked;
   CLOCK_NUDGE_ONES = nudge_ones.checked;
+  LATITUDE = Number(latitude.value);
+  if (!Number.isFinite(LATITUDE)) LATITUDE = 0;
+  LONGITUDE = Number(longitude.value);
+  if (!Number.isFinite(LONGITUDE)) LONGITUDE = 0;
   saveConstantsToPersistent();
   renderFrame(true);
 }
@@ -31,6 +35,8 @@ function updateSettingsUI() {
   time_visible.checked = CLOCK_TIME_VISIBLE;
   date_visible.checked = CLOCK_DATE_VISIBLE;
   nudge_ones.checked = CLOCK_NUDGE_ONES;
+  latitude.value = numberToStringWithMinimumDecimalPlaces(LATITUDE, 3);
+  longitude.value = numberToStringWithMinimumDecimalPlaces(LONGITUDE, 3);
 }
 
 async function toggleFullscreen() {

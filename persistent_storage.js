@@ -6,6 +6,8 @@ function saveConstantsToPersistent() {
     CLOCK_TIME_VISIBLE,
     CLOCK_DATE_VISIBLE,
     CLOCK_NUDGE_ONES,
+    LATITUDE,
+    LONGITUDE,
   });
 }
 
@@ -23,4 +25,6 @@ function loadConstantsFromPersistent() {
   if ('CLOCK_TIME_VISIBLE' in localStorageData) CLOCK_TIME_VISIBLE = localStorageData.CLOCK_TIME_VISIBLE;
   if ('CLOCK_DATE_VISIBLE' in localStorageData) CLOCK_DATE_VISIBLE = localStorageData.CLOCK_DATE_VISIBLE;
   if ('CLOCK_NUDGE_ONES' in localStorageData) CLOCK_NUDGE_ONES = localStorageData.CLOCK_NUDGE_ONES;
+  if ('LATITUDE' in localStorageData) LATITUDE = localStorageData.LATITUDE;
+  if ('LONGITUDE' in localStorageData) LONGITUDE = localStorageData.LONGITUDE;
 }

@@ -44,11 +44,20 @@
         <input type = 'checkbox' id = 'nudge_ones' onchange = 'updateClockConstants();' checked = 'checked'>
         Nudge Ones
       </label>
+      <label>
+        Latitude (Degrees):
+        <input type = 'text' id = 'latitude' onchange = 'updateClockConstants();' value = '0'>
+      </label>
+      <label>
+        Longitude (Degrees):
+        <input type = 'text' id = 'longitude' onchange = 'updateClockConstants();' value = '0'>
+      </label>
     </div>
     
     <button id = 'settings_button' onclick = 'toggleSettingsVisibility();'>Settings</button>
     
     <script src = 'constants.js'></script>
+    <script src = 'common.js'></script>
     <script src = 'calculation.js'></script>
     <script src = 'persistent_storage.js'></script>
     <script src = 'canvas_setup.js'></script>
