@@ -3,6 +3,9 @@ addEventListener('load', () => {
   if (LOG_DEBUG) console.debug('load');
   resetCanvasSize();
   
+  loadConstantsFromPersistent();
+  updateSettingsUI();
+  
   // start the rendering frame loop
   renderFrameLoop();
 });
