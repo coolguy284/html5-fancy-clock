@@ -331,11 +331,11 @@ function EarthNonTiltedRel_Seconds_To_Angle(seconds) {
 
 // converts a vector from earth non tilted relative, currently does not account for precessional motions
 function EarthNonTiltedRel_To_EarthTiltedRel(vec) {
-  vec = rotateXYPlane(-EARTH_TILTED_REL_TILT_PHASE);
+  vec = rotateXYPlane(vec, -EARTH_TILTED_REL_TILT_PHASE);
   
-  vec = rotateXZPlane(EARTH_TILTED_REL_TILT_AMOUNT);
+  vec = rotateXZPlane(vec, EARTH_TILTED_REL_TILT_AMOUNT);
   
-  vec = rotateXYPlane(EARTH_TILTED_REL_TILT_PHASE);
+  vec = rotateXYPlane(vec, EARTH_TILTED_REL_TILT_PHASE);
   
   return vec;
 }
@@ -357,11 +357,11 @@ function SunAroundEarth_Seconds_To_Angle(seconds) {
 
 
 function EarthNonTiltedRel_DateObjectToEpoch(date) {
-  return date.now() / 1000 - EARTH_NON_TILTED_REL_EPOCH;
+  return date.getTime() / 1000 - EARTH_NON_TILTED_REL_EPOCH;
 }
 
 function SunAroundEarth_DateObjectToEpoch(date) {
-  return date.now() / 1000 - SUN_AROUND_EARTH_EPOCH;
+  return date.getTime() / 1000 - SUN_AROUND_EARTH_EPOCH;
 }
 
 function LatLon_DegreesToRadians(lat, lon) {
@@ -369,6 +369,13 @@ function LatLon_DegreesToRadians(lat, lon) {
     lat / 180 * Math.PI,
     lon / 180 * Math.PI,
   ];
+}
+
+function HeightAngle_RadiansToDegrees(height, angle) {
+  return {
+    height: height / Math.PI * 180,
+    angle: angle / Math.PI * 180,
+  };
 }
 
 function GetHeightAndAngleOfSun(lat, lon, date) {
@@ -415,5 +422,25 @@ function GetHeightAndAngleOfSun(lat, lon, date) {
       sunPositionFlattenedToEarthSurface[1],
       sunPositionFlattenedToEarthSurface[0]
     ), // 0 is east, goes CCW
+  };
+}
+
+// same as above function but takes in degrees as input and outputs degrees
+function GetHeightAndAngleOfSun_Degrees(lat, lon, date) {
+  let radiansOutput = GetHeightAndAngleOfSun(...LatLon_DegreesToRadians(lat, lon), date);
+  
+  let degreesOutput = HeightAngle_RadiansToDegrees(radiansOutput.height, radiansOutput.angle);
+  
+  return degreesOutput;
+}
+
+// same as above function but takes in degrees as input and outputs conventional degrees (north is 0, going CCW)
+function GetHeightAndAngleOfSun_ConventionalDegrees(lat, lon, date) {
+  let degreesOutput = GetHeightAndAngleOfSun_Degrees(lat, lon, date);
+  
+  return {
+    height: degreesOutput.height,
+    // should convert from 0 to 360, to 90 to 90, going backwards
+    angle: -degreesOutput.angle + 90,
   };
 }
