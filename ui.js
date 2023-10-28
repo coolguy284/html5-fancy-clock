@@ -28,6 +28,7 @@ function updateClockConstants() {
   if (!Number.isFinite(LATITUDE)) LATITUDE = 0;
   LONGITUDE = Number(longitude.value);
   if (!Number.isFinite(LONGITUDE)) LONGITUDE = 0;
+  ADVANCED_MOTIF_CALCULATION = advanced_motif_calculation.checked;
   saveConstantsToPersistent();
   renderFrame(true);
 }
@@ -46,6 +47,7 @@ function updateSettingsUI() {
   nudge_ones.checked = CLOCK_NUDGE_ONES;
   latitude.value = numberToStringWithMinimumDecimalPlaces(LATITUDE, 3);
   longitude.value = numberToStringWithMinimumDecimalPlaces(LONGITUDE, 3);
+  advanced_motif_calculation.checked = ADVANCED_MOTIF_CALCULATION;
 }
 
 async function toggleFullscreen() {

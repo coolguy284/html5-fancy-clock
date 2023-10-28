@@ -8,6 +8,7 @@ let CLOCK_DATE_VISIBLE = true; // whether to show "Tue, Oct 12 2023" on 12 hr cl
 let CLOCK_NUDGE_ONES = false; // whether to nudge positioning of text when there is a 1
 let LATITUDE = 0; // latitude in degrees used to calculate sun position
 let LONGITUDE = 0; // longitude in degrees used to calculate sun position
+let ADVANCED_MOTIF_CALCULATION = false; // whether to attempt to calculate height of sun above 0 degrees for motif calculation
 
 let DAY_OF_WEEK_STRINGS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
 let MONTH_OF_YEAR_STRINGS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
