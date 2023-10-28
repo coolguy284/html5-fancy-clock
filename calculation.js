@@ -5,7 +5,7 @@
 
 // https://www.timeanddate.com/sun/@0,0?month=1&year=1970
 // on Jan 1 1970, sunrise occured at 5:59am at 0,0
-let EARTH_NON_TILTED_REL_INITAL_ANGLE = 1 / 180 * Math.PI;
+let EARTH_NON_TILTED_REL_INITAL_ANGLE = 1 / 180 * Math.PI; // guessed to make the sunrise time close
 let EARTH_NON_TILTED_REL_EPOCH = 0; // default to unix epoch
 let EARTH_NON_TILTED_REL_DAY_LENGTH = 86400.002; // probably accurate
 // https://en.wikipedia.org/wiki/Axial_tilt
@@ -14,9 +14,9 @@ let SUN_AROUND_EARTH_EPOCH = 0; // default to unix epoch
 // https://en.wikipedia.org/wiki/Time_standard
 let SUN_AROUND_EARTH_YEAR_LENGTH = 31_556_925.9747;
 // calibrations from https://www.timeanddate.com/calendar/seasons.html?year=1950&n=1
-// winter solstice that is right before 1970, for Abidjan, Cote d'lvoire (closest place to 0,0) is at Dec 22	12:43 am GMT (exactly 9 days, 83820 seconds before 1970 midnight, which is 861420 seconds)
+// winter solstice that is right before 1970, for Abidjan, Cote d'lvoire (closest place to 0,0) is at Dec 22 12:43 am GMT (exactly 9 days, 83820 seconds before 1970 midnight, which is 861420 seconds)
 // below, initial angle of 0 treats earth as to the right of sun, and north pole tilted toward sun (northern summer) at Jan 1 1970 12:00am UTC
-// it should at least be 180deg different from that so it is northern winter instead, then add a little bit of time corresponding to 9 days more, by start of 1970
+// it should at least be 180deg different from that so it is northern winter instead, then add a little bit of time corresponding to 9.X days more, by start of 1970
 // angle below is angle of earth relative to sun
 let _SUN_AROUND_EARTH_EXTRA_YEAR_FRAC_TO_ADD = 861420 / SUN_AROUND_EARTH_YEAR_LENGTH;
 let SUN_AROUND_EARTH_INITIAL_ANGLE = 0;
