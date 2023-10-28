@@ -5,5 +5,5 @@ function numberToStringWithMinimumDecimalPlaces(number, places) {
     stringSplit = [stringSplit[0], ''];
   }
   
-  return [stringSplit[0], stringSplit[1].padEnd(places, '0')].join('.');
+  return [stringSplit[0], stringSplit[1].padEnd(places, '0')].join('.').replace(/\.$/g, '');
 }

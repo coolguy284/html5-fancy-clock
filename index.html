@@ -48,6 +48,10 @@
         <input type = 'checkbox' id = 'advanced_motif_calculation' onchange = 'updateClockConstants();'>
         Advanced Motif Calculation
       </label>
+      <label>
+        Clock Offset From Reality (Hours):
+        <input type = 'text' id = 'clock_offset_hours' onchange = 'updateClockConstants();' value = '0'>
+      </label>
       <button id = 'reveal_location_settings_button' onclick = 'toggleLocationSettings();'>Reveal Location Settings</button>
       <div id = 'location_settings_div' style = 'display: none;'>
         <label>

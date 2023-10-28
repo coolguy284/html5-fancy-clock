@@ -3,7 +3,13 @@ function renderFrame(forceRerender) {
   if (LOG_DEBUG) console.debug('rendering frame');
   
   // get current date
-  let now = new Date();
+  let now;
+  
+  if (CLOCK_OFFSET_HOURS == 0) {
+    now = new Date();
+  } else {
+    now = new Date(Date.now() + CLOCK_OFFSET_HOURS * 3_600_000);
+  }
   
   // only rerender if seconds changed or force rerender
   if ((now.getSeconds() != oldSecondsValue) || forceRerender) {
