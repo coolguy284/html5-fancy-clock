@@ -1,11 +1,15 @@
-function getSunHeight(now) {
+function getSunHeightAndAngle(now) {
   switch (SUN_ANGLE_CALCULATION_METHOD) {
     case 'Personal (Intuitive)':
-      return GetHeightAndAngleOfSun_ConventionalDegrees(LATITUDE, LONGITUDE, now).height;
+      return GetHeightAndAngleOfSun_ConventionalDegrees(LATITUDE, LONGITUDE, now);
     
     case 'Stackoverflow (Accurate)':
-      return GetHeightAndAngleOfSun_ConventionalDegrees_StackOverflow(LATITUDE, LONGITUDE, now).height;
+      return GetHeightAndAngleOfSun_ConventionalDegrees_StackOverflow(LATITUDE, LONGITUDE, now);
   }
+}
+
+function getSunHeight(now) {
+  return getSunHeightAndAngle(now).height;
 }
 
 function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius) {

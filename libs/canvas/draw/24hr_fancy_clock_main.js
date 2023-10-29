@@ -145,9 +145,12 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
   ctx.fillText(dateString, canvas.width / 2, dateTextPosY);
   
   // > print elevation and azimuth of sun
-  //ctx.fillStyle = dateTextColor;
-  //ctx.font = `${dateTextHeight}px sans-serif`;
-  //ctx.textAlign = 'center';
-  //ctx.textBaseline = 'middle';
-  //ctx.fillText(dateString, canvas.width / 2, dateTextPosY);
+  let sunParameters = getSunHeightAndAngle(now);
+  let sunAzimuthString = `Sun Elev.: ${sunParameters.height.toFixed(2)}°, Azim.: ${sunParameters.angle.toFixed(2)}°`;
+  let sunAzimuthTextHeight = clockRadius * 0.055;
+  ctx.fillStyle = 'rgb(192, 192, 192)';
+  ctx.font = `${sunAzimuthTextHeight}px sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(sunAzimuthString, canvas.width / 2, clockCenterY + clockRadius * 0.22);
 }
