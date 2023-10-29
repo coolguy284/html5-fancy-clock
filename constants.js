@@ -7,6 +7,17 @@ let CLOCK_TIME_VISIBLE = true; // whether to show time below or inside clock
 let CLOCK_DATE_VISIBLE = true; // whether to show "Tue, Oct 12 2023" on 12 hr clock and "2023-10-12 TUE" on 24hr
 let CLOCK_NUDGE_ONES = false; // whether to nudge positioning of text when there is a 1
 let CLOCK_OFFSET_HOURS = 0; // amount of hours clock is ahead of real time
+let SIMPLE_MOTIF_MINUTE_CHART = [
+  // number is maximum minute of day where that motif is shown
+  [5 * 60 + 59, 'moon'],
+  [17 * 60 + 59, 'sun'],
+  [23 * 60 + 59, 'moon'],
+];
+let ADVANCED_MOTIF_HEIGHT_CHART = [
+  // number is maximum height in degrees where that motif is shown
+  [-5, 'moon'],
+  [90, 'sun']
+];
 let ADVANCED_MOTIF_CALCULATION = false; // whether to attempt to calculate height of sun above 0 degrees for motif calculation
 let LATITUDE = 0; // latitude in degrees used to calculate sun position
 let LONGITUDE = 0; // longitude in degrees used to calculate sun position

@@ -2,9 +2,23 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
   let motif;
   
   if (ADVANCED_MOTIF_CALCULATION) {
-    motif = GetHeightAndAngleOfSun_ConventionalDegrees(LATITUDE, LONGITUDE, now).height >= 0 ? 'sun' : 'moon';
+    let sunHeight = GetHeightAndAngleOfSun_ConventionalDegrees(LATITUDE, LONGITUDE, now).height;
+    
+    let motifEntry;
+    for (motifEntry of ADVANCED_MOTIF_HEIGHT_CHART) {
+      if (motifEntry[0] >= sunHeight) break;
+    }
+    
+    motif = motifEntry[1];
   } else {
-    motif = now.getHours() >= 6 && now.getHours() <= 17 ? 'sun' : 'moon';
+    let minuteOfDay = now.getHours() * 60 + now.getMinutes();
+    
+    let motifEntry;
+    for (motifEntry of SIMPLE_MOTIF_MINUTE_CHART) {
+      if (motifEntry[0] >= minuteOfDay) break;
+    }
+    
+    motif = motifEntry[1];
   }
   
   switch (motif) {
