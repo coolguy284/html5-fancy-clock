@@ -99,7 +99,7 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
   let timeTextHeight = clockRadius * 0.29;
   let timeTextColor = 'white';
   let dateTextPosY = clockCenterY + clockRadius * 0.12;
-  let dateTextHeight = clockCenterY * 0.08;
+  let dateTextHeight = clockRadius * 0.093;
   let dateTextColor = 'rgb(192, 192, 192)';
   
   // > print time inside clock
@@ -143,4 +143,11 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(dateString, canvas.width / 2, dateTextPosY);
+  
+  // > print elevation and azimuth of sun
+  //ctx.fillStyle = dateTextColor;
+  //ctx.font = `${dateTextHeight}px sans-serif`;
+  //ctx.textAlign = 'center';
+  //ctx.textBaseline = 'middle';
+  //ctx.fillText(dateString, canvas.width / 2, dateTextPosY);
 }

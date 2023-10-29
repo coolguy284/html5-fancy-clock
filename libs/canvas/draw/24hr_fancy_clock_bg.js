@@ -99,7 +99,7 @@ function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
   let timeTextHeight = clockRadius * 0.34;
   let timeTextColor = 'white';
   let dateTextPosY = clockCenterY + clockRadius * 0.14;
-  let dateTextHeight = clockCenterY * 0.08;
+  let dateTextHeight = clockRadius * 0.093;
   let dateTextColor = 'rgb(192, 192, 192)';
   
   // > print time inside clock

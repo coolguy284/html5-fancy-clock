@@ -1,18 +1,18 @@
+function getSunHeight(now) {
+  switch (SUN_ANGLE_CALCULATION_METHOD) {
+    case 'Personal (Intuitive)':
+      return GetHeightAndAngleOfSun_ConventionalDegrees(LATITUDE, LONGITUDE, now).height;
+    
+    case 'Stackoverflow (Accurate)':
+      return GetHeightAndAngleOfSun_ConventionalDegrees_StackOverflow(LATITUDE, LONGITUDE, now).height;
+  }
+}
+
 function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius) {
   let motif;
   
   if (ADVANCED_MOTIF_CALCULATION) {
-    let sunHeight;
-    
-    switch (SUN_ANGLE_CALCULATION_METHOD) {
-      case 'Personal (Intuitive)':
-        sunHeight = GetHeightAndAngleOfSun_ConventionalDegrees(LATITUDE, LONGITUDE, now).height;
-        break;
-      
-      case 'Stackoverflow (Accurate)':
-        sunHeight = GetHeightAndAngleOfSun_ConventionalDegrees_StackOverflow(LATITUDE, LONGITUDE, now).height;
-        break;
-    }
+    let sunHeight = getSunHeight(now);
     
     let motifEntry;
     for (motifEntry of ADVANCED_MOTIF_HEIGHT_CHART) {

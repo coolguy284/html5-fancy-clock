@@ -5,10 +5,10 @@ function renderFrame_Draw24HourClock_UIPosition(uiConfiguration, clockCenterY, c
     case 1: return [null,                              null,               null,    null,                              null,                null                ]; /* DATE:  NO, TIME:  NO, SECONDS: YES */
     case 2: return [clockCenterY,                      clockRadius * 0.34, 'white', null,                              null,                null                ]; /* DATE:  NO, TIME: YES, SECONDS:  NO */
     case 3: return [clockCenterY,                      clockRadius * 0.29, 'white', null,                              null,                null                ]; /* DATE:  NO, TIME: YES, SECONDS: YES */
-    case 4: return [null,                              null,               null,    clockCenterY,                      clockCenterY * 0.11, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS:  NO */
-    case 5: return [null,                              null,               null,    clockCenterY,                      clockCenterY * 0.11, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS: YES */
-    case 6: return [clockCenterY - clockRadius * 0.08, clockRadius * 0.34, 'white', clockCenterY + clockRadius * 0.14, clockCenterY * 0.08, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS:  NO */
-    case 7: return [clockCenterY - clockRadius * 0.06, clockRadius * 0.29, 'white', clockCenterY + clockRadius * 0.12, clockCenterY * 0.08, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS: YES */
+    case 4: return [null,                              null,               null,    clockCenterY,                      clockRadius * 0.128, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS:  NO */
+    case 5: return [null,                              null,               null,    clockCenterY,                      clockRadius * 0.128, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS: YES */
+    case 6: return [clockCenterY - clockRadius * 0.08, clockRadius * 0.34, 'white', clockCenterY + clockRadius * 0.14, clockRadius * 0.093, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS:  NO */
+    case 7: return [clockCenterY - clockRadius * 0.06, clockRadius * 0.29, 'white', clockCenterY + clockRadius * 0.12, clockRadius * 0.093, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS: YES */
   }
 }
 
