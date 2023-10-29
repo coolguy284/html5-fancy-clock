@@ -29,7 +29,11 @@ function renderFrame(forceRerender) {
         break;
       
       case '24 Hour Fancy (Main)':
-        renderFrame_Draw24HourFancyClock(ctx, now);
+        renderFrame_Draw24HourFancyClock_Main(ctx, now);
+        break;
+      
+      case '24 Hour Fancy (Background)':
+        renderFrame_Draw24HourFancyClock_BG(ctx, now);
         break;
     }
     

@@ -1,5 +1,5 @@
 // 24 hour clock section of the renderFrame function
-function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
+function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
   // draw clock
   // > define variables
   let clockCenterX = canvas.width / 2;
@@ -95,10 +95,10 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
   
   // > calculate date and time positioning variables
   
-  let timeTextPosY = clockCenterY - clockRadius * 0.06;
-  let timeTextHeight = clockRadius * 0.29;
+  let timeTextPosY = clockCenterY - clockRadius * 0.08;
+  let timeTextHeight = clockRadius * 0.34;
   let timeTextColor = 'white';
-  let dateTextPosY = clockCenterY + clockRadius * 0.12;
+  let dateTextPosY = clockCenterY + clockRadius * 0.14;
   let dateTextHeight = clockCenterY * 0.08;
   let dateTextColor = 'rgb(192, 192, 192)';
   
@@ -106,8 +106,7 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
   // >> calculate time string
   let timeString =
     (now.getHours() + '').padStart(2, '0') + ':' +
-    (now.getMinutes() + '').padStart(2, '0') + ':' +
-    (now.getSeconds() + '').padStart(2, '0');
+    (now.getMinutes() + '').padStart(2, '0');
   
   // >> print time
   ctx.fillStyle = timeTextColor;
@@ -118,9 +117,6 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
     ctx, timeString, clockCenterX, timeTextPosY, timeTextHeight,
     [
       0,
-      timeTextHeight * 0.55,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.4,
       timeTextHeight * 0.55,
       timeTextHeight * 0.4,
       timeTextHeight * 0.4,
