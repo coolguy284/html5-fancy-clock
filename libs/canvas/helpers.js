@@ -19,3 +19,7 @@ function drawTextWithPerLetterSpacing(ctx, text, centerX, centerY, textHeight, l
     ctx.fillText(text[i], centerX + centerXOffset + letterSpacingsCumulative[i], centerY);
   }
 }
+
+function getMinCanvasDim() {
+  return Math.min(canvas.width, canvas.height);
+}

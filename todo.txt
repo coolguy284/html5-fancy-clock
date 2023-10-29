@@ -1,8 +1,11 @@
-make mode a select - DONE
-  will then add other profiles, like 24 hour fancy, that has additional info, and weekday circle, and day in year circle, and height and angle of sun, and background gradient based on time of day (really just based on sun angle)
 make fixed-width-number text print function to print hours:minutes and such
-fix rendering on portrait mode phone
-  website should scale based on min of wid and hei not just hei
+
+roadmap:
+24 hour fancy
+  weekday circle
+  day in year circle
+  elevation and azimuth of sun - DONE
+  background gradient based on sun elevation
 
 low priority:
 make numberToStringWithMinimumDecimalPlaces function trim 15th decimal place if it is something crazy like 0.3000000000000002

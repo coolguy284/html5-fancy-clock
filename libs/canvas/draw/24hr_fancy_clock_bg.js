@@ -4,11 +4,11 @@ function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
   // > define variables
   let clockCenterX = canvas.width / 2;
   let clockCenterY = canvas.height / 2;
-  let clockRadius = canvas.height * 0.43;
+  let clockRadius = getMinCanvasDim() * 0.43;
   
   // > outer circle
   ctx.strokeStyle = 'white';
-  ctx.lineWidth = canvas.height * 0.002;
+  ctx.lineWidth = clockRadius * 0.0046;
   ctx.lineCap = 'butt';
   ctx.beginPath();
   ctx.arc(clockCenterX, clockCenterY, clockRadius, 0, Math.PI * 2);
@@ -93,15 +93,6 @@ function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
   // > subtle motif for time of day (6AM-6PM is sun, else is crescent moon)
   renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius);
   
-  // > calculate date and time positioning variables
-  
-  let timeTextPosY = clockCenterY - clockRadius * 0.08;
-  let timeTextHeight = clockRadius * 0.34;
-  let timeTextColor = 'white';
-  let dateTextPosY = clockCenterY + clockRadius * 0.14;
-  let dateTextHeight = clockRadius * 0.093;
-  let dateTextColor = 'rgb(192, 192, 192)';
-  
   // > print time inside clock
   // >> calculate time string
   let timeString =
@@ -109,7 +100,9 @@ function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
     (now.getMinutes() + '').padStart(2, '0');
   
   // >> print time
-  ctx.fillStyle = timeTextColor;
+  let timeTextPosY = clockCenterY - clockRadius * 0.08;
+  let timeTextHeight = clockRadius * 0.34;
+  ctx.fillStyle = 'white';
   ctx.font = `${timeTextHeight}px sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -134,7 +127,9 @@ function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
     weekDayString;
   
   // >> print date
-  ctx.fillStyle = dateTextColor;
+  let dateTextPosY = clockCenterY + clockRadius * 0.14;
+  let dateTextHeight = clockRadius * 0.093;
+  ctx.fillStyle = 'rgb(192, 192, 192)';
   ctx.font = `${dateTextHeight}px sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';

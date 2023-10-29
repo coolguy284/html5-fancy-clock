@@ -18,11 +18,11 @@ function renderFrame_Draw24HourClock(ctx, now) {
   // > define variables
   let clockCenterX = canvas.width / 2;
   let clockCenterY = canvas.height / 2;
-  let clockRadius = canvas.height * 0.43;
+  let clockRadius = getMinCanvasDim() * 0.43;
   
   // > outer circle
   ctx.strokeStyle = 'white';
-  ctx.lineWidth = canvas.height * 0.002;
+  ctx.lineWidth = clockRadius * 0.0046;
   ctx.lineCap = 'butt';
   ctx.beginPath();
   ctx.arc(clockCenterX, clockCenterY, clockRadius, 0, Math.PI * 2);

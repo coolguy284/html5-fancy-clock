@@ -1,14 +1,16 @@
 // helper function to calculate ui element positioning
 function renderFrame_Draw12HourClock_UIPosition(uiConfiguration) {
+  let minCanvasDim = getMinCanvasDim();
+  
   switch (uiConfiguration) {
-    case 0: return [canvas.height * 0.5,  canvas.height * 0.44, null,                 null,                 null,    null,                 null,                 null                ]; /* DATE:  NO, TIME:  NO, SECONDS:  NO */
-    case 1: return [canvas.height * 0.5,  canvas.height * 0.44, null,                 null,                 null,    null,                 null,                 null                ]; /* DATE:  NO, TIME:  NO, SECONDS: YES */
-    case 2: return [canvas.height * 0.44, canvas.height * 0.38, canvas.height * 0.92, canvas.height * 0.12, 'white', null,                 null,                 null                ]; /* DATE:  NO, TIME: YES, SECONDS:  NO */
-    case 3: return [canvas.height * 0.44, canvas.height * 0.38, canvas.height * 0.92, canvas.height * 0.1,  'white', null,                 null,                 null                ]; /* DATE:  NO, TIME: YES, SECONDS: YES */
-    case 4: return [canvas.height * 0.44, canvas.height * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS:  NO */
-    case 5: return [canvas.height * 0.44, canvas.height * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS: YES */
-    case 6: return [canvas.height * 0.43, canvas.height * 0.38, canvas.height * 0.89, canvas.height * 0.1,  'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS:  NO */
-    case 7: return [canvas.height * 0.43, canvas.height * 0.38, canvas.height * 0.89, canvas.height * 0.09, 'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS: YES */
+    case 0: return [canvas.height * 0.5,  minCanvasDim * 0.44, null,                 null,                 null,    null,                 null,                 null                ]; /* DATE:  NO, TIME:  NO, SECONDS:  NO */
+    case 1: return [canvas.height * 0.5,  minCanvasDim * 0.44, null,                 null,                 null,    null,                 null,                 null                ]; /* DATE:  NO, TIME:  NO, SECONDS: YES */
+    case 2: return [canvas.height * 0.44, minCanvasDim * 0.38, canvas.height * 0.92, canvas.height * 0.12, 'white', null,                 null,                 null                ]; /* DATE:  NO, TIME: YES, SECONDS:  NO */
+    case 3: return [canvas.height * 0.44, minCanvasDim * 0.38, canvas.height * 0.92, canvas.height * 0.1,  'white', null,                 null,                 null                ]; /* DATE:  NO, TIME: YES, SECONDS: YES */
+    case 4: return [canvas.height * 0.44, minCanvasDim * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS:  NO */
+    case 5: return [canvas.height * 0.44, minCanvasDim * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS: YES */
+    case 6: return [canvas.height * 0.43, minCanvasDim * 0.38, canvas.height * 0.89, canvas.height * 0.1,  'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS:  NO */
+    case 7: return [canvas.height * 0.43, minCanvasDim * 0.38, canvas.height * 0.89, canvas.height * 0.09, 'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS: YES */
   }
 }
 
@@ -32,14 +34,14 @@ function renderFrame_Draw12HourClock(ctx, now) {
   
   // > outer circle
   ctx.strokeStyle = 'white';
-  ctx.lineWidth = canvas.height * 0.007;
+  ctx.lineWidth = clockRadius * 0.0184;
   ctx.lineCap = 'butt';
   ctx.beginPath();
   ctx.arc(clockCenterX, clockCenterY, clockRadius, 0, Math.PI * 2);
   ctx.stroke();
   
   // > inward lines at each hour
-  ctx.lineWidth = canvas.height * 0.005;
+  ctx.lineWidth = clockRadius * 0.0131;
   ctx.beginPath();
   for (let i = 0; i < 12; i++) {
     let angle = Math.PI * 2 / 12 * i - Math.PI / 2;
@@ -95,7 +97,7 @@ function renderFrame_Draw12HourClock(ctx, now) {
     let handRadiusEnd = 0.45;
     
     ctx.strokeStyle = 'white';
-    ctx.lineWidth = canvas.height * 0.01;
+    ctx.lineWidth = clockRadius * 0.0263;
     ctx.lineCap = 'butt';
     ctx.beginPath();
     ctx.moveTo(
@@ -120,7 +122,7 @@ function renderFrame_Draw12HourClock(ctx, now) {
     let handRadiusEnd = 0.65;
     
     ctx.strokeStyle = 'white';
-    ctx.lineWidth = canvas.height * 0.005;
+    ctx.lineWidth = clockRadius * 0.0131;
     ctx.lineCap = 'butt';
     ctx.beginPath();
     ctx.moveTo(
@@ -144,7 +146,7 @@ function renderFrame_Draw12HourClock(ctx, now) {
     let handRadiusEnd = 0.67;
     
     ctx.strokeStyle = 'red';
-    ctx.lineWidth = canvas.height * 0.005;
+    ctx.lineWidth = clockRadius * 0.0131;
     ctx.lineCap = 'butt';
     ctx.beginPath();
     ctx.moveTo(
