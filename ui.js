@@ -74,7 +74,8 @@ function updateSettingsElemVisibilities() {
       advanced_motif_calculation.parentElement.style.display = '';
       break;
     
-    case '24 Hour Fancy':
+    case '24 Hour Fancy (Main)':
+    case '24 Hour Fancy (Background)':
       motif_visible.parentElement.style.display = 'none';
       seconds_visible.parentElement.style.display = 'none';
       time_visible.parentElement.style.display = 'none';

@@ -27,6 +27,10 @@ function renderFrame(forceRerender) {
       case '24 Hour':
         renderFrame_Draw24HourClock(ctx, now);
         break;
+      
+      case '24 Hour Fancy (Main)':
+        renderFrame_Draw24HourFancyClock(ctx, now);
+        break;
     }
     
     oldSecondsValue = now.getSeconds();
