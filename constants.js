@@ -9,13 +9,16 @@ let CLOCK_NUDGE_ONES = false; // whether to nudge positioning of text when there
 let CLOCK_OFFSET_HOURS = 0; // amount of hours clock is ahead of real time
 let SIMPLE_MOTIF_MINUTE_CHART = [
   // number is maximum minute of day where that motif is shown
-  [5 * 60 + 59, 'moon'],
-  [17 * 60 + 59, 'sun'],
+  [ 5 * 60 + 59, 'moon'],
+  [ 6 * 60 + 29, 'sunrise'],
+  [17 * 60 + 29, 'sun'],
+  [17 * 60 + 59, 'sunrise'],
   [23 * 60 + 59, 'moon'],
 ];
 let ADVANCED_MOTIF_HEIGHT_CHART = [
   // number is maximum height in degrees where that motif is shown
   [-5, 'moon'],
+  [7.5, 'sunrise'],
   [90, 'sun']
 ];
 let ADVANCED_MOTIF_CALCULATION = false; // whether to attempt to calculate height of sun above 0 degrees for motif calculation

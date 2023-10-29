@@ -22,7 +22,7 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
   }
   
   switch (motif) {
-    case 'sun':
+    case 'sun': {
       // >> sun motif
       // >>> circle
       ctx.strokeStyle = 'rgba(255, 255, 0, 0.15)';
@@ -35,15 +35,15 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
       // >>> lines around
       let numOfLines = 12;
       
+      let innerRadius = 0.40;
+      let outerRadius = 0.55;
+      
       ctx.beginPath();
       for (let i = 0; i < numOfLines; i++) {
         let angle = Math.PI * 2 / numOfLines * i - Math.PI / 2;
         
         let normalizedX = Math.cos(angle);
         let normalizedY = Math.sin(angle);
-        
-        let innerRadius = 0.40;
-        let outerRadius = 0.55;
         
         ctx.moveTo(
           clockCenterX + normalizedX * clockRadius * innerRadius,
@@ -55,15 +55,65 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
         );
       }
       ctx.stroke();
-      break;
+      } break;
     
-    case 'moon':
+    case 'sunrise': {
+      // >> sunrise motif
+      // >>> upper circle
+      ctx.strokeStyle = 'rgba(255, 255, 0, 0.15)';
+      ctx.lineWidth = canvas.height * 0.007;
+      ctx.lineCap = 'butt';
+      ctx.beginPath();
+      ctx.arc(clockCenterX, clockCenterY, clockRadius * 0.35, Math.PI * 0.99, Math.PI * 2.01);
+      ctx.stroke();
+      
+      // >>> lines around
+      let numOfLines = 6;
+        
+      let innerRadius = 0.40;
+      let outerRadius = 0.55;
+      
+      ctx.beginPath();
+      for (let i = 0; i <= numOfLines; i++) {
+        let angle = -Math.PI / numOfLines * i;
+        
+        let normalizedX = Math.cos(angle);
+        let normalizedY = Math.sin(angle);
+        
+        ctx.moveTo(
+          clockCenterX + normalizedX * clockRadius * innerRadius,
+          clockCenterY + normalizedY * clockRadius * innerRadius
+        );
+        ctx.lineTo(
+          clockCenterX + normalizedX * clockRadius * outerRadius,
+          clockCenterY + normalizedY * clockRadius * outerRadius
+        );
+      }
+      ctx.stroke();
+      
+      // >>> white line below
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      ctx.lineWidth = canvas.height * 0.007;
+      ctx.lineCap = 'butt';
+      ctx.beginPath();
+      ctx.moveTo(
+        clockCenterX - clockRadius * outerRadius,
+        clockCenterY + clockRadius * 0.07
+      );
+      ctx.lineTo(
+        clockCenterX + clockRadius * outerRadius,
+        clockCenterY + clockRadius * 0.07
+      );
+      ctx.stroke();
+      } break;
+    
+    case 'moon': {
       // >> moon motif
-      // >>> arc 1
       ctx.strokeStyle = 'rgba(0, 127, 255, 0.18)';
       ctx.lineWidth = canvas.height * 0.007;
       ctx.lineCap = 'butt';
       ctx.beginPath();
+      // >>> arc 1
       ctx.arc(
         clockCenterX,
         clockCenterY,
@@ -71,6 +121,7 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
         Math.PI * 2 * (0.125 - 0.271),
         Math.PI * 2 * (0.125 + 0.271)
       );
+      // >>> arc 2
       ctx.arc(
         clockCenterX + clockRadius * -0.35,
         clockCenterY + clockRadius * -0.35,
@@ -81,8 +132,6 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
       );
       ctx.closePath();
       ctx.stroke();
-      
-      // >>> arc 2
-      break;
+      } break;
   }
 }
