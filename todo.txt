@@ -9,3 +9,4 @@ roadmap:
 
 low priority:
 make numberToStringWithMinimumDecimalPlaces function trim 15th decimal place if it is something crazy like 0.3000000000000002
+fix jank settings menu on mobile
