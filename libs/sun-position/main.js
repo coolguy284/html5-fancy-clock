@@ -170,30 +170,3 @@ function GetHeightAndAngleOfSun_ConventionalDegrees(lat, lon, date) {
     angle: (-degreesOutput.angle + 90 + 360) % 360,
   };
 }
-
-function PrintSunAngleOverTime(lat, lon, year, month, day, minuteStep) {
-  if (minuteStep == null) minuteStep = 60;
-  
-  let timezoneOffsetHours = lon / 15;
-  let timezoneOffsetMinutes = timezoneOffsetHours * 60;
-  
-  for (let minute = 0; minute < 24 * 60; minute += minuteStep) {
-    let startOfDayMillisUTC = new Date(
-      `${year}-${(month + '').padStart(2, '0')}-${(day + '').padStart(2, '0')}T00:00:00.000Z`
-    ).getTime();
-    let minuteInDayOffsetUTC = (-timezoneOffsetMinutes + minute) * 60_000;
-    
-    let { height, angle } = GetHeightAndAngleOfSun_ConventionalDegrees(
-      lat, lon,
-      new Date(startOfDayMillisUTC + minuteInDayOffsetUTC)
-    );
-    
-    console.log(
-      (Math.floor(minute / 60) + '').padStart(2, '0') + ':' +
-      (minute % 60 + '').padStart(2, '0') + ' ' +
-      (height >= 0 ? 'DAY  ' : 'NIGHT') + ' ' +
-      height + ' ' +
-      angle
-    );
-  }
-}
