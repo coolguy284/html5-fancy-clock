@@ -1,13 +1,19 @@
 /* general declarations */
 
-html, body, body *:not(script, table, thead, tbody, tr, th, td) {
+html, body, body *:not(script, table, thead, tbody, tr, th, td, p, a) {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  justify-content: stretch;
-  flex-grow: 1;
   flex-shrink: 1;
   min-height: 0;
+}
+
+html, body {
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+body, #canvas {
+  flex-grow: 1;
 }
 
 html {
@@ -60,6 +66,18 @@ select {
   padding: 0.4vh 0.8vh 0.4vh;
 }
 
+a {
+  color: rgb(164, 158, 255);
+}
+
+a:visited {
+  color: rgb(255, 108, 235);
+}
+
+a:active {
+  color: rgb(255, 94, 88);
+}
+
 /* element specific declarations */
 
 #canvas {
@@ -103,14 +121,34 @@ select {
   gap: 0.5vh;
 }
 
-#reveal_location_settings_button {
-  flex-grow: 0;
-}
-
 #location_settings_div:not(a) {
   background-color: rgba(0, 0, 0, 0.6);
   border: 0.3vh solid white;
   border-radius: 1vh;
   padding: 0.8vh;
   gap: 3vh;
+}
+
+#about_div {
+  position: absolute;
+  left: 3vh;
+  top: 3vh;
+  width: calc(100vw - 8vh);
+  height: calc(100vh - 8vh);
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 0.3vh solid white;
+  border-radius: 1vh;
+  padding: 1vh;
+}
+
+#about_div_close_btn {
+  align-self: flex-end;
+}
+
+#about_div > div {
+  padding: 0 2vh 0;
+}
+
+#about_div * {
+  margin-top: 0;
 }

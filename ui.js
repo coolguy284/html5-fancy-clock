@@ -1,10 +1,18 @@
+function showSettingsPage() {
+  settings_div.style.display = '';
+}
+
+function hideSettingsPage() {
+  settings_div.style.display = 'none';
+  location_settings_div.style.display = 'none';
+}
+
 // function to show and hide settings menu
 function toggleSettingsVisibility() {
   if (settings_div.style.display == 'none') {
-    settings_div.style.display = '';
+    showSettingsPage();
   } else {
-    settings_div.style.display = 'none';
-    location_settings_div.style.display = 'none';
+    hideSettingsPage();
   }
 }
 
@@ -14,6 +22,15 @@ function toggleLocationSettings() {
   } else {
     location_settings_div.style.display = 'none';
   }
+}
+
+function revealAboutPage() {
+  hideSettingsPage();
+  about_div.style.display = '';
+}
+
+function closeAboutPage() {
+  about_div.style.display = 'none';
 }
 
 // updates clock constant vars based on settings elements, then forces a refresh of the view
