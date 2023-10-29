@@ -2,7 +2,17 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
   let motif;
   
   if (ADVANCED_MOTIF_CALCULATION) {
-    let sunHeight = GetHeightAndAngleOfSun_ConventionalDegrees(LATITUDE, LONGITUDE, now).height;
+    let sunHeight;
+    
+    switch (SUN_ANGLE_CALCULATION_METHOD) {
+      case 'Personal (Intuitive)':
+        sunHeight = GetHeightAndAngleOfSun_ConventionalDegrees(LATITUDE, LONGITUDE, now).height;
+        break;
+      
+      case 'Stackoverflow (Accurate)':
+        sunHeight = GetHeightAndAngleOfSun_ConventionalDegrees_StackOverflow(LATITUDE, LONGITUDE, now).height;
+        break;
+    }
     
     let motifEntry;
     for (motifEntry of ADVANCED_MOTIF_HEIGHT_CHART) {
