@@ -23,9 +23,32 @@ function PrintSunAngleOverTime(lat, lon, year, month, day, timezoneOffsetMinutes
 }
 
 function PrintSunAngleOverTime_V1(lat, lon, year, month, day, timezoneOffsetMinutes, minuteStep) {
-  return PrintSunAngleOverTime(lat, lon, year, month, day, timezoneOffsetMinutes, minuteStep, GetHeightAndAngleOfSun_ConventionalDegrees);
+  return PrintSunAngleOverTime(
+    lat, lon,
+    year, month, day,
+    timezoneOffsetMinutes,
+    minuteStep,
+    GetHeightAndAngleOfSun_ConventionalDegrees
+  );
 }
 
 function PrintSunAngleOverTime_V2(lat, lon, year, month, day, timezoneOffsetMinutes, minuteStep) {
-  return PrintSunAngleOverTime(lat, lon, year, month, day, timezoneOffsetMinutes, minuteStep, GetHeightAndAngleOfSun_ConventionalDegrees_StackOverflow);
+  return PrintSunAngleOverTime(
+    lat, lon,
+    year, month, day,
+    timezoneOffsetMinutes,
+    minuteStep,
+    GetHeightAndAngleOfSun_ConventionalDegrees_StackOverflow
+  );
+}
+
+function PrintSunAngleOverTime_CurrentDay_V2(lat, lon, minuteStep) {
+  let now = new Date();
+  
+  PrintSunAngleOverTime_V2(
+    lat, lon,
+    now.getUTCFullYear(), now.getUTCMonth() + 1, now.getUTCDate(),
+    now.getTimezoneOffset(),
+    minuteStep
+  );
 }
