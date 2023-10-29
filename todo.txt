@@ -1,7 +1,5 @@
-rename mode to profile, and make it a select
+make mode a select - DONE
   will then add other profiles, like 24 hour fancy, that has additional info, and weekday circle, and day in year circle, and height and angle of sun, and background gradient based on time of day (really just based on sun angle)
-  profiles will set visibility of some checkboxes, so only checkboxes that affect current profile will be visible
-  make default profile 24 hour fancy
 make fixed-width-number text print function to print hours:minutes and such
 fix rendering on portrait mode phone
   website should scale based on min of wid and hei not just hei

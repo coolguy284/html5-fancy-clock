@@ -14,14 +14,13 @@
     
     <div id = 'settings_div' style = 'display: none;'>
       <div>
-        Mode:
         <label>
-          <input type = 'radio' name = 'clock_draw_mode' onchange = 'updateClockConstants();' checked = 'checked'>
-          12 Hour
-        </label>
-        <label>
-          <input type = 'radio' name = 'clock_draw_mode' onchange = 'updateClockConstants();'>
-          24 Hour
+          Mode:
+          <select id = 'clock_draw_mode' onchange = 'updateClockConstants();'>
+            <option>12 Hour</option>
+            <option>24 Hour</option>
+            <option selected>24 Hour Fancy</option>
+          </select>
         </label>
       </div>
       <label>
@@ -47,6 +46,13 @@
       <label>
         <input type = 'checkbox' id = 'advanced_motif_calculation' onchange = 'updateClockConstants();'>
         Advanced Motif Calculation
+      </label>
+      <label>
+        Sun Angle Calculation Method:
+        <select id = 'sun_angle_calculation_method' onchange = 'updateClockConstants();'>
+          <option selected>Personal (Intuitive)</option>
+          <option>Stackoverflow (Accurate)</option>
+        </select>
       </label>
       <label>
         Clock Offset From Reality (Hours):

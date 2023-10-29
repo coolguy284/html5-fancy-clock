@@ -8,6 +8,7 @@ function saveConstantsToPersistent() {
     CLOCK_NUDGE_ONES,
     CLOCK_OFFSET_HOURS,
     ADVANCED_MOTIF_CALCULATION,
+    SUN_ANGLE_CALCULATION_METHOD,
     LATITUDE,
     LONGITUDE,
   });
@@ -29,6 +30,7 @@ function loadConstantsFromPersistent() {
   if ('CLOCK_NUDGE_ONES' in localStorageData) CLOCK_NUDGE_ONES = localStorageData.CLOCK_NUDGE_ONES;
   if ('CLOCK_OFFSET_HOURS' in localStorageData) CLOCK_OFFSET_HOURS = localStorageData.CLOCK_OFFSET_HOURS;
   if ('ADVANCED_MOTIF_CALCULATION' in localStorageData) ADVANCED_MOTIF_CALCULATION = localStorageData.ADVANCED_MOTIF_CALCULATION;
+  if ('SUN_ANGLE_CALCULATION_METHOD' in localStorageData) SUN_ANGLE_CALCULATION_METHOD = localStorageData.SUN_ANGLE_CALCULATION_METHOD;
   if ('LATITUDE' in localStorageData) LATITUDE = localStorageData.LATITUDE;
   if ('LONGITUDE' in localStorageData) LONGITUDE = localStorageData.LONGITUDE;
 }

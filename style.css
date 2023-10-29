@@ -34,10 +34,24 @@ input[type=radio], input[type=checkbox] {
 input[type=text] {
   width: 20vh;
   height: 2.3vh;
+  background-color: black;
+  color: white;
+  border: 0.3vh solid white;
+  border-radius: 1vh;
   font-size: 2.5vh;
+  padding: 0.4vh 0.8vh 0.4vh;
 }
 
 button {
+  background-color: black;
+  color: white;
+  border: 0.3vh solid white;
+  border-radius: 1vh;
+  font-size: 2.5vh;
+  padding: 0.4vh 0.8vh 0.4vh;
+}
+
+select {
   background-color: black;
   color: white;
   border: 0.3vh solid white;
@@ -61,8 +75,8 @@ button {
 #settings_div {
   position: absolute;
   bottom: 1vh;
-  left: 0;
-  width: calc(100% - 15vh);
+  left: 1vh;
+  width: calc(100% - 15.5vh);
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: start;
