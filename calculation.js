@@ -7,7 +7,8 @@
 // on Jan 1 1970, sunrise occured at 5:59am at 0,0
 let EARTH_NON_TILTED_REL_INITAL_ANGLE = 1 / 180 * Math.PI; // guessed to make the sunrise time close
 let EARTH_NON_TILTED_REL_EPOCH = 0; // default to unix epoch
-let EARTH_NON_TILTED_REL_DAY_LENGTH = 86400.002; // probably accurate
+// https://en.wikipedia.org/wiki/Sidereal_time
+let EARTH_NON_TILTED_REL_DAY_LENGTH = 86_400.002 / 1.002_737_811_911_354_48; // probably accurate
 // https://en.wikipedia.org/wiki/Axial_tilt
 let EARTH_TILTED_REL_TILT_AMOUNT = 23.44 / 180 * Math.PI;
 let SUN_AROUND_EARTH_EPOCH = 0; // default to unix epoch
@@ -18,7 +19,7 @@ let SUN_AROUND_EARTH_YEAR_LENGTH = 31_556_925.9747;
 // below, initial angle of 0 treats earth as to the right of sun, and north pole tilted toward sun (northern summer) at Jan 1 1970 12:00am UTC
 // it should at least be 180deg different from that so it is northern winter instead, then add a little bit of time corresponding to 9.X days more, by start of 1970
 // angle below is angle of earth relative to sun
-let _SUN_AROUND_EARTH_EXTRA_YEAR_FRAC_TO_ADD = 861420 / SUN_AROUND_EARTH_YEAR_LENGTH;
+let _SUN_AROUND_EARTH_EXTRA_YEAR_FRAC_TO_ADD = 861_420 / SUN_AROUND_EARTH_YEAR_LENGTH;
 let SUN_AROUND_EARTH_INITIAL_ANGLE = 0;
 let EARTH_TILTED_REL_TILT_PHASE = Math.PI / 2 + _SUN_AROUND_EARTH_EXTRA_YEAR_FRAC_TO_ADD * 2 * Math.PI;
 
@@ -235,19 +236,20 @@ function inverseMatrix(mat) {
   return scalarMul(adjointMatrix(mat), 1 / determinant(mat));
 }
 
-function getTestMatrix(num) {
-  switch (num) {
-    case 0:
-      return [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 10],
-      ];
+function identityMatrix(size) {
+  let identity = [];
+  
+  for (let row = 0; row < size; row++) {
+    let identityRow = [];
+    
+    for (let col = 0; col < size; col++) {
+      identityRow.push(row == col ? 1 : 0);
+    }
+    
+    identity.push(identityRow);
   }
-}
-
-function printMatrix(mat) {
-  console.log(mat.map(x => x.join(', ')).join('\n'));
+  
+  return identity;
 }
 
 
@@ -382,7 +384,9 @@ function LatLon_DegreesToRadians(lat, lon) {
 
 function HeightAngle_RadiansToDegrees(height, angle) {
   return {
+    // height goes from -90 to 90
     height: height / Math.PI * 180,
+    // angle goes from -180 to 180
     angle: angle / Math.PI * 180,
   };
 }
@@ -430,7 +434,7 @@ function GetHeightAndAngleOfSun(lat, lon, date) {
     angle: Math.atan2(
       sunPositionFlattenedToEarthSurface[1],
       sunPositionFlattenedToEarthSurface[0]
-    ), // 0 is east, goes CCW
+    ), // 0 is east, goes CCW, range is -pi/2 to pi/2
   };
 }
 
@@ -450,6 +454,33 @@ function GetHeightAndAngleOfSun_ConventionalDegrees(lat, lon, date) {
   return {
     height: degreesOutput.height,
     // should convert from 0 to 360, to 90 to 90, going backwards
-    angle: -degreesOutput.angle + 90,
+    angle: (-degreesOutput.angle + 90 + 360) % 360,
   };
+}
+
+function PrintSunAngleOverTime(lat, lon, year, month, day, minuteStep) {
+  if (minuteStep == null) minuteStep = 60;
+  
+  let timezoneOffsetHours = lon / 15;
+  let timezoneOffsetMinutes = timezoneOffsetHours * 60;
+  
+  for (let minute = 0; minute < 24 * 60; minute += minuteStep) {
+    let startOfDayMillisUTC = new Date(
+      `${year}-${(month + '').padStart(2, '0')}-${(day + '').padStart(2, '0')}T00:00:00.000Z`
+    ).getTime();
+    let minuteInDayOffsetUTC = (-timezoneOffsetMinutes + minute) * 60_000;
+    
+    let { height, angle } = GetHeightAndAngleOfSun_ConventionalDegrees(
+      lat, lon,
+      new Date(startOfDayMillisUTC + minuteInDayOffsetUTC)
+    );
+    
+    console.log(
+      (Math.floor(minute / 60) + '').padStart(2, '0') + ':' +
+      (minute % 60 + '').padStart(2, '0') + ' ' +
+      (height >= 0 ? 'DAY  ' : 'NIGHT') + ' ' +
+      height + ' ' +
+      angle
+    );
+  }
 }
