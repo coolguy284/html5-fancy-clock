@@ -1,4 +1,5 @@
 make fixed-width-number text print function to print hours:minutes and such
+timezone dropdown or something
 
 roadmap:
 24 hour fancy

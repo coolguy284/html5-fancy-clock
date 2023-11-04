@@ -91,7 +91,7 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
   }
   
   // > subtle motif for time of day (6AM-6PM is sun, else is crescent moon)
-  renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius);
+  renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius, true);
   
   // > print time inside clock
   // >> calculate time string

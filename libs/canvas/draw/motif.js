@@ -12,10 +12,10 @@ function getSunHeight(now) {
   return getSunHeightAndAngle(now).height;
 }
 
-function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius) {
+function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius, forceAdvancedMotif) {
   let motif;
   
-  if (ADVANCED_MOTIF_CALCULATION) {
+  if (ADVANCED_MOTIF_CALCULATION || forceAdvancedMotif) {
     let sunHeight = getSunHeight(now);
     
     let motifEntry;
