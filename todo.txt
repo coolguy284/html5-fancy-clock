@@ -1,5 +1,7 @@
 make fixed-width-number text print function to print hours:minutes and such
 timezone dropdown or something
+make clockdrawlib with various drawing capabilities and move functions to it
+red color when nighttime and crimson color when past bedtime, gradual fade for both
 
 roadmap:
 24 hour fancy

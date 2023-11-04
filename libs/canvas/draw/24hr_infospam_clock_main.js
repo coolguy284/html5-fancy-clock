@@ -118,7 +118,11 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   ctx.lineCap = 'butt';
   ctx.beginPath();
   ctx.arc(clockCenterX, clockCenterY, clockRadius * 0.7, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.beginPath();
   ctx.arc(clockCenterX, clockCenterY, clockRadius * 0.65, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.beginPath();
   ctx.arc(clockCenterX, clockCenterY, clockRadius * 0.6, 0, Math.PI * 2);
   ctx.stroke();
   
@@ -363,4 +367,128 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(sunAzimuthString, canvas.width / 2, clockCenterY + clockRadius * 0.22);
+  
+  // > print visual for elevation and azimuth of sun
+  
+  // >> define variables
+  let elevAzimVisualY = clockCenterY + clockRadius * 0.4;
+  let sunElevVisualX = clockCenterX - clockRadius * 0.15;
+  let sunAzimVisualX = clockCenterX + clockRadius * 0.15;
+  
+  // >> outer circles
+  let elevAzimCircleRadius = clockRadius * 0.08;
+  ctx.strokeStyle = 'white';
+  ctx.lineWidth = clockRadius * 0.002;
+  ctx.lineCap = 'butt';
+  ctx.beginPath();
+  ctx.arc(sunElevVisualX, elevAzimVisualY, elevAzimCircleRadius, -Math.PI / 2, Math.PI / 2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(sunAzimVisualX, elevAzimVisualY, elevAzimCircleRadius, 0, Math.PI * 2);
+  ctx.stroke();
+  
+  // >> inward lines for every 30 degrees
+  ctx.beginPath();
+  
+  for (let i = 0; i <= 6; i++) {
+    let angle = Math.PI * 2 / 12 * i - Math.PI / 2;
+    
+    let normalizedX = Math.cos(angle);
+    let normalizedY = Math.sin(angle);
+    
+    let inwardLinesInnerRadius = 0.8;
+    
+    ctx.moveTo(
+      sunElevVisualX + normalizedX * elevAzimCircleRadius * inwardLinesInnerRadius,
+      elevAzimVisualY + normalizedY * elevAzimCircleRadius * inwardLinesInnerRadius
+    );
+    ctx.lineTo(
+      sunElevVisualX + normalizedX * elevAzimCircleRadius,
+      elevAzimVisualY + normalizedY * elevAzimCircleRadius
+    );
+  }
+  
+  for (let i = 0; i < 12; i++) {
+    let angle = Math.PI * 2 / 12 * i - Math.PI / 2;
+    
+    let normalizedX = Math.cos(angle);
+    let normalizedY = Math.sin(angle);
+    
+    let inwardLinesInnerRadius = 0.8;
+    
+    ctx.moveTo(
+      sunAzimVisualX + normalizedX * elevAzimCircleRadius * inwardLinesInnerRadius,
+      elevAzimVisualY + normalizedY * elevAzimCircleRadius * inwardLinesInnerRadius
+    );
+    ctx.lineTo(
+      sunAzimVisualX + normalizedX * elevAzimCircleRadius,
+      elevAzimVisualY + normalizedY * elevAzimCircleRadius
+    );
+  }
+  
+  ctx.stroke();
+  
+  // >> green wedges for current values
+  {
+    let currentElevationScaled = (90 - sunParameters.height) / 360;
+    
+    let angleCenter = Math.PI * 2 * currentElevationScaled - Math.PI / 2;
+    let angleLeft = angleCenter - Math.PI * 2 / 24 * 0.7;
+    let angleRight = angleCenter + Math.PI * 2 / 24 * 0.7;
+    
+    let wedgeRadiusInner = elevAzimCircleRadius * 1.01;
+    let wedgeRadiusOuter = elevAzimCircleRadius * 1.5;
+    
+    ctx.fillStyle = 'lime';
+    ctx.beginPath();
+    ctx.moveTo(
+      sunElevVisualX + Math.cos(angleLeft) * wedgeRadiusOuter,
+      elevAzimVisualY + Math.sin(angleLeft) * wedgeRadiusOuter,
+    );
+    ctx.lineTo(
+      sunElevVisualX + Math.cos(angleRight) * wedgeRadiusOuter,
+      elevAzimVisualY + Math.sin(angleRight) * wedgeRadiusOuter,
+    );
+    ctx.lineTo(
+      sunElevVisualX + Math.cos(angleCenter) * wedgeRadiusInner,
+      elevAzimVisualY + Math.sin(angleCenter) * wedgeRadiusInner,
+    );
+    ctx.fill();
+  }
+  
+  {
+    let currentAzimuthScaled = sunParameters.angle / 360;
+    
+    let angleCenter = Math.PI * 2 * currentAzimuthScaled - Math.PI / 2;
+    let angleLeft = angleCenter - Math.PI * 2 / 24 * 0.7;
+    let angleRight = angleCenter + Math.PI * 2 / 24 * 0.7;
+    
+    let wedgeRadiusInner = elevAzimCircleRadius * 1.01;
+    let wedgeRadiusOuter = elevAzimCircleRadius * 1.5;
+    
+    ctx.fillStyle = 'lime';
+    ctx.beginPath();
+    ctx.moveTo(
+      sunAzimVisualX + Math.cos(angleLeft) * wedgeRadiusOuter,
+      elevAzimVisualY + Math.sin(angleLeft) * wedgeRadiusOuter,
+    );
+    ctx.lineTo(
+      sunAzimVisualX + Math.cos(angleRight) * wedgeRadiusOuter,
+      elevAzimVisualY + Math.sin(angleRight) * wedgeRadiusOuter,
+    );
+    ctx.lineTo(
+      sunAzimVisualX + Math.cos(angleCenter) * wedgeRadiusInner,
+      elevAzimVisualY + Math.sin(angleCenter) * wedgeRadiusInner,
+    );
+    ctx.fill();
+  }
+  
+  // >> text in center stating what dial is
+  let elevAzimVisualsTextHeight = clockRadius * 0.04;
+  ctx.fillStyle = 'rgb(170, 170, 170)';
+  ctx.font = `${elevAzimVisualsTextHeight}px sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('Elev.', sunElevVisualX, elevAzimVisualY);
+  ctx.fillText('Azim.', sunAzimVisualX, elevAzimVisualY);
 }
