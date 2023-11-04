@@ -15,6 +15,11 @@ let LONGITUDE = 0; // longitude in degrees used to calculate sun position
 let DAY_OF_WEEK_STRINGS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
 let MONTH_OF_YEAR_STRINGS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 let DAY_OF_WEEK_STRINGS_CAPS = DAY_OF_WEEK_STRINGS.map(x => x.toUpperCase());
+let MONTH_OF_YEAR_STRINGS_CAPS = MONTH_OF_YEAR_STRINGS.map(x => x.toUpperCase());
+let MONTH_LENGTHS_NON_LEAP = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+let MONTH_LENGTHS_LEAP = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+let MONTH_STARTING_DAY_NON_LEAP = [0, ...cumulativeSum(MONTH_LENGTHS_NON_LEAP)];
+let MONTH_STARTING_DAY_LEAP = [0, ...cumulativeSum(MONTH_LENGTHS_LEAP)];
 let SIMPLE_MOTIF_MINUTE_CHART = [
   // number is maximum minute of day where that motif is shown
   [ 5 * 60 + 59, 'moon'],

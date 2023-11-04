@@ -35,6 +35,14 @@ function renderFrame(forceRerender) {
       case '24 Hour Fancy (Background)':
         renderFrame_Draw24HourFancyClock_BG(ctx, now);
         break;
+      
+      case '24 Hour Infospam (Main)':
+        renderFrame_Draw24HourInfoSpamClock_Main(ctx, now);
+        break;
+      
+      case '24 Hour Infospam (Background)':
+        renderFrame_Draw24HourInfoSpamClock_BG(ctx, now);
+        break;
     }
     
     oldSecondsValue = now.getSeconds();
