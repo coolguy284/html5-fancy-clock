@@ -113,14 +113,41 @@ class CanvasDrawer {
     this.#ctx.stroke();
   }
   
+  drawCircleArc(opts) {
+    opts = this.defaultOptsProcessing(opts, ['x', 'y', 'radius', 'color', 'width', 'cap', 'startAngle', 'endAngle']);
+    
+    let arcIsCounterClockWise = opts.endAngle > opts.startAngle;
+    
+    this.#ctx.strokeStyle = opts.color;
+    this.#ctx.lineWidth = opts.width;
+    this.#ctx.lineCap = opts.cap;
+    this.#ctx.beginPath();
+    this.#ctx.arc(opts.x, opts.y, opts.radius, opts.endAngle, opts.startAngle, arcIsCounterClockWise);
+    this.#ctx.stroke();
+  }
+  
   drawText(opts) {
     opts = this.defaultOptsProcessing(opts, ['x', 'y', 'text', 'color', 'size', 'font']);
     
-    this.#ctx.textAlign = 'center';
-    this.#ctx.textBaseline = 'middle';
-    this.#ctx.fillStyle = opts.color;
-    this.#ctx.font = `${opts.size}px ${opts.font}`;
-    this.#ctx.fillText(opts.text, opts.x, opts.y);
+    if (opts.angle) {
+      // draw text at an angle
+      this.#ctx.textAlign = 'center';
+      this.#ctx.textBaseline = 'middle';
+      this.#ctx.fillStyle = opts.color;
+      this.#ctx.font = `${opts.size}px ${opts.font}`;
+      this.#ctx.save();
+      this.#ctx.translate(opts.x, opts.y);
+      this.#ctx.rotate(opts.angle);
+      this.#ctx.fillText(opts.text, 0, 0);
+      this.#ctx.restore();
+    } else {
+      // draw regular text
+      this.#ctx.textAlign = 'center';
+      this.#ctx.textBaseline = 'middle';
+      this.#ctx.fillStyle = opts.color;
+      this.#ctx.font = `${opts.size}px ${opts.font}`;
+      this.#ctx.fillText(opts.text, opts.x, opts.y);
+    }
   }
   
   drawCircleWithInwardLines(opts) {
@@ -135,6 +162,33 @@ class CanvasDrawer {
     // inward lines
     for (let i = 0; i < opts.numLines; i++) {
       let angle = Math.PI * 2 / opts.numLines * i - Math.PI / 2;
+      
+      let normalizedX = Math.cos(angle);
+      let normalizedY = Math.sin(angle);
+      
+      this.drawLine({
+        ...opts,
+        x1: opts.x + normalizedX * opts.radius * opts.linesInnerRadius,
+        y1: opts.y + normalizedY * opts.radius * opts.linesInnerRadius,
+        x2: opts.x + normalizedX * opts.radius,
+        y2: opts.y + normalizedY * opts.radius,
+        width: opts.lineWidth,
+      });
+    }
+  }
+  
+  drawCircleArcWithInwardLines(opts) {
+    opts = this.defaultOptsProcessingNoCoordConversion(opts, ['radius', 'linesInnerRadius', 'circleWidth', 'lineWidth', 'numLines']);
+    
+    // circle
+    this.drawCircleArc({
+      ...opts,
+      width: opts.circleWidth,
+    });
+    
+    // inward lines
+    for (let i = 0; i < opts.numLines; i++) {
+      let angle = opts.startAngle + (opts.endAngle - opts.startAngle) / (opts.numLines - 1) * i;
       
       let normalizedX = Math.cos(angle);
       let normalizedY = Math.sin(angle);

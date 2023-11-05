@@ -5,35 +5,25 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
   let clockCenterX = canvas.width / 2;
   let clockCenterY = canvas.height / 2;
   let clockRadius = getMinCanvasDim() * 0.43;
+  let canvasDrawer = new CanvasDrawer(ctx, clockCenterX, clockCenterY, clockRadius);
+  canvasDrawer.setDefaults({
+    color: 'white',
+    cap: 'butt',
+    font: 'sans-serif',
+    coordSystem: 'clock relative',
+    nudgeOnes: false,
+  });
   
-  // > outer circle
-  ctx.strokeStyle = 'white';
-  ctx.lineWidth = clockRadius * 0.0046;
-  ctx.lineCap = 'butt';
-  ctx.beginPath();
-  ctx.arc(clockCenterX, clockCenterY, clockRadius, 0, Math.PI * 2);
-  ctx.stroke();
-  
-  // > inward lines at each hour
-  ctx.beginPath();
-  for (let i = 0; i < 24; i++) {
-    let angle = Math.PI * 2 / 24 * i - Math.PI / 2;
-    
-    let normalizedX = Math.cos(angle);
-    let normalizedY = Math.sin(angle);
-    
-    let inwardLinesInnerRadius = 0.93;
-    
-    ctx.moveTo(
-      clockCenterX + normalizedX * clockRadius * inwardLinesInnerRadius,
-      clockCenterY + normalizedY * clockRadius * inwardLinesInnerRadius
-    );
-    ctx.lineTo(
-      clockCenterX + normalizedX * clockRadius,
-      clockCenterY + normalizedY * clockRadius
-    );
-  }
-  ctx.stroke();
+  // > outer circle with inward lines at each hour
+  canvasDrawer.drawCircleWithInwardLines({
+    x: 0,
+    y: 0,
+    radius: 1,
+    linesInnerRadius: 0.93,
+    circleWidth: 0.0046,
+    lineWidth: 0.0046,
+    numLines: 24,
+  });
   
   // > text at each hour
   for (let i = 0; i < 24; i++) {
@@ -42,23 +32,12 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
     let normalizedX = Math.cos(angle);
     let normalizedY = Math.sin(angle);
     
-    let hourTextHeight = clockRadius * 0.065;
-    ctx.fillStyle = 'white';
-    ctx.font = `${hourTextHeight}px sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    drawTextWithPerLetterSpacing(
-      ctx, (i + '').padStart(2, '0') + '00',
-      clockCenterX + normalizedX * clockRadius * 0.83,
-      clockCenterY + normalizedY * clockRadius * 0.85,
-      hourTextHeight,
-      [
-        0,
-        hourTextHeight * 0.55,
-        hourTextHeight * 0.55,
-        hourTextHeight * 0.55,
-      ]
-    );
+    canvasDrawer.drawTextFixedWidth({
+      x: normalizedX * 0.83,
+      y: normalizedY * 0.85,
+      text: (i + '').padStart(2, '0') + '00',
+      size: 0.065,
+    });
   }
   
   // > green external wedge on the current time
@@ -73,45 +52,26 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
     let wedgeRadiusInner = 1.01;
     let wedgeRadiusOuter = 1.13;
     
-    ctx.fillStyle = 'lime';
-    ctx.beginPath();
-    ctx.moveTo(
-      clockCenterX + Math.cos(angleLeft) * clockRadius * wedgeRadiusOuter,
-      clockCenterY + Math.sin(angleLeft) * clockRadius * wedgeRadiusOuter,
-    );
-    ctx.lineTo(
-      clockCenterX + Math.cos(angleRight) * clockRadius * wedgeRadiusOuter,
-      clockCenterY + Math.sin(angleRight) * clockRadius * wedgeRadiusOuter,
-    );
-    ctx.lineTo(
-      clockCenterX + Math.cos(angleCenter) * clockRadius * wedgeRadiusInner,
-      clockCenterY + Math.sin(angleCenter) * clockRadius * wedgeRadiusInner,
-    );
-    ctx.fill();
+    canvasDrawer.drawFilledTriangle({
+      x1: Math.cos(angleLeft) * wedgeRadiusOuter,
+      y1: Math.sin(angleLeft) * wedgeRadiusOuter,
+      x2: Math.cos(angleRight) * wedgeRadiusOuter,
+      y2: Math.sin(angleRight) * wedgeRadiusOuter,
+      x3: Math.cos(angleCenter) * wedgeRadiusInner,
+      y3: Math.sin(angleCenter) * wedgeRadiusInner,
+      color: 'lime',
+    });
   }
   
-  // > subtle motif for time of day
+  // > subtle motif for time of day (sun, moon, or sunset)
   renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius * 0.9, true);
   
   // > subtle circles around day of week and day of year
-  ctx.strokeStyle = 'rgb(31, 31, 31)';
-  ctx.lineWidth = clockRadius * 0.0046;
-  ctx.lineCap = 'butt';
-  ctx.beginPath();
-  ctx.arc(clockCenterX, clockCenterY, clockRadius * 0.7, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(clockCenterX, clockCenterY, clockRadius * 0.65, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(clockCenterX, clockCenterY, clockRadius * 0.6, 0, Math.PI * 2);
-  ctx.stroke();
+  canvasDrawer.drawCircle({ x: 0, y: 0, radius: 0.6, color: 'rgb(31, 31, 31)', width: 0.0046 });
+  canvasDrawer.drawCircle({ x: 0, y: 0, radius: 0.65, color: 'rgb(31, 31, 31)', width: 0.0046 });
+  canvasDrawer.drawCircle({ x: 0, y: 0, radius: 0.7, color: 'rgb(31, 31, 31)', width: 0.0046 });
   
   // > day of the week lines
-  ctx.strokeStyle = 'rgb(127, 127, 127)';
-  ctx.lineWidth = clockRadius * 0.007;
-  ctx.lineCap = 'butt';
-  ctx.beginPath();
   for (let i = 0; i < 7; i++) {
     let angle = Math.PI * 2 / 7 * i - Math.PI / 2;
     
@@ -121,24 +81,17 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
     let dotwLinesInnerRadius = 0.65;
     let dotwLinesOuterRadius = 0.7;
     
-    ctx.moveTo(
-      clockCenterX + normalizedX * clockRadius * dotwLinesInnerRadius,
-      clockCenterY + normalizedY * clockRadius * dotwLinesInnerRadius
-    );
-    ctx.lineTo(
-      clockCenterX + normalizedX * clockRadius * dotwLinesOuterRadius,
-      clockCenterY + normalizedY * clockRadius * dotwLinesOuterRadius
-    );
+    canvasDrawer.drawLine({
+      x1: normalizedX * dotwLinesInnerRadius,
+      y1: normalizedY * dotwLinesInnerRadius,
+      x2: normalizedX * dotwLinesOuterRadius,
+      y2: normalizedY * dotwLinesOuterRadius,
+      color: 'rgb(127, 127, 127)',
+      width: 0.007,
+    });
   }
-  ctx.stroke();
   
   // > text for each day of the week
-  let dotwTextHeight = clockRadius * 0.04;
-  ctx.fillStyle = 'rgb(192, 192, 192)';
-  ctx.font = `${dotwTextHeight}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  
   for (let i = 0; i < 7; i++) {
     let angle = Math.PI * 2 / 7 * (i + 0.5) - Math.PI / 2;
     
@@ -148,8 +101,6 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
     let dotwString = DAY_OF_WEEK_STRINGS_CAPS[i];
     
     let dotwTextRadius = 0.675;
-    let dotwTextPosX = clockCenterX + normalizedX * clockRadius * dotwTextRadius;
-    let dotwTextPosY = clockCenterY + normalizedY * clockRadius * dotwTextRadius;
     
     // rotate text to follow contour of circle
     let dotwTextAngle = angle + Math.PI / 2;
@@ -159,19 +110,18 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
       dotwTextAngle += Math.PI;
     }
     
-    ctx.save();
-    ctx.translate(dotwTextPosX, dotwTextPosY);
-    ctx.rotate(dotwTextAngle);
-    ctx.fillText(dotwString, 0, 0);
-    ctx.restore();
+    canvasDrawer.drawText({
+      x: normalizedX * dotwTextRadius,
+      y: normalizedY * dotwTextRadius,
+      text: dotwString,
+      angle: dotwTextAngle,
+      size: 0.04,
+      color: 'rgb(192, 192, 192)',
+    });
   }
   
   // > green line for current time in week
   {
-    ctx.strokeStyle = 'rgb(0, 255, 0)';
-    ctx.lineWidth = clockRadius * 0.007;
-    ctx.lineCap = 'butt';
-    
     let fractionalDayOfWeek =
       now.getDay() +
       now.getHours() / 24 +
@@ -186,52 +136,39 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
     let dotwLinesInnerRadius = 0.65;
     let dotwLinesOuterRadius = 0.7;
     
-    ctx.beginPath();
-    ctx.moveTo(
-      clockCenterX + normalizedX * clockRadius * dotwLinesInnerRadius,
-      clockCenterY + normalizedY * clockRadius * dotwLinesInnerRadius
-    );
-    ctx.lineTo(
-      clockCenterX + normalizedX * clockRadius * dotwLinesOuterRadius,
-      clockCenterY + normalizedY * clockRadius * dotwLinesOuterRadius
-    );
-    ctx.stroke();
+    canvasDrawer.drawLine({
+      x1: normalizedX * dotwLinesInnerRadius,
+      y1: normalizedY * dotwLinesInnerRadius,
+      x2: normalizedX * dotwLinesOuterRadius,
+      y2: normalizedY * dotwLinesOuterRadius,
+      color: 'lime',
+      width: 0.007,
+    });
   }
   
   // > month of the year lines
   let yearLengthDays = getYearLength(now.getYear());
   
-  ctx.strokeStyle = 'rgb(127, 127, 127)';
-  ctx.lineWidth = clockRadius * 0.007;
-  ctx.lineCap = 'butt';
-  ctx.beginPath();
   for (let i = 0; i < 12; i++) {
     let angle = Math.PI * 2 / yearLengthDays * monthStartingDayOfYear(now.getFullYear(), i + 1) - Math.PI / 2;
     
     let normalizedX = Math.cos(angle);
     let normalizedY = Math.sin(angle);
     
-    let dotwLinesInnerRadius = 0.6;
-    let dotwLinesOuterRadius = 0.65;
+    let motyLinesInnerRadius = 0.6;
+    let motyLinesOuterRadius = 0.65;
     
-    ctx.moveTo(
-      clockCenterX + normalizedX * clockRadius * dotwLinesInnerRadius,
-      clockCenterY + normalizedY * clockRadius * dotwLinesInnerRadius
-    );
-    ctx.lineTo(
-      clockCenterX + normalizedX * clockRadius * dotwLinesOuterRadius,
-      clockCenterY + normalizedY * clockRadius * dotwLinesOuterRadius
-    );
+    canvasDrawer.drawLine({
+      x1: normalizedX * motyLinesInnerRadius,
+      y1: normalizedY * motyLinesInnerRadius,
+      x2: normalizedX * motyLinesOuterRadius,
+      y2: normalizedY * motyLinesOuterRadius,
+      color: 'rgb(127, 127, 127)',
+      width: 0.007,
+    });
   }
-  ctx.stroke();
   
   // > text for each month of the year
-  let motyTextHeight = clockRadius * 0.04;
-  ctx.fillStyle = 'rgb(192, 192, 192)';
-  ctx.font = `${motyTextHeight}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  
   for (let i = 0; i < 12; i++) {
     let monthHalfwayDayOfYear = (monthStartingDayOfYear(now.getFullYear(), i + 1) + monthStartingDayOfYear(now.getFullYear(), i + 2)) / 2;
     
@@ -243,8 +180,6 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
     let motyString = MONTH_OF_YEAR_STRINGS_CAPS[i];
     
     let motyTextRadius = 0.625;
-    let motyTextPosX = clockCenterX + normalizedX * clockRadius * motyTextRadius;
-    let motyTextPosY = clockCenterY + normalizedY * clockRadius * motyTextRadius;
     
     // rotate text to follow contour of circle
     let motyTextAngle = angle + Math.PI / 2;
@@ -254,19 +189,18 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
       motyTextAngle += Math.PI;
     }
     
-    ctx.save();
-    ctx.translate(motyTextPosX, motyTextPosY);
-    ctx.rotate(motyTextAngle);
-    ctx.fillText(motyString, 0, 0);
-    ctx.restore();
+    canvasDrawer.drawText({
+      x: normalizedX * motyTextRadius,
+      y: normalizedY * motyTextRadius,
+      text: motyString,
+      angle: motyTextAngle,
+      size: 0.04,
+      color: 'rgb(192, 192, 192)',
+    });
   }
   
   // > green line for current time in year
   {
-    ctx.strokeStyle = 'rgb(0, 255, 0)';
-    ctx.lineWidth = clockRadius * 0.007;
-    ctx.lineCap = 'butt';
-    
     let fractionalDayOfYear =
       getDayOfYear(now.getFullYear(), now.getMonth() + 1, now.getDate()) +
       now.getHours() / 24 +
@@ -281,16 +215,14 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
     let motyLinesInnerRadius = 0.6;
     let motyLinesOuterRadius = 0.65;
     
-    ctx.beginPath();
-    ctx.moveTo(
-      clockCenterX + normalizedX * clockRadius * motyLinesInnerRadius,
-      clockCenterY + normalizedY * clockRadius * motyLinesInnerRadius
-    );
-    ctx.lineTo(
-      clockCenterX + normalizedX * clockRadius * motyLinesOuterRadius,
-      clockCenterY + normalizedY * clockRadius * motyLinesOuterRadius
-    );
-    ctx.stroke();
+    canvasDrawer.drawLine({
+      x1: normalizedX * motyLinesInnerRadius,
+      y1: normalizedY * motyLinesInnerRadius,
+      x2: normalizedX * motyLinesOuterRadius,
+      y2: normalizedY * motyLinesOuterRadius,
+      color: 'lime',
+      width: 0.007,
+    });
   }
   
   // > print time inside clock
@@ -300,22 +232,12 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
     (now.getMinutes() + '').padStart(2, '0');
   
   // >> print time
-  let timeTextPosY = clockCenterY - clockRadius * 0.08;
-  let timeTextHeight = clockRadius * 0.34;
-  ctx.fillStyle = 'white';
-  ctx.font = `${timeTextHeight}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  drawTextWithPerLetterSpacing(
-    ctx, timeString, clockCenterX, timeTextPosY, timeTextHeight,
-    [
-      0,
-      timeTextHeight * 0.55,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.55,
-    ]
-  );
+  canvasDrawer.drawTextFixedWidth({
+    x: 0,
+    y: -0.08,
+    text: timeString,
+    size: 0.34,
+  });
   
   // > print date inside clock
   // >> calculate date string
@@ -327,83 +249,55 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
     weekDayString;
   
   // >> print date
-  let dateTextPosY = clockCenterY + clockRadius * 0.14;
-  let dateTextHeight = clockRadius * 0.093;
-  ctx.fillStyle = 'rgb(192, 192, 192)';
-  ctx.font = `${dateTextHeight}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(dateString, canvas.width / 2, dateTextPosY);
+  canvasDrawer.drawText({
+    x: 0,
+    y: 0.14,
+    text: dateString,
+    size: 0.093,
+    color: 'rgb(192, 192, 192)',
+  });
   
   // > print elevation and azimuth of sun
   let sunParameters = getSunHeightAndAngle(now);
   let sunAzimuthString = `Sun Elev.: ${sunParameters.height.toFixed(0)}°, Azim.: ${sunParameters.angle.toFixed(0)}°`;
-  let sunAzimuthTextHeight = clockRadius * 0.055;
-  ctx.fillStyle = 'rgb(192, 192, 192)';
-  ctx.font = `${sunAzimuthTextHeight}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(sunAzimuthString, canvas.width / 2, clockCenterY + clockRadius * 0.24);
+  canvasDrawer.drawText({
+    x: 0,
+    y: 0.24,
+    text: sunAzimuthString,
+    size: 0.055,
+    color: 'rgb(192, 192, 192)',
+  });
   
   // > print visual for elevation and azimuth of sun
   
   // >> define variables
-  let elevAzimVisualY = clockCenterY + clockRadius * 0.41;
-  let sunElevVisualX = clockCenterX - clockRadius * 0.15;
-  let sunAzimVisualX = clockCenterX + clockRadius * 0.15;
+  let elevAzimVisualY = 0.41;
+  let sunElevVisualX = -0.15;
+  let sunAzimVisualX = 0.15;
+  let elevAzimCircleRadius = 0.08;
+  let elevAzimCircleWidth = 0.002;
   
-  // >> outer circles
-  let elevAzimCircleRadius = clockRadius * 0.08;
-  ctx.strokeStyle = 'white';
-  ctx.lineWidth = clockRadius * 0.002;
-  ctx.lineCap = 'butt';
-  ctx.beginPath();
-  ctx.arc(sunElevVisualX, elevAzimVisualY, elevAzimCircleRadius, -Math.PI / 2, Math.PI / 2);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(sunAzimVisualX, elevAzimVisualY, elevAzimCircleRadius, 0, Math.PI * 2);
-  ctx.stroke();
-  
-  // >> inward lines for every 30 degrees
-  ctx.beginPath();
-  
-  for (let i = 0; i <= 6; i++) {
-    let angle = Math.PI * 2 / 12 * i - Math.PI / 2;
-    
-    let normalizedX = Math.cos(angle);
-    let normalizedY = Math.sin(angle);
-    
-    let inwardLinesInnerRadius = 0.8;
-    
-    ctx.moveTo(
-      sunElevVisualX + normalizedX * elevAzimCircleRadius * inwardLinesInnerRadius,
-      elevAzimVisualY + normalizedY * elevAzimCircleRadius * inwardLinesInnerRadius
-    );
-    ctx.lineTo(
-      sunElevVisualX + normalizedX * elevAzimCircleRadius,
-      elevAzimVisualY + normalizedY * elevAzimCircleRadius
-    );
-  }
-  
-  for (let i = 0; i < 12; i++) {
-    let angle = Math.PI * 2 / 12 * i - Math.PI / 2;
-    
-    let normalizedX = Math.cos(angle);
-    let normalizedY = Math.sin(angle);
-    
-    let inwardLinesInnerRadius = 0.8;
-    
-    ctx.moveTo(
-      sunAzimVisualX + normalizedX * elevAzimCircleRadius * inwardLinesInnerRadius,
-      elevAzimVisualY + normalizedY * elevAzimCircleRadius * inwardLinesInnerRadius
-    );
-    ctx.lineTo(
-      sunAzimVisualX + normalizedX * elevAzimCircleRadius,
-      elevAzimVisualY + normalizedY * elevAzimCircleRadius
-    );
-  }
-  
-  ctx.stroke();
+  // >> outer circles with inward lines for every 30 degrees
+  canvasDrawer.drawCircleArcWithInwardLines({
+    x: sunElevVisualX,
+    y: elevAzimVisualY,
+    radius: elevAzimCircleRadius,
+    circleWidth: elevAzimCircleWidth,
+    lineWidth: elevAzimCircleWidth,
+    startAngle: -Math.PI / 2,
+    endAngle: Math.PI / 2,
+    linesInnerRadius: 0.8,
+    numLines: 180 / 30 + 1,
+  });
+  canvasDrawer.drawCircleWithInwardLines({
+    x: sunAzimVisualX,
+    y: elevAzimVisualY,
+    radius: elevAzimCircleRadius,
+    circleWidth: elevAzimCircleWidth,
+    lineWidth: elevAzimCircleWidth,
+    linesInnerRadius: 0.8,
+    numLines: 360 / 30,
+  });
   
   // >> green wedges for current values
   {
@@ -416,21 +310,15 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
     let wedgeRadiusInner = elevAzimCircleRadius * 1.01;
     let wedgeRadiusOuter = elevAzimCircleRadius * 1.5;
     
-    ctx.fillStyle = 'lime';
-    ctx.beginPath();
-    ctx.moveTo(
-      sunElevVisualX + Math.cos(angleLeft) * wedgeRadiusOuter,
-      elevAzimVisualY + Math.sin(angleLeft) * wedgeRadiusOuter,
-    );
-    ctx.lineTo(
-      sunElevVisualX + Math.cos(angleRight) * wedgeRadiusOuter,
-      elevAzimVisualY + Math.sin(angleRight) * wedgeRadiusOuter,
-    );
-    ctx.lineTo(
-      sunElevVisualX + Math.cos(angleCenter) * wedgeRadiusInner,
-      elevAzimVisualY + Math.sin(angleCenter) * wedgeRadiusInner,
-    );
-    ctx.fill();
+    canvasDrawer.drawFilledTriangle({
+      x1: sunElevVisualX + Math.cos(angleLeft) * wedgeRadiusOuter,
+      y1: elevAzimVisualY + Math.sin(angleLeft) * wedgeRadiusOuter,
+      x2: sunElevVisualX + Math.cos(angleRight) * wedgeRadiusOuter,
+      y2: elevAzimVisualY + Math.sin(angleRight) * wedgeRadiusOuter,
+      x3: sunElevVisualX + Math.cos(angleCenter) * wedgeRadiusInner,
+      y3: elevAzimVisualY + Math.sin(angleCenter) * wedgeRadiusInner,
+      color: 'lime',
+    });
   }
   
   {
@@ -443,29 +331,32 @@ function renderFrame_Draw24HourInfoSpamClock_BG(ctx, now) {
     let wedgeRadiusInner = elevAzimCircleRadius * 1.01;
     let wedgeRadiusOuter = elevAzimCircleRadius * 1.5;
     
-    ctx.fillStyle = 'lime';
-    ctx.beginPath();
-    ctx.moveTo(
-      sunAzimVisualX + Math.cos(angleLeft) * wedgeRadiusOuter,
-      elevAzimVisualY + Math.sin(angleLeft) * wedgeRadiusOuter,
-    );
-    ctx.lineTo(
-      sunAzimVisualX + Math.cos(angleRight) * wedgeRadiusOuter,
-      elevAzimVisualY + Math.sin(angleRight) * wedgeRadiusOuter,
-    );
-    ctx.lineTo(
-      sunAzimVisualX + Math.cos(angleCenter) * wedgeRadiusInner,
-      elevAzimVisualY + Math.sin(angleCenter) * wedgeRadiusInner,
-    );
-    ctx.fill();
+    canvasDrawer.drawFilledTriangle({
+      x1: sunAzimVisualX + Math.cos(angleLeft) * wedgeRadiusOuter,
+      y1: elevAzimVisualY + Math.sin(angleLeft) * wedgeRadiusOuter,
+      x2: sunAzimVisualX + Math.cos(angleRight) * wedgeRadiusOuter,
+      y2: elevAzimVisualY + Math.sin(angleRight) * wedgeRadiusOuter,
+      x3: sunAzimVisualX + Math.cos(angleCenter) * wedgeRadiusInner,
+      y3: elevAzimVisualY + Math.sin(angleCenter) * wedgeRadiusInner,
+      color: 'lime',
+    });
   }
   
   // >> text in center stating what dial is
-  let elevAzimVisualsTextHeight = clockRadius * 0.04;
-  ctx.fillStyle = 'rgb(170, 170, 170)';
-  ctx.font = `${elevAzimVisualsTextHeight}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('Elev.', sunElevVisualX, elevAzimVisualY);
-  ctx.fillText('Azim.', sunAzimVisualX, elevAzimVisualY);
+  let elevAzimVisualsTextHeight = 0.04;
+  let elevAzimVisualsTextColor = 'rgb(170, 170, 170)';
+  canvasDrawer.drawText({
+    x: sunElevVisualX,
+    y: elevAzimVisualY,
+    text: 'Elev.',
+    size: elevAzimVisualsTextHeight,
+    color: elevAzimVisualsTextColor,
+  });
+  canvasDrawer.drawText({
+    x: sunAzimVisualX,
+    y: elevAzimVisualY,
+    text: 'Azim.',
+    size: elevAzimVisualsTextHeight,
+    color: elevAzimVisualsTextColor,
+  });
 }

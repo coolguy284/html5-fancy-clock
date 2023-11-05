@@ -65,7 +65,7 @@ function renderFrame_Draw12HourClock(ctx, now) {
     });
   }
   
-  // > subtle motif for time of day (6AM-6PM is sun, else is crescent moon)
+  // > subtle motif for time of day (sun, moon, or sunset)
   if (CLOCK_DRAW_MOTIF) {
     renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius);
   }
