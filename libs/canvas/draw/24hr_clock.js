@@ -19,35 +19,24 @@ function renderFrame_Draw24HourClock(ctx, now) {
   let clockCenterX = canvas.width / 2;
   let clockCenterY = canvas.height / 2;
   let clockRadius = getMinCanvasDim() * 0.43;
+  let canvasDrawer = new CanvasDrawer(ctx, clockCenterX, clockCenterY, clockRadius);
+  canvasDrawer.setDefaults({
+    color: 'white',
+    cap: 'butt',
+    font: 'sans-serif',
+    coordSystem: 'clock relative',
+  });
   
-  // > outer circle
-  ctx.strokeStyle = 'white';
-  ctx.lineWidth = clockRadius * 0.0046;
-  ctx.lineCap = 'butt';
-  ctx.beginPath();
-  ctx.arc(clockCenterX, clockCenterY, clockRadius, 0, Math.PI * 2);
-  ctx.stroke();
-  
-  // > inward lines at each hour
-  ctx.beginPath();
-  for (let i = 0; i < 24; i++) {
-    let angle = Math.PI * 2 / 24 * i - Math.PI / 2;
-    
-    let normalizedX = Math.cos(angle);
-    let normalizedY = Math.sin(angle);
-    
-    let inwardLinesInnerRadius = 0.85;
-    
-    ctx.moveTo(
-      clockCenterX + normalizedX * clockRadius * inwardLinesInnerRadius,
-      clockCenterY + normalizedY * clockRadius * inwardLinesInnerRadius
-    );
-    ctx.lineTo(
-      clockCenterX + normalizedX * clockRadius,
-      clockCenterY + normalizedY * clockRadius
-    );
-  }
-  ctx.stroke();
+  // > outer circle with inward lines at each hour
+  canvasDrawer.drawCircleWithInwardLines({
+    x: 0,
+    y: 0,
+    radius: 1,
+    linesInnerRadius: 0.85,
+    circleWidth: 0.0046,
+    lineWidth: 0.0046,
+    numLines: 24,
+  });
   
   // > text at each hour
   for (let i = 0; i < 24; i++) {
@@ -56,23 +45,13 @@ function renderFrame_Draw24HourClock(ctx, now) {
     let normalizedX = Math.cos(angle);
     let normalizedY = Math.sin(angle);
     
-    let hourTextHeight = clockRadius * 0.065;
-    ctx.fillStyle = 'white';
-    ctx.font = `${hourTextHeight}px sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    drawTextWithPerLetterSpacing(
-      ctx, (i + '').padStart(2, '0') + '00',
-      clockCenterX + normalizedX * clockRadius * 0.75,
-      clockCenterY + normalizedY * clockRadius * 0.77,
-      hourTextHeight,
-      [
-        0,
-        hourTextHeight * 0.55,
-        hourTextHeight * 0.55,
-        hourTextHeight * 0.55,
-      ]
-    );
+    canvasDrawer.drawTextFixedWidth({
+      x: normalizedX * 0.75,
+      y: normalizedY * 0.77,
+      text: (i + '').padStart(2, '0') + '00',
+      size: 0.065,
+      nudgeOnes: CLOCK_NUDGE_ONES,
+    });
   }
   
   // > green external wedge on the current time

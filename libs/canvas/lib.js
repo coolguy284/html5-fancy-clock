@@ -1,4 +1,5 @@
 class CanvasDrawer {
+  static #coordSpaceConvertedSymbol = Symbol('coordSpaceConverted');
   #ctx;
   #defaultOpts = {};
   #clockX;
@@ -25,11 +26,19 @@ class CanvasDrawer {
   }
   
   convertCoords(opts) {
+    // early return if already converted coordinates
+    if (opts[CanvasDrawer.#coordSpaceConvertedSymbol]) {
+      return opts;
+    }
+    
     CanvasDrawer.ensureArguments(opts, ['coordSystem']);
     
     switch (opts.coordSystem) {
       case 'screen space':
-        return opts;
+        return {
+          ...opts,
+          [CanvasDrawer.#coordSpaceConvertedSymbol]: true,
+        };
       
       case 'clock relative':
         opts = { ...opts };
@@ -44,6 +53,8 @@ class CanvasDrawer {
         if ('width' in opts) opts.width = opts.width * this.#clockRadius;
         if ('size' in opts) opts.size = opts.size * this.#clockRadius;
         
+        opts[CanvasDrawer.#coordSpaceConvertedSymbol] = true;
+        
         return opts;
     }
   }
@@ -54,6 +65,14 @@ class CanvasDrawer {
     CanvasDrawer.ensureArguments(optsWithDefaults, requiredOptsArray);
     
     optsWithDefaults = this.convertCoords(optsWithDefaults);
+    
+    return optsWithDefaults;
+  }
+  
+  defaultOptsProcessingNoCoordConversion(opts, requiredOptsArray) {
+    let optsWithDefaults = { ...this.#defaultOpts, ...opts };
+    
+    CanvasDrawer.ensureArguments(optsWithDefaults, requiredOptsArray);
     
     return optsWithDefaults;
   }
@@ -91,8 +110,35 @@ class CanvasDrawer {
     this.#ctx.fillText(opts.text, opts.x, opts.y);
   }
   
+  drawCircleWithInwardLines(opts) {
+    opts = this.defaultOptsProcessingNoCoordConversion(opts, ['radius', 'linesInnerRadius', 'circleWidth', 'lineWidth', 'numLines']);
+    
+    // circle
+    this.drawCircle({
+      ...opts,
+      width: opts.circleWidth,
+    });
+    
+    // inward lines
+    for (let i = 0; i < opts.numLines; i++) {
+      let angle = Math.PI * 2 / opts.numLines * i - Math.PI / 2;
+      
+      let normalizedX = Math.cos(angle);
+      let normalizedY = Math.sin(angle);
+      
+      this.drawLine({
+        ...opts,
+        x1: opts.x + normalizedX * opts.radius * opts.linesInnerRadius,
+        y1: opts.y + normalizedY * opts.radius * opts.linesInnerRadius,
+        x2: opts.x + normalizedX * opts.radius,
+        y2: opts.y + normalizedY * opts.radius,
+        width: opts.lineWidth,
+      });
+    }
+  }
+  
   drawTextWithPerLetterSpacing(opts) {
-    opts = this.defaultOptsProcessing(opts, ['x', 'text', 'size', 'letterSpacings', 'nudgeOnes']);
+    opts = this.defaultOptsProcessingNoCoordConversion(opts, ['x', 'text', 'size', 'letterSpacings', 'nudgeOnes']);
     
     // nudge printed text if "1" is on left side to make it visually centered
     if (opts.nudgeOnes && text.length > 1 && text[0] == '1') {
@@ -116,7 +162,7 @@ class CanvasDrawer {
   }
   
   drawTextFixedWidth(opts) {
-    opts = this.defaultOptsProcessing(opts, ['text']);
+    opts = this.defaultOptsProcessingNoCoordConversion(opts, ['text']);
     
     // calculate width array
     let letterWidths = [];

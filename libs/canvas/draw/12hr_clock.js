@@ -40,31 +40,16 @@ function renderFrame_Draw12HourClock(ctx, now) {
     nudgeOnes: CLOCK_NUDGE_ONES,
   });
   
-  // > outer circle
-  canvasDrawer.drawCircle({
+  // > outer circle with inward lines at each hour
+  canvasDrawer.drawCircleWithInwardLines({
     x: 0,
     y: 0,
     radius: 1,
-    width: 0.0184,
+    linesInnerRadius: 0.9,
+    circleWidth: 0.0184,
+    lineWidth: 0.0131,
+    numLines: 12,
   });
-  
-  // > inward lines at each hour
-  for (let i = 0; i < 12; i++) {
-    let angle = Math.PI * 2 / 12 * i - Math.PI / 2;
-    
-    let normalizedX = Math.cos(angle);
-    let normalizedY = Math.sin(angle);
-    
-    let inwardLinesInnerRadius = 0.9;
-    
-    canvasDrawer.drawLine({
-      x1: normalizedX * inwardLinesInnerRadius,
-      y1: normalizedY * inwardLinesInnerRadius,
-      x2: normalizedX,
-      y2: normalizedY,
-      width: 0.0131,
-    });
-  }
   
   // > text at each hour
   for (let i = 0; i < 12; i++) {
@@ -77,7 +62,6 @@ function renderFrame_Draw12HourClock(ctx, now) {
       x: normalizedX * 0.8,
       y: normalizedY * 0.8,
       text: (i + 11) % 12 + 1,
-      color: 'white',
       size: 0.13,
     });
   }
