@@ -83,7 +83,7 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   }
   
   // > subtle motif for time of day (sun, moon, or sunset)
-  renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius * 0.9, true);
+  renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius * 0.55 * 0.9, true);
   
   // > subtle circles around day of week and day of year
   canvasDrawer.drawCircle({ x: 0, y: 0, radius: 0.6, color: 'rgb(31, 31, 31)', width: 0.0046 });

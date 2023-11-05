@@ -64,7 +64,7 @@ function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
   }
   
   // > subtle motif for time of day (sun, moon, or sunset)
-  renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius, true);
+  renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius * 0.55, true);
   
   // > print time inside clock
   // >> calculate time string

@@ -93,6 +93,8 @@ function updateSettingsElemVisibilities() {
     
     case '24 Hour Fancy (Main)':
     case '24 Hour Fancy (Background)':
+    case '24 Hour Infospam (Main)':
+    case '24 Hour Infospam (Background)':
       motif_visible.parentElement.style.display = 'none';
       seconds_visible.parentElement.style.display = 'none';
       time_visible.parentElement.style.display = 'none';

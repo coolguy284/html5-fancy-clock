@@ -12,7 +12,9 @@ function getSunHeight(now) {
   return getSunHeightAndAngle(now).height;
 }
 
-function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius, forceAdvancedMotif) {
+function renderFrame_DrawClockMotif(ctx, now, x, y, radius, forceAdvancedMotif) {
+  radius /= 0.55;
+  
   let motif;
   
   if (ADVANCED_MOTIF_CALCULATION || forceAdvancedMotif) {
@@ -43,7 +45,7 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
       ctx.lineWidth = canvas.height * 0.007;
       ctx.lineCap = 'butt';
       ctx.beginPath();
-      ctx.arc(clockCenterX, clockCenterY, clockRadius * 0.35, 0, Math.PI * 2);
+      ctx.arc(x, y, radius * 0.35, 0, Math.PI * 2);
       ctx.stroke();
       
       // >>> lines around
@@ -60,12 +62,12 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
         let normalizedY = Math.sin(angle);
         
         ctx.moveTo(
-          clockCenterX + normalizedX * clockRadius * innerRadius,
-          clockCenterY + normalizedY * clockRadius * innerRadius
+          x + normalizedX * radius * innerRadius,
+          y + normalizedY * radius * innerRadius
         );
         ctx.lineTo(
-          clockCenterX + normalizedX * clockRadius * outerRadius,
-          clockCenterY + normalizedY * clockRadius * outerRadius
+          x + normalizedX * radius * outerRadius,
+          y + normalizedY * radius * outerRadius
         );
       }
       ctx.stroke();
@@ -78,7 +80,7 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
       ctx.lineWidth = canvas.height * 0.007;
       ctx.lineCap = 'butt';
       ctx.beginPath();
-      ctx.arc(clockCenterX, clockCenterY, clockRadius * 0.35, Math.PI * 0.99, Math.PI * 2.01);
+      ctx.arc(x, y, radius * 0.35, Math.PI * 0.99, Math.PI * 2.01);
       ctx.stroke();
       
       // >>> lines around
@@ -95,12 +97,12 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
         let normalizedY = Math.sin(angle);
         
         ctx.moveTo(
-          clockCenterX + normalizedX * clockRadius * innerRadius,
-          clockCenterY + normalizedY * clockRadius * innerRadius
+          x + normalizedX * radius * innerRadius,
+          y + normalizedY * radius * innerRadius
         );
         ctx.lineTo(
-          clockCenterX + normalizedX * clockRadius * outerRadius,
-          clockCenterY + normalizedY * clockRadius * outerRadius
+          x + normalizedX * radius * outerRadius,
+          y + normalizedY * radius * outerRadius
         );
       }
       ctx.stroke();
@@ -111,12 +113,12 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
       ctx.lineCap = 'butt';
       ctx.beginPath();
       ctx.moveTo(
-        clockCenterX - clockRadius * outerRadius,
-        clockCenterY + clockRadius * 0.07
+        x - radius * outerRadius,
+        y + radius * 0.07
       );
       ctx.lineTo(
-        clockCenterX + clockRadius * outerRadius,
-        clockCenterY + clockRadius * 0.07
+        x + radius * outerRadius,
+        y + radius * 0.07
       );
       ctx.stroke();
       } break;
@@ -129,17 +131,17 @@ function renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockR
       ctx.beginPath();
       // >>> arc 1
       ctx.arc(
-        clockCenterX,
-        clockCenterY,
-        clockRadius * 0.5,
+        x,
+        y,
+        radius * 0.5,
         Math.PI * 2 * (0.125 - 0.271),
         Math.PI * 2 * (0.125 + 0.271)
       );
       // >>> arc 2
       ctx.arc(
-        clockCenterX + clockRadius * -0.35,
-        clockCenterY + clockRadius * -0.35,
-        clockRadius * 0.65,
+        x + radius * -0.35,
+        y + radius * -0.35,
+        radius * 0.65,
         Math.PI * 2 * (0.125 + 0.138),
         Math.PI * 2 * (0.125 - 0.138),
         true

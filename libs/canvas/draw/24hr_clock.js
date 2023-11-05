@@ -79,7 +79,7 @@ function renderFrame_Draw24HourClock(ctx, now) {
   
   // > subtle motif for time of day (sun, moon, or sunset)
   if (CLOCK_DRAW_MOTIF) {
-    renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius);
+    renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius * 0.55);
   }
   
   // > calculate date and time positioning variables
