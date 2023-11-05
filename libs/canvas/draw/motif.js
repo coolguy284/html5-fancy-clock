@@ -13,6 +13,7 @@ function getSunHeight(now) {
 }
 
 function renderFrame_DrawClockMotif(ctx, now, x, y, radius, forceAdvancedMotif) {
+  // radius variable was originally based off of clockradius
   radius /= 0.55;
   
   let motif;
@@ -42,7 +43,7 @@ function renderFrame_DrawClockMotif(ctx, now, x, y, radius, forceAdvancedMotif) 
       // >> sun motif
       // >>> circle
       ctx.strokeStyle = 'rgba(255, 255, 0, 0.15)';
-      ctx.lineWidth = canvas.height * 0.007;
+      ctx.lineWidth = radius / 0.43 / 0.9 * 0.007;
       ctx.lineCap = 'butt';
       ctx.beginPath();
       ctx.arc(x, y, radius * 0.35, 0, Math.PI * 2);
@@ -77,7 +78,7 @@ function renderFrame_DrawClockMotif(ctx, now, x, y, radius, forceAdvancedMotif) 
       // >> sunrise motif
       // >>> upper circle
       ctx.strokeStyle = 'rgba(255, 255, 0, 0.15)';
-      ctx.lineWidth = canvas.height * 0.007;
+      ctx.lineWidth = radius / 0.43 / 0.9 * 0.007;
       ctx.lineCap = 'butt';
       ctx.beginPath();
       ctx.arc(x, y, radius * 0.35, Math.PI * 0.99, Math.PI * 2.01);
@@ -109,7 +110,7 @@ function renderFrame_DrawClockMotif(ctx, now, x, y, radius, forceAdvancedMotif) 
       
       // >>> white line below
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-      ctx.lineWidth = canvas.height * 0.007;
+      ctx.lineWidth = radius / 0.43 / 0.9 * 0.007;
       ctx.lineCap = 'butt';
       ctx.beginPath();
       ctx.moveTo(
@@ -126,7 +127,7 @@ function renderFrame_DrawClockMotif(ctx, now, x, y, radius, forceAdvancedMotif) 
     case 'moon': {
       // >> moon motif
       ctx.strokeStyle = 'rgba(0, 127, 255, 0.18)';
-      ctx.lineWidth = canvas.height * 0.007;
+      ctx.lineWidth = radius / 0.43 / 0.9 * 0.007;
       ctx.lineCap = 'butt';
       ctx.beginPath();
       // >>> arc 1

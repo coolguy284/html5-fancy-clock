@@ -204,6 +204,7 @@ class CanvasDrawer {
     }
   }
   
+  // draws text to screen per letter, spaced using the letterSpacings array
   drawTextWithPerLetterSpacing(opts) {
     opts = this.defaultOptsProcessingNoCoordConversion(opts, ['x', 'text', 'size', 'letterSpacings', 'nudgeOnes']);
     

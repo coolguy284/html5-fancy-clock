@@ -220,10 +220,6 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   
   // > green line for current time in year
   {
-    ctx.strokeStyle = 'lime';
-    ctx.lineWidth = clockRadius * 0.007;
-    ctx.lineCap = 'butt';
-    
     let fractionalDayOfYear =
       getDayOfYear(now.getFullYear(), now.getMonth() + 1, now.getDate()) +
       now.getHours() / 24 +
