@@ -109,7 +109,7 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
     ctx.fill();
   }
   
-  // > subtle motif for time of day (6AM-6PM is sun, else is crescent moon)
+  // > subtle motif for time of day
   renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius * 0.9, true);
   
   // > subtle circles around day of week and day of year

@@ -5,35 +5,25 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
   let clockCenterX = canvas.width / 2;
   let clockCenterY = canvas.height / 2;
   let clockRadius = getMinCanvasDim() * 0.43;
+  let canvasDrawer = new CanvasDrawer(ctx, clockCenterX, clockCenterY, clockRadius);
+  canvasDrawer.setDefaults({
+    color: 'white',
+    cap: 'butt',
+    font: 'sans-serif',
+    coordSystem: 'clock relative',
+    nudgeOnes: false,
+  });
   
-  // > outer circle
-  ctx.strokeStyle = 'white';
-  ctx.lineWidth = clockRadius * 0.0046;
-  ctx.lineCap = 'butt';
-  ctx.beginPath();
-  ctx.arc(clockCenterX, clockCenterY, clockRadius, 0, Math.PI * 2);
-  ctx.stroke();
-  
-  // > inward lines at each hour
-  ctx.beginPath();
-  for (let i = 0; i < 24; i++) {
-    let angle = Math.PI * 2 / 24 * i - Math.PI / 2;
-    
-    let normalizedX = Math.cos(angle);
-    let normalizedY = Math.sin(angle);
-    
-    let inwardLinesInnerRadius = 0.85;
-    
-    ctx.moveTo(
-      clockCenterX + normalizedX * clockRadius * inwardLinesInnerRadius,
-      clockCenterY + normalizedY * clockRadius * inwardLinesInnerRadius
-    );
-    ctx.lineTo(
-      clockCenterX + normalizedX * clockRadius,
-      clockCenterY + normalizedY * clockRadius
-    );
-  }
-  ctx.stroke();
+  // > outer circle with inward lines at each hour
+  canvasDrawer.drawCircleWithInwardLines({
+    x: 0,
+    y: 0,
+    radius: 1,
+    linesInnerRadius: 0.85,
+    circleWidth: 0.0046,
+    lineWidth: 0.0046,
+    numLines: 24,
+  });
   
   // > text at each hour
   for (let i = 0; i < 24; i++) {
@@ -42,23 +32,12 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
     let normalizedX = Math.cos(angle);
     let normalizedY = Math.sin(angle);
     
-    let hourTextHeight = clockRadius * 0.065;
-    ctx.fillStyle = 'white';
-    ctx.font = `${hourTextHeight}px sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    drawTextWithPerLetterSpacing(
-      ctx, (i + '').padStart(2, '0') + '00',
-      clockCenterX + normalizedX * clockRadius * 0.75,
-      clockCenterY + normalizedY * clockRadius * 0.77,
-      hourTextHeight,
-      [
-        0,
-        hourTextHeight * 0.55,
-        hourTextHeight * 0.55,
-        hourTextHeight * 0.55,
-      ]
-    );
+    canvasDrawer.drawTextFixedWidth({
+      x: normalizedX * 0.75,
+      y: normalizedY * 0.77,
+      text: (i + '').padStart(2, '0') + '00',
+      size: 0.065,
+    });
   }
   
   // > green external wedge on the current time
@@ -73,24 +52,18 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
     let wedgeRadiusInner = 1.01;
     let wedgeRadiusOuter = 1.13;
     
-    ctx.fillStyle = 'lime';
-    ctx.beginPath();
-    ctx.moveTo(
-      clockCenterX + Math.cos(angleLeft) * clockRadius * wedgeRadiusOuter,
-      clockCenterY + Math.sin(angleLeft) * clockRadius * wedgeRadiusOuter,
-    );
-    ctx.lineTo(
-      clockCenterX + Math.cos(angleRight) * clockRadius * wedgeRadiusOuter,
-      clockCenterY + Math.sin(angleRight) * clockRadius * wedgeRadiusOuter,
-    );
-    ctx.lineTo(
-      clockCenterX + Math.cos(angleCenter) * clockRadius * wedgeRadiusInner,
-      clockCenterY + Math.sin(angleCenter) * clockRadius * wedgeRadiusInner,
-    );
-    ctx.fill();
+    canvasDrawer.drawFilledTriangle({
+      x1: Math.cos(angleLeft) * wedgeRadiusOuter,
+      y1: Math.sin(angleLeft) * wedgeRadiusOuter,
+      x2: Math.cos(angleRight) * wedgeRadiusOuter,
+      y2: Math.sin(angleRight) * wedgeRadiusOuter,
+      x3: Math.cos(angleCenter) * wedgeRadiusInner,
+      y3: Math.sin(angleCenter) * wedgeRadiusInner,
+      color: 'lime',
+    });
   }
   
-  // > subtle motif for time of day (6AM-6PM is sun, else is crescent moon)
+  // > subtle motif for time of day
   renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius, true);
   
   // > print time inside clock
@@ -101,25 +74,12 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
     (now.getSeconds() + '').padStart(2, '0');
   
   // >> print time
-  let timeTextPosY = clockCenterY - clockRadius * 0.06;
-  let timeTextHeight = clockRadius * 0.29;
-  ctx.fillStyle = 'white';
-  ctx.font = `${timeTextHeight}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  drawTextWithPerLetterSpacing(
-    ctx, timeString, clockCenterX, timeTextPosY, timeTextHeight,
-    [
-      0,
-      timeTextHeight * 0.55,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.55,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.4,
-      timeTextHeight * 0.55,
-    ]
-  );
+  canvasDrawer.drawTextFixedWidth({
+    x: 0,
+    y: -0.06,
+    text: timeString,
+    size: 0.29,
+  });
   
   // > print date inside clock
   // >> calculate date string
@@ -131,21 +91,22 @@ function renderFrame_Draw24HourFancyClock_Main(ctx, now) {
     weekDayString;
   
   // >> print date
-  let dateTextPosY = clockCenterY + clockRadius * 0.12;
-  let dateTextHeight = clockRadius * 0.093;
-  ctx.fillStyle = 'rgb(192, 192, 192)';
-  ctx.font = `${dateTextHeight}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(dateString, canvas.width / 2, dateTextPosY);
+  canvasDrawer.drawText({
+    x: 0,
+    y: 0.12,
+    text: dateString,
+    size: 0.093,
+    color: 'rgb(192, 192, 192)',
+  });
   
   // > print elevation and azimuth of sun
   let sunParameters = getSunHeightAndAngle(now);
   let sunAzimuthString = `Sun Elev.: ${sunParameters.height.toFixed(2)}°, Azim.: ${sunParameters.angle.toFixed(2)}°`;
-  let sunAzimuthTextHeight = clockRadius * 0.055;
-  ctx.fillStyle = 'rgb(192, 192, 192)';
-  ctx.font = `${sunAzimuthTextHeight}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(sunAzimuthString, canvas.width / 2, clockCenterY + clockRadius * 0.22);
+  canvasDrawer.drawText({
+    x: 0,
+    y: 0.22,
+    text: sunAzimuthString,
+    size: 0.055,
+    color: 'rgb(192, 192, 192)',
+  });
 }

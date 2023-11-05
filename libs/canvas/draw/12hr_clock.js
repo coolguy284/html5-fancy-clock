@@ -117,7 +117,6 @@ function renderFrame_Draw12HourClock(ctx, now) {
     let handRadiusStart = -0.05;
     let handRadiusEnd = 0.67;
     
-    
     canvasDrawer.drawLine({
       x1: Math.cos(angle) * handRadiusStart,
       y1: Math.sin(angle) * handRadiusStart,
@@ -146,23 +145,13 @@ function renderFrame_Draw12HourClock(ctx, now) {
     }
     
     // > print time
-    if (CLOCK_SECONDS_VISIBLE) {
-      canvasDrawer.drawTextFixedWidth({
-        x: canvas.width / 2,
-        y: timeTextPosY,
-        text: timeString,
-        size: timeTextHeight,
-        coordSystem: 'screen space',
-      });
-    } else {
-      canvasDrawer.drawTextFixedWidth({
-        x: canvas.width / 2,
-        y: timeTextPosY,
-        text: timeString,
-        size: timeTextHeight,
-        coordSystem: 'screen space',
-      });
-    }
+    canvasDrawer.drawTextFixedWidth({
+      x: canvas.width / 2,
+      y: timeTextPosY,
+      text: timeString,
+      size: timeTextHeight,
+      coordSystem: 'screen space',
+    });
   }
   
   // print date below clock

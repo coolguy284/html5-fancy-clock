@@ -77,7 +77,7 @@ function renderFrame_Draw24HourClock(ctx, now) {
     });
   }
   
-  // > subtle motif for time of day (6AM-6PM is sun, else is crescent moon)
+  // > subtle motif for time of day
   if (CLOCK_DRAW_MOTIF) {
     renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius);
   }
@@ -110,21 +110,12 @@ function renderFrame_Draw24HourClock(ctx, now) {
     }
     
     // >> print time
-    if (CLOCK_SECONDS_VISIBLE) {
-      canvasDrawer.drawTextFixedWidth({
-        x: 0,
-        y: timeTextPosY,
-        text: timeString,
-        size: timeTextHeight,
-      });
-    } else {
-      canvasDrawer.drawTextFixedWidth({
-        x: 0,
-        y: timeTextPosY,
-        text: timeString,
-        size: timeTextHeight,
-      });
-    }
+    canvasDrawer.drawTextFixedWidth({
+      x: 0,
+      y: timeTextPosY,
+      text: timeString,
+      size: timeTextHeight,
+    });
   }
   
   // > print date inside clock
