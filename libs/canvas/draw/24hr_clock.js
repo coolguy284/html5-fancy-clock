@@ -1,14 +1,14 @@
 // helper function to calculate ui element positioning
-function renderFrame_Draw24HourClock_UIPosition(uiConfiguration, clockCenterY, clockRadius) {
+function renderFrame_Draw24HourClock_UIPosition(uiConfiguration) {
   switch (uiConfiguration) {
-    case 0: return [null,                              null,               null,    null,                              null,                null                ]; /* DATE:  NO, TIME:  NO, SECONDS:  NO */
-    case 1: return [null,                              null,               null,    null,                              null,                null                ]; /* DATE:  NO, TIME:  NO, SECONDS: YES */
-    case 2: return [clockCenterY,                      clockRadius * 0.34, 'white', null,                              null,                null                ]; /* DATE:  NO, TIME: YES, SECONDS:  NO */
-    case 3: return [clockCenterY,                      clockRadius * 0.29, 'white', null,                              null,                null                ]; /* DATE:  NO, TIME: YES, SECONDS: YES */
-    case 4: return [null,                              null,               null,    clockCenterY,                      clockRadius * 0.128, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS:  NO */
-    case 5: return [null,                              null,               null,    clockCenterY,                      clockRadius * 0.128, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS: YES */
-    case 6: return [clockCenterY - clockRadius * 0.08, clockRadius * 0.34, 'white', clockCenterY + clockRadius * 0.14, clockRadius * 0.093, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS:  NO */
-    case 7: return [clockCenterY - clockRadius * 0.06, clockRadius * 0.29, 'white', clockCenterY + clockRadius * 0.12, clockRadius * 0.093, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS: YES */
+    case 0: return [null,  null, null, null,  null                ]; /* DATE:  NO, TIME:  NO, SECONDS:  NO */
+    case 1: return [null,  null, null, null,  null                ]; /* DATE:  NO, TIME:  NO, SECONDS: YES */
+    case 2: return [0,     0.34, null, null,  null                ]; /* DATE:  NO, TIME: YES, SECONDS:  NO */
+    case 3: return [0,     0.29, null, null,  null                ]; /* DATE:  NO, TIME: YES, SECONDS: YES */
+    case 4: return [null,  null, 0,    0.128, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS:  NO */
+    case 5: return [null,  null, 0,    0.128, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS: YES */
+    case 6: return [-0.08, 0.34, 0.14, 0.093, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS:  NO */
+    case 7: return [-0.06, 0.29, 0.12, 0.093, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS: YES */
   }
 }
 
@@ -25,6 +25,7 @@ function renderFrame_Draw24HourClock(ctx, now) {
     cap: 'butt',
     font: 'sans-serif',
     coordSystem: 'clock relative',
+    nudgeOnes: CLOCK_NUDGE_ONES,
   });
   
   // > outer circle with inward lines at each hour
@@ -50,7 +51,6 @@ function renderFrame_Draw24HourClock(ctx, now) {
       y: normalizedY * 0.77,
       text: (i + '').padStart(2, '0') + '00',
       size: 0.065,
-      nudgeOnes: CLOCK_NUDGE_ONES,
     });
   }
   
@@ -66,21 +66,15 @@ function renderFrame_Draw24HourClock(ctx, now) {
     let wedgeRadiusInner = 1.01;
     let wedgeRadiusOuter = 1.13;
     
-    ctx.fillStyle = 'lime';
-    ctx.beginPath();
-    ctx.moveTo(
-      clockCenterX + Math.cos(angleLeft) * clockRadius * wedgeRadiusOuter,
-      clockCenterY + Math.sin(angleLeft) * clockRadius * wedgeRadiusOuter,
-    );
-    ctx.lineTo(
-      clockCenterX + Math.cos(angleRight) * clockRadius * wedgeRadiusOuter,
-      clockCenterY + Math.sin(angleRight) * clockRadius * wedgeRadiusOuter,
-    );
-    ctx.lineTo(
-      clockCenterX + Math.cos(angleCenter) * clockRadius * wedgeRadiusInner,
-      clockCenterY + Math.sin(angleCenter) * clockRadius * wedgeRadiusInner,
-    );
-    ctx.fill();
+    canvasDrawer.drawFilledTriangle({
+      x1: Math.cos(angleLeft) * wedgeRadiusOuter,
+      y1: Math.sin(angleLeft) * wedgeRadiusOuter,
+      x2: Math.cos(angleRight) * wedgeRadiusOuter,
+      y2: Math.sin(angleRight) * wedgeRadiusOuter,
+      x3: Math.cos(angleCenter) * wedgeRadiusInner,
+      y3: Math.sin(angleCenter) * wedgeRadiusInner,
+      color: 'lime',
+    });
   }
   
   // > subtle motif for time of day (6AM-6PM is sun, else is crescent moon)
@@ -92,19 +86,18 @@ function renderFrame_Draw24HourClock(ctx, now) {
   let [
     timeTextPosY,
     timeTextHeight,
-    timeTextColor,
     dateTextPosY,
     dateTextHeight,
     dateTextColor,
   ] = renderFrame_Draw24HourClock_UIPosition(
-    CLOCK_DATE_VISIBLE * 4 + CLOCK_TIME_VISIBLE * 2 + CLOCK_SECONDS_VISIBLE,
-    clockCenterY, clockRadius
+    CLOCK_DATE_VISIBLE * 4 + CLOCK_TIME_VISIBLE * 2 + CLOCK_SECONDS_VISIBLE
   );
   
   // > print time inside clock
   if (CLOCK_TIME_VISIBLE) {
     // >> calculate time string
     let timeString;
+    
     if (CLOCK_SECONDS_VISIBLE) {
       timeString =
         (now.getHours() + '').padStart(2, '0') + ':' +
@@ -118,38 +111,19 @@ function renderFrame_Draw24HourClock(ctx, now) {
     
     // >> print time
     if (CLOCK_SECONDS_VISIBLE) {
-      ctx.fillStyle = timeTextColor;
-      ctx.font = `${timeTextHeight}px sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      drawTextWithPerLetterSpacing(
-        ctx, timeString, clockCenterX, timeTextPosY, timeTextHeight,
-        [
-          0,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.55,
-        ]
-      );
+      canvasDrawer.drawTextFixedWidth({
+        x: 0,
+        y: timeTextPosY,
+        text: timeString,
+        size: timeTextHeight,
+      });
     } else {
-      ctx.fillStyle = timeTextColor;
-      ctx.font = `${timeTextHeight}px sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      drawTextWithPerLetterSpacing(
-        ctx, timeString, clockCenterX, timeTextPosY, timeTextHeight,
-        [
-          0,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.55,
-        ]
-      );
+      canvasDrawer.drawTextFixedWidth({
+        x: 0,
+        y: timeTextPosY,
+        text: timeString,
+        size: timeTextHeight,
+      });
     }
   }
   
@@ -164,10 +138,12 @@ function renderFrame_Draw24HourClock(ctx, now) {
       weekDayString;
     
     // >> print date
-    ctx.fillStyle = dateTextColor;
-    ctx.font = `${dateTextHeight}px sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(dateString, canvas.width / 2, dateTextPosY);
+    canvasDrawer.drawText({
+      x: 0,
+      y: dateTextPosY,
+      text: dateString,
+      size: dateTextHeight,
+      color: dateTextColor,
+    });
   }
 }

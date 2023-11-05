@@ -49,6 +49,8 @@ class CanvasDrawer {
         if ('y1' in opts) opts.y1 = opts.y1 * this.#clockRadius + this.#clockY;
         if ('x2' in opts) opts.x2 = opts.x2 * this.#clockRadius + this.#clockX;
         if ('y2' in opts) opts.y2 = opts.y2 * this.#clockRadius + this.#clockY;
+        if ('x3' in opts) opts.x3 = opts.x3 * this.#clockRadius + this.#clockX;
+        if ('y3' in opts) opts.y3 = opts.y3 * this.#clockRadius + this.#clockY;
         if ('radius' in opts) opts.radius = opts.radius * this.#clockRadius;
         if ('width' in opts) opts.width = opts.width * this.#clockRadius;
         if ('size' in opts) opts.size = opts.size * this.#clockRadius;
@@ -87,6 +89,17 @@ class CanvasDrawer {
     this.#ctx.moveTo(opts.x1, opts.y1);
     this.#ctx.lineTo(opts.x2, opts.y2);
     this.#ctx.stroke();
+  }
+  
+  drawFilledTriangle(opts) {
+    opts = this.defaultOptsProcessing(opts, ['x1', 'x2', 'x3', 'y1', 'y2', 'y3', 'color']);
+    
+    this.#ctx.fillStyle = opts.color;
+    this.#ctx.beginPath();
+    this.#ctx.moveTo(opts.x1, opts.y1);
+    this.#ctx.lineTo(opts.x2, opts.y2);
+    this.#ctx.lineTo(opts.x3, opts.y3);
+    this.#ctx.fill();
   }
   
   drawCircle(opts) {

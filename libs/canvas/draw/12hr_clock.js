@@ -3,14 +3,14 @@ function renderFrame_Draw12HourClock_UIPosition(uiConfiguration) {
   let minCanvasDim = getMinCanvasDim();
   
   switch (uiConfiguration) {
-    case 0: return [canvas.height * 0.5,  minCanvasDim * 0.44, null,                 null,                 null,    null,                 null,                 null                ]; /* DATE:  NO, TIME:  NO, SECONDS:  NO */
-    case 1: return [canvas.height * 0.5,  minCanvasDim * 0.44, null,                 null,                 null,    null,                 null,                 null                ]; /* DATE:  NO, TIME:  NO, SECONDS: YES */
-    case 2: return [canvas.height * 0.44, minCanvasDim * 0.38, canvas.height * 0.92, canvas.height * 0.12, 'white', null,                 null,                 null                ]; /* DATE:  NO, TIME: YES, SECONDS:  NO */
-    case 3: return [canvas.height * 0.44, minCanvasDim * 0.38, canvas.height * 0.92, canvas.height * 0.1,  'white', null,                 null,                 null                ]; /* DATE:  NO, TIME: YES, SECONDS: YES */
-    case 4: return [canvas.height * 0.44, minCanvasDim * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS:  NO */
-    case 5: return [canvas.height * 0.44, minCanvasDim * 0.38, null,                 null,                 null,    canvas.height * 0.92, canvas.height * 0.09, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS: YES */
-    case 6: return [canvas.height * 0.43, minCanvasDim * 0.38, canvas.height * 0.89, canvas.height * 0.1,  'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS:  NO */
-    case 7: return [canvas.height * 0.43, minCanvasDim * 0.38, canvas.height * 0.89, canvas.height * 0.09, 'white', canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS: YES */
+    case 0: return [canvas.height * 0.5,  minCanvasDim * 0.44, null,                 null,                 null,                 null,                 null                ]; /* DATE:  NO, TIME:  NO, SECONDS:  NO */
+    case 1: return [canvas.height * 0.5,  minCanvasDim * 0.44, null,                 null,                 null,                 null,                 null                ]; /* DATE:  NO, TIME:  NO, SECONDS: YES */
+    case 2: return [canvas.height * 0.44, minCanvasDim * 0.38, canvas.height * 0.92, canvas.height * 0.12, null,                 null,                 null                ]; /* DATE:  NO, TIME: YES, SECONDS:  NO */
+    case 3: return [canvas.height * 0.44, minCanvasDim * 0.38, canvas.height * 0.92, canvas.height * 0.1,  null,                 null,                 null                ]; /* DATE:  NO, TIME: YES, SECONDS: YES */
+    case 4: return [canvas.height * 0.44, minCanvasDim * 0.38, null,                 null,                 canvas.height * 0.92, canvas.height * 0.09, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS:  NO */
+    case 5: return [canvas.height * 0.44, minCanvasDim * 0.38, null,                 null,                 canvas.height * 0.92, canvas.height * 0.09, 'white'             ]; /* DATE: YES, TIME:  NO, SECONDS: YES */
+    case 6: return [canvas.height * 0.43, minCanvasDim * 0.38, canvas.height * 0.89, canvas.height * 0.1,  canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS:  NO */
+    case 7: return [canvas.height * 0.43, minCanvasDim * 0.38, canvas.height * 0.89, canvas.height * 0.09, canvas.height * 0.96, canvas.height * 0.04, 'rgb(192, 192, 192)']; /* DATE: YES, TIME: YES, SECONDS: YES */
   }
 }
 
@@ -22,7 +22,6 @@ function renderFrame_Draw12HourClock(ctx, now) {
     clockRadius,
     timeTextPosY,
     timeTextHeight,
-    timeTextColor,
     dateTextPosY,
     dateTextHeight,
     dateTextColor,
@@ -152,7 +151,6 @@ function renderFrame_Draw12HourClock(ctx, now) {
         x: canvas.width / 2,
         y: timeTextPosY,
         text: timeString,
-        color: timeTextColor,
         size: timeTextHeight,
         coordSystem: 'screen space',
       });
@@ -161,7 +159,6 @@ function renderFrame_Draw12HourClock(ctx, now) {
         x: canvas.width / 2,
         y: timeTextPosY,
         text: timeString,
-        color: timeTextColor,
         size: timeTextHeight,
         coordSystem: 'screen space',
       });
