@@ -31,18 +31,24 @@ function renderFrame_Draw12HourClock(ctx, now) {
   // draw clock
   // > define variables
   let clockCenterX = canvas.width / 2;
+  let canvasDrawer = new CanvasDrawer(ctx, clockCenterX, clockCenterY, clockRadius);
+  canvasDrawer.setDefaults({
+    color: 'white',
+    cap: 'butt',
+    font: 'sans-serif',
+    coordSystem: 'clock relative',
+    nudgeOnes: CLOCK_NUDGE_ONES,
+  });
   
   // > outer circle
-  ctx.strokeStyle = 'white';
-  ctx.lineWidth = clockRadius * 0.0184;
-  ctx.lineCap = 'butt';
-  ctx.beginPath();
-  ctx.arc(clockCenterX, clockCenterY, clockRadius, 0, Math.PI * 2);
-  ctx.stroke();
+  canvasDrawer.drawCircle({
+    x: 0,
+    y: 0,
+    radius: 1,
+    width: 0.0184,
+  });
   
   // > inward lines at each hour
-  ctx.lineWidth = clockRadius * 0.0131;
-  ctx.beginPath();
   for (let i = 0; i < 12; i++) {
     let angle = Math.PI * 2 / 12 * i - Math.PI / 2;
     
@@ -51,16 +57,14 @@ function renderFrame_Draw12HourClock(ctx, now) {
     
     let inwardLinesInnerRadius = 0.9;
     
-    ctx.moveTo(
-      clockCenterX + normalizedX * clockRadius * inwardLinesInnerRadius,
-      clockCenterY + normalizedY * clockRadius * inwardLinesInnerRadius
-    );
-    ctx.lineTo(
-      clockCenterX + normalizedX * clockRadius,
-      clockCenterY + normalizedY * clockRadius
-    );
+    canvasDrawer.drawLine({
+      x1: normalizedX * inwardLinesInnerRadius,
+      y1: normalizedY * inwardLinesInnerRadius,
+      x2: normalizedX,
+      y2: normalizedY,
+      width: 0.0131,
+    });
   }
-  ctx.stroke();
   
   // > text at each hour
   for (let i = 0; i < 12; i++) {
@@ -69,16 +73,13 @@ function renderFrame_Draw12HourClock(ctx, now) {
     let normalizedX = Math.cos(angle);
     let normalizedY = Math.sin(angle);
     
-    let hourTextHeight = clockRadius * 0.13;
-    ctx.fillStyle = 'white';
-    ctx.font = `${hourTextHeight}px sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(
-      (i + 11) % 12 + 1,
-      clockCenterX + normalizedX * clockRadius * 0.8,
-      clockCenterY + normalizedY * clockRadius * 0.8,
-    );
+    canvasDrawer.drawText({
+      x: normalizedX * 0.8,
+      y: normalizedY * 0.8,
+      text: (i + 11) % 12 + 1,
+      color: 'white',
+      size: 0.13,
+    });
   }
   
   // > subtle motif for time of day (6AM-6PM is sun, else is crescent moon)
@@ -96,19 +97,13 @@ function renderFrame_Draw12HourClock(ctx, now) {
     let handRadiusStart = -0.02;
     let handRadiusEnd = 0.45;
     
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = clockRadius * 0.0263;
-    ctx.lineCap = 'butt';
-    ctx.beginPath();
-    ctx.moveTo(
-      clockCenterX + Math.cos(angle) * clockRadius * handRadiusStart,
-      clockCenterY + Math.sin(angle) * clockRadius * handRadiusStart,
-    );
-    ctx.lineTo(
-      clockCenterX + Math.cos(angle) * clockRadius * handRadiusEnd,
-      clockCenterY + Math.sin(angle) * clockRadius * handRadiusEnd,
-    );
-    ctx.stroke();
+    canvasDrawer.drawLine({
+      x1: Math.cos(angle) * handRadiusStart,
+      y1: Math.sin(angle) * handRadiusStart,
+      x2: Math.cos(angle) * handRadiusEnd,
+      y2: Math.sin(angle) * handRadiusEnd,
+      width: 0.0263,
+    });
   }
   
   // > minute hand
@@ -121,19 +116,13 @@ function renderFrame_Draw12HourClock(ctx, now) {
     let handRadiusStart = -0.03;
     let handRadiusEnd = 0.65;
     
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = clockRadius * 0.0131;
-    ctx.lineCap = 'butt';
-    ctx.beginPath();
-    ctx.moveTo(
-      clockCenterX + Math.cos(angle) * clockRadius * handRadiusStart,
-      clockCenterY + Math.sin(angle) * clockRadius * handRadiusStart,
-    );
-    ctx.lineTo(
-      clockCenterX + Math.cos(angle) * clockRadius * handRadiusEnd,
-      clockCenterY + Math.sin(angle) * clockRadius * handRadiusEnd,
-    );
-    ctx.stroke();
+    canvasDrawer.drawLine({
+      x1: Math.cos(angle) * handRadiusStart,
+      y1: Math.sin(angle) * handRadiusStart,
+      x2: Math.cos(angle) * handRadiusEnd,
+      y2: Math.sin(angle) * handRadiusEnd,
+      width: 0.0131,
+    });
   }
   
   // > second hand
@@ -145,19 +134,15 @@ function renderFrame_Draw12HourClock(ctx, now) {
     let handRadiusStart = -0.05;
     let handRadiusEnd = 0.67;
     
-    ctx.strokeStyle = 'red';
-    ctx.lineWidth = clockRadius * 0.0131;
-    ctx.lineCap = 'butt';
-    ctx.beginPath();
-    ctx.moveTo(
-      clockCenterX + Math.cos(angle) * clockRadius * handRadiusStart,
-      clockCenterY + Math.sin(angle) * clockRadius * handRadiusStart,
-    );
-    ctx.lineTo(
-      clockCenterX + Math.cos(angle) * clockRadius * handRadiusEnd,
-      clockCenterY + Math.sin(angle) * clockRadius * handRadiusEnd,
-    );
-    ctx.stroke();
+    
+    canvasDrawer.drawLine({
+      x1: Math.cos(angle) * handRadiusStart,
+      y1: Math.sin(angle) * handRadiusStart,
+      x2: Math.cos(angle) * handRadiusEnd,
+      y2: Math.sin(angle) * handRadiusEnd,
+      color: 'red',
+      width: 0.0131,
+    });
   }
   
   // print time below clock
@@ -179,44 +164,23 @@ function renderFrame_Draw12HourClock(ctx, now) {
     
     // > print time
     if (CLOCK_SECONDS_VISIBLE) {
-      ctx.fillStyle = timeTextColor;
-      ctx.font = `${timeTextHeight}px sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      drawTextWithPerLetterSpacing(
-        ctx, timeString, canvas.width / 2, timeTextPosY, timeTextHeight,
-        [
-          0,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.75,
-        ]
-      );
+      canvasDrawer.drawTextFixedWidth({
+        x: canvas.width / 2,
+        y: timeTextPosY,
+        text: timeString,
+        color: timeTextColor,
+        size: timeTextHeight,
+        coordSystem: 'screen space',
+      });
     } else {
-      ctx.fillStyle = timeTextColor;
-      ctx.font = `${timeTextHeight}px sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      drawTextWithPerLetterSpacing(
-        ctx, timeString, canvas.width / 2, timeTextPosY, timeTextHeight,
-        [
-          0,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.4,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.55,
-          timeTextHeight * 0.75,
-        ]
-      );
+      canvasDrawer.drawTextFixedWidth({
+        x: canvas.width / 2,
+        y: timeTextPosY,
+        text: timeString,
+        color: timeTextColor,
+        size: timeTextHeight,
+        coordSystem: 'screen space',
+      });
     }
   }
   
@@ -232,10 +196,13 @@ function renderFrame_Draw12HourClock(ctx, now) {
       now.getFullYear();
     
     // > print date
-    ctx.fillStyle = dateTextColor;
-    ctx.font = `${dateTextHeight}px sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(dateString, canvas.width / 2, dateTextPosY);
+    canvasDrawer.drawText({
+      x: canvas.width / 2,
+      y: dateTextPosY,
+      text: dateString,
+      color: dateTextColor,
+      size: dateTextHeight,
+      coordSystem: 'screen space',
+    });
   }
 }

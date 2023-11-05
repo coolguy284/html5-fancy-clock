@@ -34,3 +34,9 @@ let ADVANCED_MOTIF_HEIGHT_CHART = [
   [7.5, 'sunrise'],
   [90, 'sun']
 ];
+// keys are regexes, values are width relative to height
+let LETTER_WIDTHS = [
+  [/^[0-9 ]$/, 0.55],
+  [/^[A-Z]$/, 0.75],
+  [/^:$/, 0.25],
+];
