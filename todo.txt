@@ -1,3 +1,9 @@
+button for getting location
+closing settings saves or clicking off of input does as well
+nudge ones is broken now on 24 hour; crashes event loop
+use stackoverflow calulcations for default
+
+checkbox for draw clock border (primarily for the 12hr clock)
 timezone dropdown or something
 red color when nighttime and crimson color when past bedtime, gradual fade for both
 
@@ -6,6 +12,8 @@ roadmap:
   weekday circle - DONE
   day in year circle - DONE
   elevation and azimuth of sun - DONE
+  outline outside clock border for sunlight indicator
+    yellow for day, blue for night, orange for sunset
   red color when night w. fade
   crimson color when past bedtime w. fade
   background gradient based on sun elevation
