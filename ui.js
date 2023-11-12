@@ -113,8 +113,8 @@ function updateSettingsElemVisibilities() {
 async function setLocationVarsToCurrentLocation() {
   if (currentlyGettingLocation) return;
   
-  currentlyGettingLocation = true;
   set_to_current_location_btn.setAttribute('disabled', '');
+  currentlyGettingLocation = true;
   
   try {
     let position = await new Promise(
@@ -134,8 +134,8 @@ async function setLocationVarsToCurrentLocation() {
     alert(`Geolocation Error:\n${err.message}`);
   }
   
-  set_to_current_location_btn.removeAttribute('disabled');
   currentlyGettingLocation = false;
+  set_to_current_location_btn.removeAttribute('disabled');
 }
 
 async function stopFullscreen() {
