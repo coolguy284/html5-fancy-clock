@@ -209,8 +209,8 @@ class CanvasDrawer {
     opts = this.defaultOptsProcessingNoCoordConversion(opts, ['x', 'text', 'size', 'letterSpacings', 'nudgeOnes']);
     
     // nudge printed text if "1" is on left side to make it visually centered
-    if (opts.nudgeOnes && text.length > 1 && text[0] == '1') {
-      centerX -= 0.05 * textHeight;
+    if (opts.nudgeOnes && opts.text.length > 1 && opts.text[0] == '1') {
+      opts.x -= 0.05 * opts.size;
     }
     
     // calculate cumulative version of letterSpacings array
