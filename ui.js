@@ -110,6 +110,34 @@ function updateSettingsElemVisibilities() {
   }
 }
 
+async function setLocationVarsToCurrentLocation() {
+  if (currentlyGettingLocation) return;
+  
+  currentlyGettingLocation = true;
+  set_to_current_location_btn.setAttribute('disabled', '');
+  
+  try {
+    let position = await new Promise(
+      (r, j) =>
+        navigator.geolocation.getCurrentPosition(r, j, {
+          maximumAge: 0,
+          timeout: 60_000,
+          enableHighAccuracy: true,
+        })
+    );
+    
+    LATITUDE = position.coords.latitude;
+    LONGITUDE = position.coords.longitude;
+    
+    updateSettingsUI();
+  } catch (err) {
+    alert(`Geolocation Error:\n${err.message}`);
+  }
+  
+  set_to_current_location_btn.removeAttribute('disabled');
+  currentlyGettingLocation = false;
+}
+
 async function stopFullscreen() {
   await document.exitFullscreen();
 }

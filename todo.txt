@@ -1,5 +1,3 @@
-button for getting location
-closing settings saves or clicking off of input does as well
 use stackoverflow calulcations for default
 
 checkbox for draw clock border (primarily for the 12hr clock)

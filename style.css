@@ -57,6 +57,11 @@ button {
   padding: 0.4vh 0.8vh 0.4vh;
 }
 
+button:disabled {
+  color: grey;
+  border: 0.3vh solid grey;
+}
+
 select {
   background-color: black;
   color: white;
