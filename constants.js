@@ -11,6 +11,7 @@ let ADVANCED_MOTIF_CALCULATION = false; // whether to attempt to calculate heigh
 let SUN_ANGLE_CALCULATION_METHOD = 'Personal (Intuitive)'; // either "Personal (Intuitive)" or "Stackoverflow (Accurate)"
 let LATITUDE = 0; // latitude in degrees used to calculate sun position
 let LONGITUDE = 0; // longitude in degrees used to calculate sun position
+let DBLCLICK_TOGGLES_FULLSCREEN = false; // double click to fullscreen
 
 let DAY_OF_WEEK_STRINGS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
 let MONTH_OF_YEAR_STRINGS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

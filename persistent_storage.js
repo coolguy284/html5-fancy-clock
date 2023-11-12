@@ -11,6 +11,7 @@ function saveConstantsToPersistent() {
     SUN_ANGLE_CALCULATION_METHOD,
     LATITUDE,
     LONGITUDE,
+    DBLCLICK_TOGGLES_FULLSCREEN,
   });
 }
 
@@ -33,4 +34,5 @@ function loadConstantsFromPersistent() {
   if ('SUN_ANGLE_CALCULATION_METHOD' in localStorageData) SUN_ANGLE_CALCULATION_METHOD = localStorageData.SUN_ANGLE_CALCULATION_METHOD;
   if ('LATITUDE' in localStorageData) LATITUDE = localStorageData.LATITUDE;
   if ('LONGITUDE' in localStorageData) LONGITUDE = localStorageData.LONGITUDE;
+  if ('DBLCLICK_TOGGLES_FULLSCREEN' in localStorageData) DBLCLICK_TOGGLES_FULLSCREEN = localStorageData.DBLCLICK_TOGGLES_FULLSCREEN;
 }

@@ -1,6 +1,5 @@
 button for getting location
 closing settings saves or clicking off of input does as well
-nudge ones is broken now on 24 hour; crashes event loop
 use stackoverflow calulcations for default
 
 checkbox for draw clock border (primarily for the 12hr clock)

@@ -18,5 +18,7 @@ addEventListener('resize', () => {
 
 addEventListener('dblclick', async () => {
   if (LOG_DEBUG) console.debug('dblclick');
-  await toggleFullscreen();
+  if (DBLCLICK_TOGGLES_FULLSCREEN) {
+    await toggleFullscreen();
+  }
 });

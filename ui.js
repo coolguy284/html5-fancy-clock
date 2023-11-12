@@ -3,8 +3,10 @@ function showSettingsPage() {
 }
 
 function hideSettingsPage() {
-  settings_div.style.display = 'none';
-  location_settings_div.style.display = 'none';
+  if (settings_div.style.display != 'none') {
+    settings_div.style.display = 'none';
+    location_settings_div.style.display = 'none';
+  }
 }
 
 // function to show and hide settings menu
@@ -54,6 +56,8 @@ function updateClockConstants() {
   LONGITUDE = Number(longitude.value);
   if (!Number.isFinite(LONGITUDE)) LONGITUDE = 0;
   
+  DBLCLICK_TOGGLES_FULLSCREEN = double_click_toggles_fullscreen.checked;
+  
   saveConstantsToPersistent();
   updateSettingsElemVisibilities();
   renderFrame(true);
@@ -73,6 +77,7 @@ function updateSettingsUI() {
   sun_angle_calculation_method.value = SUN_ANGLE_CALCULATION_METHOD;
   latitude.value = numberToStringWithMinimumDecimalPlaces(LATITUDE, 3);
   longitude.value = numberToStringWithMinimumDecimalPlaces(LONGITUDE, 3);
+  double_click_toggles_fullscreen.checked = DBLCLICK_TOGGLES_FULLSCREEN;
   
   // update elem visibilities
   updateSettingsElemVisibilities();
@@ -105,12 +110,23 @@ function updateSettingsElemVisibilities() {
   }
 }
 
+async function stopFullscreen() {
+  await document.exitFullscreen();
+}
+
+async function goFullscreen() {
+  if (document.fullscreenEnabled) {
+    await canvas.requestFullscreen();
+    hideSettingsPage();
+  }
+}
+
 async function toggleFullscreen() {
   if (document.fullscreenEnabled) {
     if (document.fullscreenElement) {
-      await document.exitFullscreen();
+      await stopFullscreen();
     } else {
-      await canvas.requestFullscreen();
+      await goFullscreen();
     }
   }
 }

@@ -72,6 +72,11 @@
           <input type = 'text' id = 'longitude' onchange = 'updateClockConstants();' value = '0'>
         </label>
       </div>
+      <label>
+        <input type = 'checkbox' id = 'double_click_toggles_fullscreen' onchange = 'updateClockConstants();'>
+        Double Click to Toggle Fullscreen
+      </label>
+      <button onclick = 'goFullscreen();'>Fullscreen</button>
       <button onclick = 'revealAboutPage();'>About</button>
     </div>
     
