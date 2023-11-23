@@ -47,6 +47,11 @@ function updateClockConstants() {
   CLOCK_OFFSET_HOURS = Number(clock_offset_hours.value);
   if (!Number.isFinite(CLOCK_OFFSET_HOURS)) CLOCK_OFFSET_HOURS = 0;
   
+  LOCAL_TIMEZONE = timezone_offset_select.value == 'Local';
+  
+  TIMEZONE_OFFSET_HOURS = Number(timezone_offset_input.value);
+  if (!Number.isFinite(TIMEZONE_OFFSET_HOURS)) TIMEZONE_OFFSET_HOURS = 0;
+  
   ADVANCED_MOTIF_CALCULATION = advanced_motif_calculation.checked;
   SUN_ANGLE_CALCULATION_METHOD = sun_angle_calculation_method.value;
   
@@ -73,6 +78,8 @@ function updateSettingsUI() {
   date_visible.checked = CLOCK_DATE_VISIBLE;
   nudge_ones.checked = CLOCK_NUDGE_ONES;
   clock_offset_hours.value = numberToStringWithMinimumDecimalPlaces(CLOCK_OFFSET_HOURS, 0);
+  timezone_offset_select.value = LOCAL_TIMEZONE ? 'Local' : 'Custom';
+  timezone_offset_input.value = numberToStringWithMinimumDecimalPlaces(TIMEZONE_OFFSET_HOURS, 0);
   advanced_motif_calculation.checked = ADVANCED_MOTIF_CALCULATION;
   sun_angle_calculation_method.value = SUN_ANGLE_CALCULATION_METHOD;
   latitude.value = numberToStringWithMinimumDecimalPlaces(LATITUDE, 3);
@@ -107,6 +114,12 @@ function updateSettingsElemVisibilities() {
       nudge_ones.parentElement.style.display = 'none';
       advanced_motif_calculation.parentElement.style.display = 'none';
       break;
+  }
+  
+  if (timezone_offset_select.value == 'Local') {
+    timezone_offset_input.style.display = 'none';
+  } else {
+    timezone_offset_input.style.display = '';
   }
 }
 

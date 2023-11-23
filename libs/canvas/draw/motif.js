@@ -1,25 +1,25 @@
-function getSunHeightAndAngle(now) {
+function getSunHeightAndAngle(date) {
   switch (SUN_ANGLE_CALCULATION_METHOD) {
     case 'Personal (Intuitive)':
-      return GetHeightAndAngleOfSun_ConventionalDegrees(LATITUDE, LONGITUDE, now);
+      return GetHeightAndAngleOfSun_ConventionalDegrees(LATITUDE, LONGITUDE, date);
     
     case 'Stackoverflow (Accurate)':
-      return GetHeightAndAngleOfSun_ConventionalDegrees_StackOverflow(LATITUDE, LONGITUDE, now);
+      return GetHeightAndAngleOfSun_ConventionalDegrees_StackOverflow(LATITUDE, LONGITUDE, date);
   }
 }
 
-function getSunHeight(now) {
-  return getSunHeightAndAngle(now).height;
+function getSunHeight(date) {
+  return getSunHeightAndAngle(date).height;
 }
 
-function renderFrame_DrawClockMotif(ctx, now, x, y, radius, forceAdvancedMotif) {
+function renderFrame_DrawClockMotif(ctx, nowData, x, y, radius, forceAdvancedMotif) {
   // radius variable was originally based off of clockradius
   radius /= 0.55;
   
   let motif;
   
   if (ADVANCED_MOTIF_CALCULATION || forceAdvancedMotif) {
-    let sunHeight = getSunHeight(now);
+    let sunHeight = getSunHeight(nowData.dateObj);
     
     let motifEntry;
     for (motifEntry of ADVANCED_MOTIF_HEIGHT_CHART) {
@@ -28,7 +28,7 @@ function renderFrame_DrawClockMotif(ctx, now, x, y, radius, forceAdvancedMotif) 
     
     motif = motifEntry[1];
   } else {
-    let minuteOfDay = now.getHours() * 60 + now.getMinutes();
+    let minuteOfDay = nowData.hour * 60 + nowData.minute;
     
     let motifEntry;
     for (motifEntry of SIMPLE_MOTIF_MINUTE_CHART) {

@@ -62,6 +62,14 @@
           Clock Offset From Reality (Hours):
           <input type = 'text' id = 'clock_offset_hours' onchange = 'updateClockConstants();' value = '0'>
         </label>
+        <label>
+          Timezone Offset (Hours):
+          <select id = 'timezone_offset_select' onchange = 'updateClockConstants();'>
+            <option selected>Local</option>
+            <option>Custom</option>
+          </select>
+          <input type = 'text' id = 'timezone_offset_input' style = 'display: none;' onchange = 'updateClockConstants();' value = '0'>
+        </label>
         <button onclick = 'toggleLocationSettings();'>Reveal Location Settings</button>
         <div id = 'location_settings_div' style = 'display: none;'>
           <label>

@@ -18,7 +18,7 @@ function getDayOfYear(year, month, day) {
 }
 
 // 24 hour clock section of the renderFrame function
-function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
+function renderFrame_Draw24HourInfoSpamClock_Main(ctx, nowData) {
   // draw clock
   // > define variables
   let clockCenterX = canvas.width / 2;
@@ -62,7 +62,7 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   // > green external wedge on the current time
   {
     // a continuous version of hours that smoothly increases over time
-    let smoothedHours = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
+    let smoothedHours = nowData.hour + nowData.minute / 60 + nowData.second / 3600;
     
     let angleCenter = Math.PI * 2 / 24 * smoothedHours - Math.PI / 2;
     let angleLeft = angleCenter - Math.PI * 2 / 24 * 0.29;
@@ -83,7 +83,7 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   }
   
   // > subtle motif for time of day (sun, moon, or sunset)
-  renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius * 0.55 * 0.9, true);
+  renderFrame_DrawClockMotif(ctx, nowData, clockCenterX, clockCenterY, clockRadius * 0.55 * 0.9, true);
   
   // > subtle circles around day of week and day of year
   canvasDrawer.drawCircle({ x: 0, y: 0, radius: 0.6, color: 'rgb(31, 31, 31)', width: 0.0046 });
@@ -142,10 +142,10 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   // > green line for current time in week
   {
     let fractionalDayOfWeek =
-      now.getDay() +
-      now.getHours() / 24 +
-      now.getMinutes() / 24 / 60 +
-      now.getSeconds() / 24 / 3600;
+      nowData.dayOfWeek +
+      nowData.hour / 24 +
+      nowData.minute / 24 / 60 +
+      nowData.second / 24 / 3600;
     
     let angle = Math.PI * 2 / 7 * fractionalDayOfWeek - Math.PI / 2;
     
@@ -166,10 +166,10 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   }
   
   // > month of the year lines
-  let yearLengthDays = getYearLength(now.getYear());
+  let yearLengthDays = getYearLength(nowData.year);
   
   for (let i = 0; i < 12; i++) {
-    let angle = Math.PI * 2 / yearLengthDays * monthStartingDayOfYear(now.getFullYear(), i + 1) - Math.PI / 2;
+    let angle = Math.PI * 2 / yearLengthDays * monthStartingDayOfYear(nowData.year, i + 1) - Math.PI / 2;
     
     let normalizedX = Math.cos(angle);
     let normalizedY = Math.sin(angle);
@@ -189,7 +189,7 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   
   // > text for each month of the year
   for (let i = 0; i < 12; i++) {
-    let monthHalfwayDayOfYear = (monthStartingDayOfYear(now.getFullYear(), i + 1) + monthStartingDayOfYear(now.getFullYear(), i + 2)) / 2;
+    let monthHalfwayDayOfYear = (monthStartingDayOfYear(nowData.year, i + 1) + monthStartingDayOfYear(nowData.year, i + 2)) / 2;
     
     let angle = Math.PI * 2 / yearLengthDays * monthHalfwayDayOfYear - Math.PI / 2;
     
@@ -221,10 +221,10 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   // > green line for current time in year
   {
     let fractionalDayOfYear =
-      getDayOfYear(now.getFullYear(), now.getMonth() + 1, now.getDate()) +
-      now.getHours() / 24 +
-      now.getMinutes() / 24 / 60 +
-      now.getSeconds() / 24 / 3600;
+      getDayOfYear(nowData.year, nowData.month, nowData.day) +
+      nowData.hour / 24 +
+      nowData.minute / 24 / 60 +
+      nowData.second / 24 / 3600;
     
     let angle = Math.PI * 2 / yearLengthDays * fractionalDayOfYear - Math.PI / 2;
     
@@ -247,9 +247,9 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   // > print time inside clock
   // >> calculate time string
   let timeString =
-    (now.getHours() + '').padStart(2, '0') + ':' +
-    (now.getMinutes() + '').padStart(2, '0') + ':' +
-    (now.getSeconds() + '').padStart(2, '0');
+    (nowData.hour + '').padStart(2, '0') + ':' +
+    (nowData.minute + '').padStart(2, '0') + ':' +
+    (nowData.second + '').padStart(2, '0');
   
   // >> print time
   canvasDrawer.drawTextFixedWidth({
@@ -261,11 +261,11 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   
   // > print date inside clock
   // >> calculate date string
-  let weekDayString = DAY_OF_WEEK_STRINGS_CAPS[now.getDay()];
+  let weekDayString = DAY_OF_WEEK_STRINGS_CAPS[nowData.dayOfWeek];
   let dateString =
-    (now.getFullYear() + '') + '-' +
-    (now.getMonth() + 1 + '').padStart(2, '0') + '-' +
-    (now.getDate() + '').padStart(2, '0') + ' ' +
+    (nowData.year + '') + '-' +
+    (nowData.month + '').padStart(2, '0') + '-' +
+    (nowData.day + '').padStart(2, '0') + ' ' +
     weekDayString;
   
   // >> print date
@@ -278,7 +278,7 @@ function renderFrame_Draw24HourInfoSpamClock_Main(ctx, now) {
   });
   
   // > print elevation and azimuth of sun
-  let sunParameters = getSunHeightAndAngle(now);
+  let sunParameters = getSunHeightAndAngle(nowData.dateObj);
   let sunAzimuthString = `Sun Elev.: ${sunParameters.height.toFixed(2)}°, Azim.: ${sunParameters.angle.toFixed(2)}°`;
   canvasDrawer.drawText({
     x: 0,

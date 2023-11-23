@@ -15,7 +15,7 @@ function renderFrame_Draw12HourClock_UIPosition(uiConfiguration) {
 }
 
 // 12 hour clock section of the renderFrame function
-function renderFrame_Draw12HourClock(ctx, now) {
+function renderFrame_Draw12HourClock(ctx, nowData) {
   // calculate clock, date, and time positioning variables
   let [
     clockCenterY,
@@ -67,13 +67,13 @@ function renderFrame_Draw12HourClock(ctx, now) {
   
   // > subtle motif for time of day (sun, moon, or sunset)
   if (CLOCK_DRAW_MOTIF) {
-    renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius * 0.55);
+    renderFrame_DrawClockMotif(ctx, nowData, clockCenterX, clockCenterY, clockRadius * 0.55);
   }
   
   // > hour hand
   {
     // a continuous version of hours that smoothly increases over time
-    let smoothedHours = now.getHours() % 12 + now.getMinutes() / 60 + now.getSeconds() / 3600;
+    let smoothedHours = nowData.hour % 12 + nowData.minute / 60 + nowData.second / 3600;
     
     let angle = Math.PI * 2 / 12 * smoothedHours - Math.PI / 2;
     
@@ -92,7 +92,7 @@ function renderFrame_Draw12HourClock(ctx, now) {
   // > minute hand
   {
     // a continuous version of minutes that smoothly increases over time
-    let smoothedMinutes = now.getMinutes() + now.getSeconds() / 60;
+    let smoothedMinutes = nowData.minute + nowData.second / 60;
     
     let angle = Math.PI * 2 / 60 * smoothedMinutes - Math.PI / 2;
     
@@ -110,7 +110,7 @@ function renderFrame_Draw12HourClock(ctx, now) {
   
   // > second hand
   if (CLOCK_SECONDS_VISIBLE) {
-    let seconds = now.getSeconds();
+    let seconds = nowData.second;
     
     let angle = Math.PI * 2 / 60 * seconds - Math.PI / 2;
     
@@ -133,15 +133,15 @@ function renderFrame_Draw12HourClock(ctx, now) {
     let timeString;
     if (CLOCK_SECONDS_VISIBLE) {
       timeString =
-        ((now.getHours() + 11) % 12 + 1 + '').padStart(2, '0') + ':' +
-        (now.getMinutes() + '').padStart(2, '0') + ':' +
-        (now.getSeconds() + '').padStart(2, '0') + ' ' +
-        (now.getHours() >= 12 ? 'PM' : 'AM');
+        ((nowData.hour + 11) % 12 + 1 + '').padStart(2, '0') + ':' +
+        (nowData.minute + '').padStart(2, '0') + ':' +
+        (nowData.second + '').padStart(2, '0') + ' ' +
+        (nowData.hour >= 12 ? 'PM' : 'AM');
     } else {
       timeString =
-        ((now.getHours() + 11) % 12 + 1 + '').padStart(2, '0') + ':' +
-        (now.getMinutes() + '').padStart(2, '0') + ' ' +
-        (now.getHours() >= 12 ? 'PM' : 'AM');
+        ((nowData.hour + 11) % 12 + 1 + '').padStart(2, '0') + ':' +
+        (nowData.minute + '').padStart(2, '0') + ' ' +
+        (nowData.hour >= 12 ? 'PM' : 'AM');
     }
     
     // > print time
@@ -157,13 +157,13 @@ function renderFrame_Draw12HourClock(ctx, now) {
   // print date below clock
   if (CLOCK_DATE_VISIBLE) {
     // > calculate date string
-    let weekDayString = DAY_OF_WEEK_STRINGS[now.getDay()];
-    let monthString = MONTH_OF_YEAR_STRINGS[now.getMonth()];
+    let weekDayString = DAY_OF_WEEK_STRINGS[nowData.dayOfWeek];
+    let monthString = MONTH_OF_YEAR_STRINGS[nowData.month - 1];
     let dateString =
       weekDayString + ', ' +
       monthString + ' ' +
-      (now.getDate() + '').padStart(2, '0') + ' ' +
-      now.getFullYear();
+      (nowData.day + '').padStart(2, '0') + ' ' +
+      nowData.year;
     
     // > print date
     canvasDrawer.drawText({

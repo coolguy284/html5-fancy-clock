@@ -1,5 +1,5 @@
 // 24 hour clock section of the renderFrame function
-function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
+function renderFrame_Draw24HourFancyClock_BG(ctx, nowData) {
   // draw clock
   // > define variables
   let clockCenterX = canvas.width / 2;
@@ -43,7 +43,7 @@ function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
   // > green external wedge on the current time
   {
     // a continuous version of hours that smoothly increases over time
-    let smoothedHours = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
+    let smoothedHours = nowData.hour + nowData.minute / 60 + nowData.second / 3600;
     
     let angleCenter = Math.PI * 2 / 24 * smoothedHours - Math.PI / 2;
     let angleLeft = angleCenter - Math.PI * 2 / 24 * 0.29;
@@ -64,13 +64,13 @@ function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
   }
   
   // > subtle motif for time of day (sun, moon, or sunset)
-  renderFrame_DrawClockMotif(ctx, now, clockCenterX, clockCenterY, clockRadius * 0.55, true);
+  renderFrame_DrawClockMotif(ctx, nowData, clockCenterX, clockCenterY, clockRadius * 0.55, true);
   
   // > print time inside clock
   // >> calculate time string
   let timeString =
-    (now.getHours() + '').padStart(2, '0') + ':' +
-    (now.getMinutes() + '').padStart(2, '0');
+    (nowData.hour + '').padStart(2, '0') + ':' +
+    (nowData.minute + '').padStart(2, '0');
   
   // >> print time
   canvasDrawer.drawTextFixedWidth({
@@ -82,11 +82,11 @@ function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
   
   // > print date inside clock
   // >> calculate date string
-  let weekDayString = DAY_OF_WEEK_STRINGS_CAPS[now.getDay()];
+  let weekDayString = DAY_OF_WEEK_STRINGS_CAPS[nowData.dayOfWeek];
   let dateString =
-    (now.getFullYear() + '') + '-' +
-    (now.getMonth() + 1 + '').padStart(2, '0') + '-' +
-    (now.getDate() + '').padStart(2, '0') + ' ' +
+    (nowData.year + '') + '-' +
+    (nowData.month + '').padStart(2, '0') + '-' +
+    (nowData.day + '').padStart(2, '0') + ' ' +
     weekDayString;
   
   // >> print date
@@ -99,7 +99,7 @@ function renderFrame_Draw24HourFancyClock_BG(ctx, now) {
   });
   
   // > print elevation and azimuth of sun
-  let sunParameters = getSunHeightAndAngle(now);
+  let sunParameters = getSunHeightAndAngle(nowData.dateObj);
   let sunAzimuthString = `Sun Elev.: ${sunParameters.height.toFixed(0)}°, Azim.: ${sunParameters.angle.toFixed(0)}°`;
   canvasDrawer.drawText({
     x: 0,

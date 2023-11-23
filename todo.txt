@@ -1,7 +1,4 @@
-use stackoverflow calulcations for default
-
 checkbox for draw clock border (primarily for the 12hr clock)
-timezone dropdown or something
 red color when nighttime and crimson color when past bedtime, gradual fade for both
 
 roadmap:

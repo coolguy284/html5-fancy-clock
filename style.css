@@ -38,7 +38,7 @@ input[type=radio], input[type=checkbox] {
 }
 
 input[type=text] {
-  width: 20vh;
+  width: 13vh;
   height: 2.3vh;
   background-color: black;
   color: white;
