@@ -22,3 +22,11 @@ addEventListener('dblclick', async () => {
     await toggleFullscreen();
   }
 });
+
+addEventListener('keydown', evt => {
+  switch (evt.key) {
+    case 'Escape':
+      hideSettingsPage();
+      break;
+  }
+});

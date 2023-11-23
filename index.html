@@ -14,71 +14,76 @@
     
     <div id = 'settings_div' style = 'display: none;'>
       <div>
+        <div>
+          <label>
+            Mode:
+            <select id = 'clock_draw_mode' onchange = 'updateClockConstants();'>
+              <option>12 Hour</option>
+              <option>24 Hour</option>
+              <option selected>24 Hour Fancy (Main)</option>
+              <option>24 Hour Fancy (Background)</option>
+              <option>24 Hour Infospam (Main)</option>
+              <option>24 Hour Infospam (Background)</option>
+            </select>
+          </label>
+        </div>
         <label>
-          Mode:
-          <select id = 'clock_draw_mode' onchange = 'updateClockConstants();'>
-            <option>12 Hour</option>
-            <option>24 Hour</option>
-            <option selected>24 Hour Fancy (Main)</option>
-            <option>24 Hour Fancy (Background)</option>
-            <option>24 Hour Infospam (Main)</option>
-            <option>24 Hour Infospam (Background)</option>
+          <input type = 'checkbox' id = 'motif_visible' onchange = 'updateClockConstants();' checked = 'checked'>
+          Motif Visible
+        </label>
+        <label>
+          <input type = 'checkbox' id = 'seconds_visible' onchange = 'updateClockConstants();' checked = 'checked'>
+          Seconds Visible
+        </label>
+        <label>
+          <input type = 'checkbox' id = 'time_visible' onchange = 'updateClockConstants();' checked = 'checked'>
+          Time Visible
+        </label>
+        <label>
+          <input type = 'checkbox' id = 'date_visible' onchange = 'updateClockConstants();' checked = 'checked'>
+          Date Visible
+        </label>
+        <label>
+          <input type = 'checkbox' id = 'nudge_ones' onchange = 'updateClockConstants();' checked = 'checked'>
+          Nudge Ones
+        </label>
+        <label>
+          <input type = 'checkbox' id = 'advanced_motif_calculation' onchange = 'updateClockConstants();'>
+          Advanced Motif Calculation
+        </label>
+        <label>
+          Sun Angle Calculation Method:
+          <select id = 'sun_angle_calculation_method' onchange = 'updateClockConstants();'>
+            <option selected>Personal (Intuitive)</option>
+            <option>Stackoverflow (Accurate)</option>
           </select>
         </label>
-      </div>
-      <label>
-        <input type = 'checkbox' id = 'motif_visible' onchange = 'updateClockConstants();' checked = 'checked'>
-        Motif Visible
-      </label>
-      <label>
-        <input type = 'checkbox' id = 'seconds_visible' onchange = 'updateClockConstants();' checked = 'checked'>
-        Seconds Visible
-      </label>
-      <label>
-        <input type = 'checkbox' id = 'time_visible' onchange = 'updateClockConstants();' checked = 'checked'>
-        Time Visible
-      </label>
-      <label>
-        <input type = 'checkbox' id = 'date_visible' onchange = 'updateClockConstants();' checked = 'checked'>
-        Date Visible
-      </label>
-      <label>
-        <input type = 'checkbox' id = 'nudge_ones' onchange = 'updateClockConstants();' checked = 'checked'>
-        Nudge Ones
-      </label>
-      <label>
-        <input type = 'checkbox' id = 'advanced_motif_calculation' onchange = 'updateClockConstants();'>
-        Advanced Motif Calculation
-      </label>
-      <label>
-        Sun Angle Calculation Method:
-        <select id = 'sun_angle_calculation_method' onchange = 'updateClockConstants();'>
-          <option selected>Personal (Intuitive)</option>
-          <option>Stackoverflow (Accurate)</option>
-        </select>
-      </label>
-      <label>
-        Clock Offset From Reality (Hours):
-        <input type = 'text' id = 'clock_offset_hours' onchange = 'updateClockConstants();' value = '0'>
-      </label>
-      <button onclick = 'toggleLocationSettings();'>Reveal Location Settings</button>
-      <div id = 'location_settings_div' style = 'display: none;'>
         <label>
-          Latitude (Degrees):
-          <input type = 'text' id = 'latitude' onchange = 'updateClockConstants();' value = '0'>
+          Clock Offset From Reality (Hours):
+          <input type = 'text' id = 'clock_offset_hours' onchange = 'updateClockConstants();' value = '0'>
         </label>
+        <button onclick = 'toggleLocationSettings();'>Reveal Location Settings</button>
+        <div id = 'location_settings_div' style = 'display: none;'>
+          <label>
+            Latitude (Degrees):
+            <input type = 'text' id = 'latitude' onchange = 'updateClockConstants();' value = '0'>
+          </label>
+          <label>
+            Longitude (Degrees):
+            <input type = 'text' id = 'longitude' onchange = 'updateClockConstants();' value = '0'>
+          </label>
+          <button id = 'set_to_current_location_btn' onclick = 'setLocationVarsToCurrentLocation();'>Set To Current Location</button>
+        </div>
         <label>
-          Longitude (Degrees):
-          <input type = 'text' id = 'longitude' onchange = 'updateClockConstants();' value = '0'>
+          <input type = 'checkbox' id = 'double_click_toggles_fullscreen' onchange = 'updateClockConstants();'>
+          Double Click to Toggle Fullscreen
         </label>
-        <button id = 'set_to_current_location_btn' onclick = 'setLocationVarsToCurrentLocation();'>Set To Current Location</button>
       </div>
-      <label>
-        <input type = 'checkbox' id = 'double_click_toggles_fullscreen' onchange = 'updateClockConstants();'>
-        Double Click to Toggle Fullscreen
-      </label>
-      <button onclick = 'goFullscreen();'>Fullscreen</button>
-      <button onclick = 'revealAboutPage();'>About</button>
+      <div>
+        <button onclick = 'goFullscreen();'>Fullscreen</button>
+        <button onclick = 'revealAboutPage();'>About</button>
+        <button onclick = 'hideSettingsPage();'>Close</button>
+      </div>
     </div>
     
     <button id = 'settings_button' onclick = 'toggleSettingsVisibility();'>Settings</button>

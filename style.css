@@ -100,7 +100,7 @@ a:active {
   bottom: 1vh;
   left: 1vh;
   width: calc(100% - 15.5vh);
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: start;
   background-color: rgba(0, 0, 0, 0.6);
@@ -112,9 +112,10 @@ a:active {
   user-select: none;
 }
 
-#settings_div > div {
+#settings_div div {
   flex-direction: row;
-  gap: 0.5vh;
+  flex-wrap: wrap;
+  gap: 3vh;
 }
 
 #settings_div div, #settings_div label {
