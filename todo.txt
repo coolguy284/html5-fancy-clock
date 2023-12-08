@@ -1,5 +1,8 @@
 checkbox for draw clock border (primarily for the 12hr clock)
-red color when nighttime and crimson color when past bedtime, gradual fade for both
+vibrant coloring mode
+  uses angle of sun to color background with gradient for sky color, that changes throughout day
+  text becomes red in night and crimson for past bedtime (gradual fade for both)
+    maybe also add stars in bg?
 
 roadmap:
 24 hour fancy
@@ -11,6 +14,7 @@ roadmap:
   red color when night w. fade
   crimson color when past bedtime w. fade
   background gradient based on sun elevation
+  stars when night
 
 low priority:
 make numberToStringWithMinimumDecimalPlaces function trim 15th decimal place if it is something crazy like 0.3000000000000002
