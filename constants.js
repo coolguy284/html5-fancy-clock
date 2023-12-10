@@ -5,6 +5,7 @@ let CLOCK_DRAW_MOTIF = true; // whether sun / moon motif will show in center of 
 let CLOCK_SECONDS_VISIBLE = true; // whether seconds is visible on the clock
 let CLOCK_TIME_VISIBLE = true; // whether to show time below or inside clock
 let CLOCK_DATE_VISIBLE = true; // whether to show "Tue, Oct 12 2023" on 12 hr clock and "2023-10-12 TUE" on 24hr
+let CLOCK_DRAW_BORDER = true; // whether to show the border of the clock
 let CLOCK_NUDGE_ONES = false; // whether to nudge positioning of text when there is a 1
 let CLOCK_OFFSET_HOURS = 0; // amount of hours clock is ahead of real time
 let LOCAL_TIMEZONE = true; // if local timezone is displayed, else display a utc offset timezone

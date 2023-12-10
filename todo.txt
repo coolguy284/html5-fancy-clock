@@ -1,4 +1,3 @@
-checkbox for draw clock border (primarily for the 12hr clock)
 vibrant coloring mode
   uses angle of sun to color background with gradient for sky color, that changes throughout day
   text becomes red in night and crimson for past bedtime (gradual fade for both)

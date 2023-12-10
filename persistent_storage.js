@@ -5,6 +5,7 @@ function saveConstantsToPersistent() {
     CLOCK_SECONDS_VISIBLE,
     CLOCK_TIME_VISIBLE,
     CLOCK_DATE_VISIBLE,
+    CLOCK_DRAW_BORDER,
     CLOCK_NUDGE_ONES,
     CLOCK_OFFSET_HOURS,
     LOCAL_TIMEZONE,
@@ -30,6 +31,7 @@ function loadConstantsFromPersistent() {
   if ('CLOCK_SECONDS_VISIBLE' in localStorageData) CLOCK_SECONDS_VISIBLE = localStorageData.CLOCK_SECONDS_VISIBLE;
   if ('CLOCK_TIME_VISIBLE' in localStorageData) CLOCK_TIME_VISIBLE = localStorageData.CLOCK_TIME_VISIBLE;
   if ('CLOCK_DATE_VISIBLE' in localStorageData) CLOCK_DATE_VISIBLE = localStorageData.CLOCK_DATE_VISIBLE;
+  if ('CLOCK_DRAW_BORDER' in localStorageData) CLOCK_DRAW_BORDER = localStorageData.CLOCK_DRAW_BORDER;
   if ('CLOCK_NUDGE_ONES' in localStorageData) CLOCK_NUDGE_ONES = localStorageData.CLOCK_NUDGE_ONES;
   if ('CLOCK_OFFSET_HOURS' in localStorageData) CLOCK_OFFSET_HOURS = localStorageData.CLOCK_OFFSET_HOURS;
   if ('LOCAL_TIMEZONE' in localStorageData) LOCAL_TIMEZONE = localStorageData.LOCAL_TIMEZONE;

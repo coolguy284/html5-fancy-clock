@@ -29,15 +29,17 @@ function renderFrame_Draw24HourClock(ctx, nowData) {
   });
   
   // > outer circle with inward lines at each hour
-  canvasDrawer.drawCircleWithInwardLines({
-    x: 0,
-    y: 0,
-    radius: 1,
-    linesInnerRadius: 0.85,
-    circleWidth: 0.0046,
-    lineWidth: 0.0046,
-    numLines: 24,
-  });
+  if (CLOCK_DRAW_BORDER) {
+    canvasDrawer.drawCircleWithInwardLines({
+      x: 0,
+      y: 0,
+      radius: 1,
+      linesInnerRadius: 0.85,
+      circleWidth: 0.0046,
+      lineWidth: 0.0046,
+      numLines: 24,
+    });
+  }
   
   // > text at each hour
   for (let i = 0; i < 24; i++) {

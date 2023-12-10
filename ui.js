@@ -42,6 +42,7 @@ function updateClockConstants() {
   CLOCK_SECONDS_VISIBLE = seconds_visible.checked;
   CLOCK_TIME_VISIBLE = time_visible.checked;
   CLOCK_DATE_VISIBLE = date_visible.checked;
+  CLOCK_DRAW_BORDER = draw_border.checked;
   CLOCK_NUDGE_ONES = nudge_ones.checked;
   
   CLOCK_OFFSET_HOURS = Number(clock_offset_hours.value);
@@ -76,6 +77,7 @@ function updateSettingsUI() {
   seconds_visible.checked = CLOCK_SECONDS_VISIBLE;
   time_visible.checked = CLOCK_TIME_VISIBLE;
   date_visible.checked = CLOCK_DATE_VISIBLE;
+  draw_border.checked = CLOCK_DRAW_BORDER;
   nudge_ones.checked = CLOCK_NUDGE_ONES;
   clock_offset_hours.value = numberToStringWithMinimumDecimalPlaces(CLOCK_OFFSET_HOURS, 0);
   timezone_offset_select.value = LOCAL_TIMEZONE ? 'Local' : 'Custom';
@@ -99,6 +101,7 @@ function updateSettingsElemVisibilities() {
       seconds_visible.parentElement.style.display = '';
       time_visible.parentElement.style.display = '';
       date_visible.parentElement.style.display = '';
+      draw_border.parentElement.style.display = '';
       nudge_ones.parentElement.style.display = '';
       advanced_motif_calculation.parentElement.style.display = '';
       break;
@@ -111,6 +114,7 @@ function updateSettingsElemVisibilities() {
       seconds_visible.parentElement.style.display = 'none';
       time_visible.parentElement.style.display = 'none';
       date_visible.parentElement.style.display = 'none';
+      draw_border.parentElement.style.display = 'none';
       nudge_ones.parentElement.style.display = 'none';
       advanced_motif_calculation.parentElement.style.display = 'none';
       break;

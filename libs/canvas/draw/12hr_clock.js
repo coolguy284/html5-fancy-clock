@@ -40,15 +40,17 @@ function renderFrame_Draw12HourClock(ctx, nowData) {
   });
   
   // > outer circle with inward lines at each hour
-  canvasDrawer.drawCircleWithInwardLines({
-    x: 0,
-    y: 0,
-    radius: 1,
-    linesInnerRadius: 0.9,
-    circleWidth: 0.0184,
-    lineWidth: 0.0131,
-    numLines: 12,
-  });
+  if (CLOCK_DRAW_BORDER) {
+    canvasDrawer.drawCircleWithInwardLines({
+      x: 0,
+      y: 0,
+      radius: 1,
+      linesInnerRadius: 0.9,
+      circleWidth: 0.0184,
+      lineWidth: 0.0131,
+      numLines: 12,
+    });
+  }
   
   // > text at each hour
   for (let i = 0; i < 12; i++) {
