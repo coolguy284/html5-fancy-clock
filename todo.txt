@@ -1,3 +1,16 @@
+ensure nudge ones is disabled for fancy and infospam profiles, as nudging ones gets rid of the point of fixed width printing anyway
+add checkbox for smooth second hand
+add checkbox for midnight at bottom
+precision select
+  options minute, second, tenth-second, hundredth-second, millisecond
+  milliseconds option puts in the milliseconds in grey super tiny text
+add notifications to fancy clock, can toggle them off in settings
+  things like "Fall back! (Timezone shifted 1 hour back)" or "Christmas day has begun!" or "Christmas day has ended."
+  and they appear in the corner
+do east vector as well as zenith vector, and calc zenith vector from cross product of the other 2; then can multiply z coords across the both vectors for oblateness
+add ring around clock for day or night illumination, based on a calculation routine that runs when changing location or when next day starts
+  precision is minutely by default
+
 vibrant coloring mode
   uses angle of sun to color background with gradient for sky color, that changes throughout day
   text becomes red in night and crimson for past bedtime (gradual fade for both)
@@ -18,3 +31,11 @@ roadmap:
 low priority:
 make numberToStringWithMinimumDecimalPlaces function trim 15th decimal place if it is something crazy like 0.3000000000000002
 fix jank settings menu on mobile
+add altitude box with support for ft or m (by select) for sun illumination calculation (although angle for daylight should be based on how thick atmosphere appears to be and how much the atmosphere can bend or smth)
+button to pop out clock to seperate window so its cleaner or smth
+  cause less visual overhead on window (no bookmarks bar, menu bar, or tabs) and makes it so default browser window size isn't tiny (if clock was made into a tiny window)
+
+probably not doing:
+attempt a red filter during night using:
+  document.body.style.filter='invert(0%) sepia(300%) saturate(7428%) hue-rotate(359deg) brightness(113%) contrast(115%) drop-shadow(0px 0px 5px red) drop-shadow(0px 0px 5px red)'
+  (found on stackoverflow somewhere)
