@@ -3,6 +3,10 @@ addEventListener('load', () => {
   if (LOG_DEBUG) console.debug('load');
   resetCanvasSize();
   
+  if (HIDE_SETTINGS_BUTTON) {
+    settings_button.style.display = 'none';
+  }
+  
   loadConstantsFromPersistent();
   updateSettingsUI();
   
