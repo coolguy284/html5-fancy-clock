@@ -9,7 +9,10 @@ addEventListener('load', () => {
     settings_button.style.display = 'none';
   }
   
-  loadConstantsFromPersistent();
+  if (SETTINGS_PERSISTENT_STORAGE) {
+    loadConstantsFromPersistent();
+  }
+  
   updateSettingsUI();
   
   // start the rendering frame loop

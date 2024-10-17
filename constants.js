@@ -19,6 +19,7 @@ let DBLCLICK_TOGGLES_FULLSCREEN = false; // double click to fullscreen
 
 // more alterable constants
 let HIDE_SETTINGS_BUTTON = false;
+let SETTINGS_PERSISTENT_STORAGE = true;
 
 // alterable constants
 let LOG_DEBUG = false;

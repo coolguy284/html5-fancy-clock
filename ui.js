@@ -64,7 +64,10 @@ function updateClockConstants() {
   
   DBLCLICK_TOGGLES_FULLSCREEN = double_click_toggles_fullscreen.checked;
   
-  saveConstantsToPersistent();
+  if (SETTINGS_PERSISTENT_STORAGE) {
+    saveConstantsToPersistent();
+  }
+  
   updateSettingsElemVisibilities();
   renderFrame(true);
 }

@@ -60,4 +60,5 @@ function updateSettings(newSettings) {
   if ('LONGITUDE' in newSettings) LONGITUDE = typeof newSettings.LONGITUDE == 'string' ? Number(newSettings.LONGITUDE) : newSettings.LONGITUDE;
   if ('DBLCLICK_TOGGLES_FULLSCREEN' in newSettings) DBLCLICK_TOGGLES_FULLSCREEN = typeof newSettings.DBLCLICK_TOGGLES_FULLSCREEN == 'string' ? stringToBool(newSettings.DBLCLICK_TOGGLES_FULLSCREEN) : newSettings.DBLCLICK_TOGGLES_FULLSCREEN;
   if ('HIDE_SETTINGS_BUTTON' in newSettings) HIDE_SETTINGS_BUTTON = typeof newSettings.HIDE_SETTINGS_BUTTON == 'string' ? stringToBool(newSettings.HIDE_SETTINGS_BUTTON) : newSettings.HIDE_SETTINGS_BUTTON;
+  if ('SETTINGS_PERSISTENT_STORAGE' in newSettings) SETTINGS_PERSISTENT_STORAGE = typeof newSettings.SETTINGS_PERSISTENT_STORAGE == 'string' ? stringToBool(newSettings.SETTINGS_PERSISTENT_STORAGE) : newSettings.SETTINGS_PERSISTENT_STORAGE;
 }
