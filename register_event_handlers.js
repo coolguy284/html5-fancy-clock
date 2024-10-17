@@ -3,7 +3,7 @@ addEventListener('load', () => {
   if (LOG_DEBUG) console.debug('load');
   resetCanvasSize();
   
-  updateSettingsFromHash();
+  updateSettingsFromOwnURL();
   
   if (HIDE_SETTINGS_BUTTON) {
     settings_button.style.display = 'none';
@@ -21,7 +21,7 @@ addEventListener('load', () => {
 
 addEventListener('hashchange', () => {
   if (LOG_DEBUG) console.debug('hashchange');
-  updateSettingsFromHash();
+  updateSettingsFromOwnURL(true);
 });
 
 addEventListener('resize', () => {
