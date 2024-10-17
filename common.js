@@ -21,3 +21,7 @@ function cumulativeSum(array) {
   
   return result;
 }
+
+function stringToBool(string) {
+  return string == 'true';
+}

@@ -42,3 +42,22 @@ function loadConstantsFromPersistent() {
   if ('LONGITUDE' in localStorageData) LONGITUDE = localStorageData.LONGITUDE;
   if ('DBLCLICK_TOGGLES_FULLSCREEN' in localStorageData) DBLCLICK_TOGGLES_FULLSCREEN = localStorageData.DBLCLICK_TOGGLES_FULLSCREEN;
 }
+
+function updateSettings(newSettings) {
+  if ('CLOCK_DRAW_MODE' in newSettings) CLOCK_DRAW_MODE = newSettings.CLOCK_DRAW_MODE;
+  if ('CLOCK_DRAW_MOTIF' in newSettings) CLOCK_DRAW_MOTIF = typeof newSettings.CLOCK_DRAW_MOTIF == 'string' ? stringToBool(newSettings.CLOCK_DRAW_MOTIF) : newSettings.CLOCK_DRAW_MOTIF;
+  if ('CLOCK_SECONDS_VISIBLE' in newSettings) CLOCK_SECONDS_VISIBLE = typeof newSettings.CLOCK_SECONDS_VISIBLE == 'string' ? stringToBool(newSettings.CLOCK_SECONDS_VISIBLE) : newSettings.CLOCK_SECONDS_VISIBLE;
+  if ('CLOCK_TIME_VISIBLE' in newSettings) CLOCK_TIME_VISIBLE = typeof newSettings.CLOCK_TIME_VISIBLE == 'string' ? stringToBool(newSettings.CLOCK_TIME_VISIBLE) : newSettings.CLOCK_TIME_VISIBLE;
+  if ('CLOCK_DATE_VISIBLE' in newSettings) CLOCK_DATE_VISIBLE = typeof newSettings.CLOCK_DATE_VISIBLE == 'string' ? stringToBool(newSettings.CLOCK_DATE_VISIBLE) : newSettings.CLOCK_DATE_VISIBLE;
+  if ('CLOCK_DRAW_BORDER' in newSettings) CLOCK_DRAW_BORDER = typeof newSettings.CLOCK_DRAW_BORDER == 'string' ? stringToBool(newSettings.CLOCK_DRAW_BORDER) : newSettings.CLOCK_DRAW_BORDER;
+  if ('CLOCK_NUDGE_ONES' in newSettings) CLOCK_NUDGE_ONES = typeof newSettings.CLOCK_NUDGE_ONES == 'string' ? stringToBool(newSettings.CLOCK_NUDGE_ONES) : newSettings.CLOCK_NUDGE_ONES;
+  if ('CLOCK_OFFSET_HOURS' in newSettings) CLOCK_OFFSET_HOURS = typeof newSettings.CLOCK_OFFSET_HOURS == 'string' ? Number(newSettings.CLOCK_OFFSET_HOURS) : newSettings.CLOCK_OFFSET_HOURS;
+  if ('LOCAL_TIMEZONE' in newSettings) LOCAL_TIMEZONE = typeof newSettings.LOCAL_TIMEZONE == 'string' ? stringToBool(newSettings.LOCAL_TIMEZONE) : newSettings.LOCAL_TIMEZONE;
+  if ('TIMEZONE_OFFSET_HOURS' in newSettings) TIMEZONE_OFFSET_HOURS = typeof newSettings.TIMEZONE_OFFSET_HOURS == 'string' ? Number(newSettings.TIMEZONE_OFFSET_HOURS) : newSettings.TIMEZONE_OFFSET_HOURS;
+  if ('ADVANCED_MOTIF_CALCULATION' in newSettings) ADVANCED_MOTIF_CALCULATION = typeof newSettings.ADVANCED_MOTIF_CALCULATION == 'string' ? stringToBool(newSettings.ADVANCED_MOTIF_CALCULATION) : newSettings.ADVANCED_MOTIF_CALCULATION;
+  if ('SUN_ANGLE_CALCULATION_METHOD' in newSettings) SUN_ANGLE_CALCULATION_METHOD = newSettings.SUN_ANGLE_CALCULATION_METHOD;
+  if ('LATITUDE' in newSettings) LATITUDE = typeof newSettings.LATITUDE == 'string' ? Number(newSettings.LATITUDE) : newSettings.LATITUDE;
+  if ('LONGITUDE' in newSettings) LONGITUDE = typeof newSettings.LONGITUDE == 'string' ? Number(newSettings.LONGITUDE) : newSettings.LONGITUDE;
+  if ('DBLCLICK_TOGGLES_FULLSCREEN' in newSettings) DBLCLICK_TOGGLES_FULLSCREEN = typeof newSettings.DBLCLICK_TOGGLES_FULLSCREEN == 'string' ? stringToBool(newSettings.DBLCLICK_TOGGLES_FULLSCREEN) : newSettings.DBLCLICK_TOGGLES_FULLSCREEN;
+  if ('HIDE_SETTINGS_BUTTON' in newSettings) HIDE_SETTINGS_BUTTON = typeof newSettings.HIDE_SETTINGS_BUTTON == 'string' ? stringToBool(newSettings.HIDE_SETTINGS_BUTTON) : newSettings.HIDE_SETTINGS_BUTTON;
+}

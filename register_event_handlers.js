@@ -3,6 +3,8 @@ addEventListener('load', () => {
   if (LOG_DEBUG) console.debug('load');
   resetCanvasSize();
   
+  updateSettingsFromHash();
+  
   if (HIDE_SETTINGS_BUTTON) {
     settings_button.style.display = 'none';
   }
@@ -12,6 +14,11 @@ addEventListener('load', () => {
   
   // start the rendering frame loop
   renderFrameLoop();
+});
+
+addEventListener('hashchange', () => {
+  if (LOG_DEBUG) console.debug('hashchange');
+  updateSettingsFromHash();
 });
 
 addEventListener('resize', () => {

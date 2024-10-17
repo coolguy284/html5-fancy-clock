@@ -155,6 +155,19 @@ async function setLocationVarsToCurrentLocation() {
   set_to_current_location_btn.removeAttribute('disabled');
 }
 
+function updateSettingsFromHash() {
+  let hashSplit = location.hash.split('?');
+  if (hashSplit.length > 1) {
+    let paramString = hashSplit.slice(1).join('?');
+    let params = Object.fromEntries(paramString.split('&').map(x => {
+      let [ param, value ] = x.split('=');
+      return [param, decodeURIComponent(value)];
+    }));
+    
+    updateSettings(params);
+  }
+}
+
 async function stopFullscreen() {
   await document.exitFullscreen();
 }

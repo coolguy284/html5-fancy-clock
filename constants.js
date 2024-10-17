@@ -17,11 +17,11 @@ let LATITUDE = 0; // latitude in degrees used to calculate sun position
 let LONGITUDE = 0; // longitude in degrees used to calculate sun position
 let DBLCLICK_TOGGLES_FULLSCREEN = false; // double click to fullscreen
 
-// flags baked into program operation
-let LOG_DEBUG = false;
+// more alterable constants
 let HIDE_SETTINGS_BUTTON = false;
 
-// more intrinsic constants
+// alterable constants
+let LOG_DEBUG = false;
 let SIMPLE_MOTIF_MINUTE_CHART = [
   // number is maximum minute of day where that motif is shown
   [ 5 * 60 + 59, 'moon'],
@@ -34,10 +34,10 @@ let ADVANCED_MOTIF_HEIGHT_CHART = [
   // number is maximum height in degrees where that motif is shown
   [-5, 'moon'],
   [7.5, 'sunrise'],
-  [90, 'sun']
+  [90, 'sun'],
 ];
 
-// true constants
+// base constants
 let DAY_OF_WEEK_STRINGS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
 let MONTH_OF_YEAR_STRINGS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 let DAY_OF_WEEK_STRINGS_CAPS = DAY_OF_WEEK_STRINGS.map(x => x.toUpperCase());
