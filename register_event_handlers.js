@@ -1,13 +1,20 @@
-// register event listeners
-addEventListener('load', () => {
-  if (LOG_DEBUG) console.debug('load');
-  resetCanvasSize();
-  
+// synchronous code before load
+
+function preInit() {
   updateSettingsFromOwnURL();
   
   if (HIDE_SETTINGS_BUTTON) {
     settings_button.style.display = 'none';
   }
+}
+
+preInit();
+
+// register event listeners
+
+addEventListener('load', () => {
+  if (LOG_DEBUG) console.debug('load');
+  resetCanvasSize();
   
   if (SETTINGS_PERSISTENT_STORAGE) {
     loadConstantsFromPersistent();
