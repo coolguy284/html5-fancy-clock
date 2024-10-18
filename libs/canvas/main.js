@@ -119,4 +119,6 @@ async function renderFrameLoop() {
       }
     });
   }
+  
+  renderFrameLoopStarted = false;
 }

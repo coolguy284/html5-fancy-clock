@@ -64,7 +64,17 @@ function updateClockConstants() {
   
   DBLCLICK_TOGGLES_FULLSCREEN = double_click_toggles_fullscreen.checked;
   
+  let restartRenderLoop = false;
+  
+  if (FRAMERATE == 'Halted' && framerate.value != 'Halted') {
+    restartRenderLoop = true;
+  }
+  
   FRAMERATE = framerate.value;
+  
+  if (restartRenderLoop) {
+    renderFrameLoop();
+  }
   
   if (SETTINGS_PERSISTENT_STORAGE) {
     saveConstantsToPersistent();
