@@ -39,31 +39,25 @@ function endFrameWait(forceRerender) {
 }
 
 function callbackInSecond(func) {
-  let secondMillis = 1000;
-  let leniencyFrac = 0.25; // will await anywhere from 15s to 75s with this value
-  
   let now = new Date();
   
-  let millisLeftInSecond = secondMillis - now.getMilliseconds();
+  let millisLeftInSecond = SECOND_MILLIS - now.getMilliseconds();
   
-  millisLeftInSecond += secondMillis * (1 - leniencyFrac);
-  millisLeftInSecond %= secondMillis;
-  millisLeftInSecond += secondMillis * leniencyFrac;
+  millisLeftInSecond += SECOND_MILLIS * (1 - TIMED_CALLBACK_LENIENCY_FRAC_SEC);
+  millisLeftInSecond %= SECOND_MILLIS;
+  millisLeftInSecond += SECOND_MILLIS * TIMED_CALLBACK_LENIENCY_FRAC_SEC;
   
   setTimeout(func, millisLeftInSecond);
 }
 
 function callbackInMinute(func) {
-  let minuteMillis = 60000;
-  let leniencyFrac = 0.25; // will await anywhere from 15s to 75s with this value
-  
   let now = new Date();
   
-  let millisLeftInMinute = minuteMillis - (now.getSeconds() * 1000 + now.getMilliseconds());
+  let millisLeftInMinute = MINUTE_MILLIS - (now.getSeconds() * 1000 + now.getMilliseconds());
   
-  millisLeftInMinute += minuteMillis * (1 - leniencyFrac);
-  millisLeftInMinute %= minuteMillis;
-  millisLeftInMinute += minuteMillis * leniencyFrac;
+  millisLeftInMinute += MINUTE_MILLIS * (1 - TIMED_CALLBACK_LENIENCY_FRAC_MIN);
+  millisLeftInMinute %= MINUTE_MILLIS;
+  millisLeftInMinute += MINUTE_MILLIS * TIMED_CALLBACK_LENIENCY_FRAC_MIN;
   
   setTimeout(func, millisLeftInMinute);
 }

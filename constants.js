@@ -38,6 +38,8 @@ let ADVANCED_MOTIF_HEIGHT_CHART = [
   [7.5, 'sunrise'],
   [90, 'sun'],
 ];
+let TIMED_CALLBACK_LENIENCY_FRAC_SEC = 0.25; // e.x. for a 1s wait, will wait anywhere from 1s x 0.25 = 0.25s to 1s x (1 + 0.25) = 1.25s
+let TIMED_CALLBACK_LENIENCY_FRAC_MIN = 0.25; // e.x. for a 60s wait, will wait anywhere from 60s x 0.25 = 15s to 60s x (1 + 0.25) = 75s
 
 // base constants
 let DAY_OF_WEEK_STRINGS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
@@ -54,3 +56,5 @@ let LETTER_WIDTHS = [
   [/^[A-Z]$/, 0.75],
   [/^:$/, 0.25],
 ];
+let SECOND_MILLIS = 1000;
+let MINUTE_MILLIS = 60000;
