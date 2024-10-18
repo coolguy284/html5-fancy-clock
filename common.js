@@ -37,3 +37,33 @@ function endFrameWait(forceRerender) {
     renderFrame(true);
   }
 }
+
+function callbackInSecond(func) {
+  let secondMillis = 1000;
+  let leniencyFrac = 0.25; // will await anywhere from 15s to 75s with this value
+  
+  let now = new Date();
+  
+  let millisLeftInSecond = secondMillis - now.getMilliseconds();
+  
+  millisLeftInSecond += secondMillis * (1 - leniencyFrac);
+  millisLeftInSecond %= secondMillis;
+  millisLeftInSecond += secondMillis * leniencyFrac;
+  
+  setTimeout(func, millisLeftInSecond);
+}
+
+function callbackInMinute(func) {
+  let minuteMillis = 60000;
+  let leniencyFrac = 0.25; // will await anywhere from 15s to 75s with this value
+  
+  let now = new Date();
+  
+  let millisLeftInMinute = minuteMillis - (now.getSeconds() * 1000 + now.getMilliseconds());
+  
+  millisLeftInMinute += minuteMillis * (1 - leniencyFrac);
+  millisLeftInMinute %= minuteMillis;
+  millisLeftInMinute += minuteMillis * leniencyFrac;
+  
+  setTimeout(func, millisLeftInMinute);
+}

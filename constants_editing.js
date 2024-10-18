@@ -15,6 +15,7 @@ function saveConstantsToPersistent() {
     LATITUDE,
     LONGITUDE,
     DBLCLICK_TOGGLES_FULLSCREEN,
+    FRAMERATE,
   });
 }
 
@@ -41,6 +42,7 @@ function loadConstantsFromPersistent() {
   if ('LATITUDE' in localStorageData) LATITUDE = localStorageData.LATITUDE;
   if ('LONGITUDE' in localStorageData) LONGITUDE = localStorageData.LONGITUDE;
   if ('DBLCLICK_TOGGLES_FULLSCREEN' in localStorageData) DBLCLICK_TOGGLES_FULLSCREEN = localStorageData.DBLCLICK_TOGGLES_FULLSCREEN;
+  if ('FRAMERATE' in localStorageData) FRAMERATE = localStorageData.FRAMERATE;
 }
 
 function updateSettings(newSettings) {
@@ -59,6 +61,7 @@ function updateSettings(newSettings) {
   if ('LATITUDE' in newSettings) LATITUDE = typeof newSettings.LATITUDE == 'string' ? Number(newSettings.LATITUDE) : newSettings.LATITUDE;
   if ('LONGITUDE' in newSettings) LONGITUDE = typeof newSettings.LONGITUDE == 'string' ? Number(newSettings.LONGITUDE) : newSettings.LONGITUDE;
   if ('DBLCLICK_TOGGLES_FULLSCREEN' in newSettings) DBLCLICK_TOGGLES_FULLSCREEN = typeof newSettings.DBLCLICK_TOGGLES_FULLSCREEN == 'string' ? stringToBool(newSettings.DBLCLICK_TOGGLES_FULLSCREEN) : newSettings.DBLCLICK_TOGGLES_FULLSCREEN;
+  if ('FRAMERATE' in newSettings) FRAMERATE = newSettings.FRAMERATE;
   if ('HIDE_SETTINGS_BUTTON' in newSettings) HIDE_SETTINGS_BUTTON = typeof newSettings.HIDE_SETTINGS_BUTTON == 'string' ? stringToBool(newSettings.HIDE_SETTINGS_BUTTON) : newSettings.HIDE_SETTINGS_BUTTON;
   if ('SETTINGS_PERSISTENT_STORAGE' in newSettings) SETTINGS_PERSISTENT_STORAGE = typeof newSettings.SETTINGS_PERSISTENT_STORAGE == 'string' ? stringToBool(newSettings.SETTINGS_PERSISTENT_STORAGE) : newSettings.SETTINGS_PERSISTENT_STORAGE;
   endFrameWait(true);

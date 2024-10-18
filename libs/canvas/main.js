@@ -103,7 +103,20 @@ async function renderFrameLoop() {
     await new Promise(r => {
       _endFrameWait = r;
       
-      requestAnimationFrame(r);
+      switch (FRAMERATE) {
+        case 'Every Frame':
+        case 'Every Frame, Re-Render Every Second':
+          requestAnimationFrame(r);
+          break;
+        
+        case 'Re-Render Every Second':
+          callbackInSecond(r);
+          break;
+        
+        case 'Re-Render Every Minute':
+          callbackInMinute(r);
+          break;
+      }
     });
   }
 }
