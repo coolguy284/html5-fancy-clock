@@ -38,7 +38,23 @@ function renderFrame(forceRerender) {
   }
   
   // only rerender if seconds changed or force rerender
-  if ((nowData.second != oldSecondsValue) || forceRerender) {
+  
+  let rerender = false;
+  
+  if (nowData.second != oldSecondsValue || FRAMERATE != 'Every Frame, Re-Render Every Second') {
+    rerender = true;
+  }
+  
+  if (forceRerenderAfterLoopWait) {
+    forceRerenderAfterLoopWait = false;
+    rerender = true;
+  }
+  
+  if (forceRerender) {
+    rerender = true;
+  }
+  
+  if (rerender) {
     // get context
     let ctx = canvas.getContext('2d');
     
@@ -81,9 +97,13 @@ async function renderFrameLoop() {
   
   renderFrameLoopStarted = true;
   
-  while (true) {
+  while (FRAMERATE != 'Halted') {
     renderFrame();
     
-    await new Promise(r => requestAnimationFrame(r));
+    await new Promise(r => {
+      _endFrameWait = r;
+      
+      requestAnimationFrame(r);
+    });
   }
 }

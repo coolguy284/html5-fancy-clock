@@ -25,3 +25,15 @@ function cumulativeSum(array) {
 function stringToBool(string) {
   return string == 'true';
 }
+
+function endFrameWait(forceRerender) {
+  if (_endFrameWait != null) {
+    _endFrameWait();
+    _endFrameWait = null;
+    if (forceRerender) {
+      forceRerenderAfterLoopWait = true;
+    }
+  } else if (forceRerender) {
+    renderFrame(true);
+  }
+}

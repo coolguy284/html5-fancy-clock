@@ -27,7 +27,7 @@ addEventListener('hashchange', () => {
 addEventListener('resize', () => {
   if (LOG_DEBUG) console.debug('resize');
   resetCanvasSize();
-  renderFrame(true);
+  endFrameWait(true);
 });
 
 addEventListener('dblclick', async () => {

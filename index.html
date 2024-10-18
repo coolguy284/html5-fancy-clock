@@ -90,6 +90,16 @@
           <input type = 'checkbox' id = 'double_click_toggles_fullscreen' onchange = 'updateClockConstants();'>
           Double Click Toggles Fullscreen
         </label>
+        <label>
+          Framerate:
+          <select id = 'framerate' onchange = 'updateClockConstants();'>
+            <option>Every Frame</option>
+            <option selected>Every Frame, Re-Render Every Second</option>
+            <option>Re-Render Every Second</option>
+            <option>Re-Render Every Minute</option>
+            <option>Halted</option>
+          </select>
+        </label>
       </div>
       <div>
         <button onclick = 'goFullscreen();'>Fullscreen</button>

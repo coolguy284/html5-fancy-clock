@@ -16,6 +16,7 @@ let SUN_ANGLE_CALCULATION_METHOD = 'Stackoverflow (Accurate)'; // either "Person
 let LATITUDE = 0; // latitude in degrees used to calculate sun position
 let LONGITUDE = 0; // longitude in degrees used to calculate sun position
 let DBLCLICK_TOGGLES_FULLSCREEN = false; // double click to fullscreen
+let FRAMERATE = 'Every Frame, Re-Render Every Second'; // either "Every Frame", "Every Frame, Re-Render Every Second", "Re-Render Every Second", "Re-Render Every Minute", "Halted"
 
 // more alterable constants
 let HIDE_SETTINGS_BUTTON = false;
