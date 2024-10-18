@@ -15,8 +15,12 @@ addEventListener('load', () => {
   
   updateSettingsUI();
   
-  // start the rendering frame loop
-  renderFrameLoop();
+  // start the rendering frame loop only if framerate is not halted
+  if (FRAMERATE == 'Halted') {
+    renderFrame(true);
+  } else {
+    renderFrameLoop();
+  }
 });
 
 addEventListener('hashchange', () => {
