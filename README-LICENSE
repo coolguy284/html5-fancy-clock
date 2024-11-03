@@ -1,0 +1,24 @@
+Can choose to follow either MIT or Unlicense; MIT made available in case
+Unlicense does not legally apply in your jurisdiction.
+
+Note: the file "libs/sun-position-2.js", lines 44-139, is a function
+faithfully ported (including comments) from StackOverflow. Therefore,
+the MIT+Unlicense license of the whole repository does not apply to this
+file. Full information on the sun position algorithm code (taken from the
+"About" section in this repository's "index.html" file):
+The "Stackoverflow" algorithm for calculating the position of the sun
+comes from <a href = 'https://stackoverflow.com/a/8764866'>this
+stackoverflow page and answer</a>. The algorithm was created by
+R. Walraven (Solar Energy. 20:393-397). Then, it was refined by
+J.J. Michalsky (Solar Energy. 40:227-235). It was converted into code by
+<a href = 'https://stackoverflow.com/users/1428/lindelof'>David (lindelof)</a>
+in the first answer on
+<a href = 'https://web.archive.org/web/20120128060412/https://stackoverflow.com/questions/257717/position-of-the-sun-given-time-of-day-and-lat-long/258106'>
+this stackoverflow page</a>
+(originally
+<a href = 'https://stackoverflow.com/questions/257717/position-of-the-sun-given-time-of-day-and-lat-long/258106#comment10668948_258106'>
+this link</a>, but it is now a 404). Then, some angle errors were corrected
+by <a href = 'https://stackoverflow.com/users/980833/josh-obrien'>Josh O'Brien</a>
+in <a href = 'https://stackoverflow.com/a/8764866'>the first linked
+stackoverflow page and answer</a>. Finally, the code was ported to JavaScript
+by me for use in this website.
