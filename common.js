@@ -47,7 +47,7 @@ function callbackInSecond(func) {
   millisLeftInSecond %= SECOND_MILLIS;
   millisLeftInSecond += SECOND_MILLIS * TIMED_CALLBACK_LENIENCY_FRAC_SEC;
   
-  setTimeout(func, millisLeftInSecond);
+  return setTimeout(func, millisLeftInSecond);
 }
 
 function callbackInMinute(func) {
@@ -59,5 +59,5 @@ function callbackInMinute(func) {
   millisLeftInMinute %= MINUTE_MILLIS;
   millisLeftInMinute += MINUTE_MILLIS * TIMED_CALLBACK_LENIENCY_FRAC_MIN;
   
-  setTimeout(func, millisLeftInMinute);
+  return setTimeout(func, millisLeftInMinute);
 }

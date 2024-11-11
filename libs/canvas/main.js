@@ -100,24 +100,52 @@ async function renderFrameLoop() {
   while (FRAMERATE != 'Halted') {
     renderFrame();
     
-    await new Promise(r => {
-      _endFrameWait = r;
-      
-      switch (FRAMERATE) {
-        case 'Every Frame':
-        case 'Every Frame, Re-Render Every Second':
+    switch (FRAMERATE) {
+      case 'Every Frame':
+      case 'Every Frame, Re-Render Every Second':
+        await new Promise(r => {
+          _endFrameWait = r;
+          
           requestAnimationFrame(r);
-          break;
+        });
         
-        case 'Re-Render Every Second':
-          callbackInSecond(r);
-          break;
-        
-        case 'Re-Render Every Minute':
-          callbackInMinute(r);
-          break;
-      }
-    });
+        _endFrameWait = null;
+        break;
+      
+      case 'Re-Render Every Second':
+        await new Promise(r => {
+          let timeoutID = callbackInSecond(() => {
+            r();
+            _endFrameWait = null;
+          });
+          
+          _endFrameWait = () => {
+            r();
+            clearTimeout(timeoutID);
+            _endFrameWait = null;
+          };
+        });
+        break;
+      
+      case 'Re-Render Every Minute':
+        await new Promise(r => {
+          let timeoutID = callbackInMinute(() => {
+            r();
+            _endFrameWait = null;
+          });
+          
+          _endFrameWait = () => {
+            r();
+            clearTimeout(timeoutID);
+            _endFrameWait = null;
+          };
+        });
+        break;
+      
+      default:
+        // ignored
+        break;
+    }
   }
   
   renderFrameLoopStarted = false;
